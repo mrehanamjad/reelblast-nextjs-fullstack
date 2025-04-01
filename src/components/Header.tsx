@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import Logo from "./Logo";
+import { Avatar } from "@mantine/core";
 
 export default function Header() {
   const { data: session } = useSession();
@@ -20,7 +21,7 @@ export default function Header() {
       <div className="max-w-6xl mx-auto flex justify-between items-center">
         {/* <h1 className="text-white text-2xl font-bold">MyApp</h1> */}
         <Logo />
-        <nav className="flex gap-6">
+        <nav className="flex gap-6 items-center">
           <Link href="/" className="text-gray-300 text-lg hover:text-white">
             Home
           </Link>
@@ -40,12 +41,22 @@ export default function Header() {
               </Link>
             </>
           ) : (
-            <>
+            <div className="flex items-center gap-4">
             <Link
                 href="/upload"
                 className="text-gray-300 text-lg hover:text-white"
               >
                 Upload
+              </Link>
+            <Link
+                href={`/${session.user.id}`}
+                className="text-gray-300 text-lg hover:text-white"
+              >
+                <Avatar
+                          size={"md"}
+                          className="border-2 border-cyan-300"
+                          color="initials"
+                        />
               </Link>
             <button
               onClick={handleSignout}
@@ -53,7 +64,7 @@ export default function Header() {
             >
               Logout
             </button>
-            </>
+            </div>
           )}
         </nav>
       </div>

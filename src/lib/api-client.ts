@@ -36,7 +36,7 @@ class ApiClient {
         return await this.myFetch<VideoI[]>('/videos');
     }
 
-    async getAVideos(id: string){
+    async getAVideo(id: string){
         return await this.myFetch<VideoI>(`/videos/${id}`);
     }
 

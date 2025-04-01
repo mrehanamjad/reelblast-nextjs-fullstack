@@ -1,3 +1,4 @@
+"use client"
 import { apiClient } from "@/lib/api-client";
 import { Button, Textarea, TextInput } from "@mantine/core";
 import { IKUploadResponse } from "imagekitio-next/dist/types/components/IKUpload/props";
@@ -5,6 +6,9 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import FileUpload from "./FileUpload";
 import { Loader2 } from "lucide-react";
+import { useSession } from "next-auth/react";
+import mongoose from "mongoose";
+
 
 interface VideoFormDataI {
   title: string;
@@ -16,6 +20,8 @@ interface VideoFormDataI {
 function VideoUploadForm() {
   const [loading, setLoading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
+
+  const {data:session} = useSession()
 
   const {
     register,
@@ -49,7 +55,7 @@ function VideoUploadForm() {
     }
     setLoading(true);
     try {
-      await apiClient.createVideo(data);
+      await apiClient.createVideo({...data, userId: new mongoose.Types.ObjectId(session?.user.id),likes: []});
       console.log("Video published successfully ");
         
       // reset form after upload completes

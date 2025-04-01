@@ -13,6 +13,21 @@ function Register() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
+  function getUsernameFromEmail(email:string) {
+    if (typeof email !== 'string') {
+      return null; // Or throw an error, depending on desired behavior
+    }
+  
+    const atIndex = email.indexOf('@');
+  
+    if (atIndex === -1) {
+      return null; // Or throw an error, if no '@' is found
+    }
+  
+    return email.substring(0, atIndex);
+  }
+
+
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
@@ -29,7 +44,7 @@ function Register() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password, username: getUsernameFromEmail(email), name: getUsernameFromEmail(email)}),
       });
       
       if (!response.ok) {
@@ -56,7 +71,7 @@ function Register() {
           </div>
           
           <h1 className="text-2xl font-bold mb-6 text-center">Create a new Account</h1>
-          
+
           <TextInput
             className="mb-4"
             leftSectionPointerEvents="none"
