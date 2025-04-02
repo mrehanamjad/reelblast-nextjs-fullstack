@@ -3,10 +3,11 @@ import { useState } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
 import UserProfileInfo from '@/components/UserProfileInfo';
+import { use } from "react";
 
-export default function UserProfile({ params }: { params: { id: string } }) {
+export default function UserProfile({ params }: { params: Promise<{ id: string }> }) {
 
-  const { id } = params;
+  const { id } = use(params);
 
   // This would come from your API in a real app
   const [userData] = useState({
@@ -22,15 +23,15 @@ export default function UserProfile({ params }: { params: { id: string } }) {
     isVerified: true,
     isFollowing: false,
     reels: [
-      { id: 1, thumbnail: '/api/placeholder/300/500', views: '1.2M', likes: '89K' },
-      { id: 2, thumbnail: '/api/placeholder/300/500', views: '3.5M', likes: '267K' },
-      { id: 3, thumbnail: '/api/placeholder/300/500', views: '756K', likes: '42K' },
-      { id: 4, thumbnail: '/api/placeholder/300/500', views: '2.1M', likes: '155K' },
-      { id: 5, thumbnail: '/api/placeholder/300/500', views: '543K', likes: '37K' },
-      { id: 6, thumbnail: '/api/placeholder/300/500', views: '1.8M', likes: '122K' },
-      { id: 7, thumbnail: '/api/placeholder/300/500', views: '980K', likes: '78K' },
-      { id: 8, thumbnail: '/api/placeholder/300/500', views: '1.5M', likes: '103K' },
-      { id: 9, thumbnail: '/api/placeholder/300/500', views: '2.7M', likes: '189K' },
+      { id: 1, thumbnail: '/reelblast Logo.png', views: '1.2M', likes: '89K' },
+      { id: 2, thumbnail: '/reelblast Logo.png', views: '3.5M', likes: '267K' },
+      { id: 3, thumbnail: '/reelblast Logo.png', views: '756K', likes: '42K' },
+      { id: 4, thumbnail: '/reelblast Logo.png', views: '2.1M', likes: '155K' },
+      { id: 5, thumbnail: '/reelblast Logo.png', views: '543K', likes: '37K' },
+      { id: 6, thumbnail: '/reelblast Logo.png', views: '1.8M', likes: '122K' },
+      { id: 7, thumbnail: '/reelblast Logo.png', views: '980K', likes: '78K' },
+      { id: 8, thumbnail: '/reelblast Logo.png', views: '1.5M', likes: '103K' },
+      { id: 9, thumbnail: '/reelblast Logo.png', views: '2.7M', likes: '189K' },
     ]
   });
 

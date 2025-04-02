@@ -1,8 +1,8 @@
 import mongoose, { model, models, Schema } from "mongoose";
 import bcrypt from "bcryptjs";
 
-interface UserI {
-    username: string;
+export interface UserI {
+    userName: string;
     name: string;
     email: string;
     password: string;
@@ -20,7 +20,7 @@ interface UserI {
 
 const UserSchema = new Schema<UserI>(
     {
-        username: {
+        userName: {
             type: String,
             required: true,
             unique: true,
@@ -54,6 +54,7 @@ const UserSchema = new Schema<UserI>(
         phone: {
             type: String,
             required: false,
+            default: "", 
             match: /^[0-9]{10,15}$/, 
         },
         bio: {

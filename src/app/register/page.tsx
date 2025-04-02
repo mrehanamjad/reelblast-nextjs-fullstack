@@ -44,7 +44,7 @@ function Register() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password, username: getUsernameFromEmail(email), name: getUsernameFromEmail(email)}),
+        body: JSON.stringify({ email, password, userName: getUsernameFromEmail(email), name: getUsernameFromEmail(email)}),
       });
       
       if (!response.ok) {
@@ -56,7 +56,7 @@ function Register() {
       router.push("/login");
     } catch (error) {
       console.error("Error registering user:", error);
-      alert(error instanceof Error ? error.message : "Failed to register user. Please try again.");
+      console.log(error instanceof Error ? error.message : "Failed to register user. Please try again.");
     } finally {
       setLoading(false);
     }

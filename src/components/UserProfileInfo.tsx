@@ -2,6 +2,11 @@
 import React, { useEffect, useState } from "react";
 import { Avatar, Button } from "@mantine/core";
 import { SocialLinkIcon } from "./SocialLinkIcon";
+import { Loader, Pen } from "lucide-react";
+import Link from "next/link";
+import { useSession } from "next-auth/react";
+import ScreenLoader from "./ScreenLoader";
+import FollowBtn from "./FollowBtn";
 
 interface UserProfileInfoI {
   userId: string;
@@ -17,8 +22,10 @@ interface UserProfileInfoI {
 }
 
 function UserProfileInfo({ id }: { id: string }) {
-  const [isFollowing, setIsFollowing] = useState(false);
+
   const [userData, setUserData] = useState<UserProfileInfoI | null>(null);
+  const { data: session } = useSession();
+  const authId = session?.user.id;
 
   const formatNumber = (num?: number) => {
     if (!num || isNaN(num)) return "0"; // Ensure num is valid
@@ -26,35 +33,34 @@ function UserProfileInfo({ id }: { id: string }) {
     if (num >= 1000) return (num / 1000).toFixed(1) + "K";
     return num.toString();
   };
-  
 
-  useEffect( () => {
-    
+  useEffect(() => {
     const fetchData = async () => {
-        try {
-            console.log("i am fetching user data...");
-          const res = await fetch(`/api/user/${id}`);
-          const result = await res.json();
-          console.log("i have fetched user data :: ", result)
-          setUserData(result);
-        } catch (error) {
-          console.error("Error fetching user data:", error);
-        }
-      };
+      try {
+        const res = await fetch(`/api/user/${id}`);
+        const result = await res.json();
+        setUserData(result);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
 
-    if(id) fetchData();
-   
-  }, [id])
+    if (id) fetchData();
+  }, [id]);
+
   
+
+
+  if (!userData) return <ScreenLoader />;
 
   return (
     <main className="flex-grow container mx-auto px-4 py-6">
-      <div className="flex flex-col md:flex-row items-center md:items-start mb-8">
+      <div className="flex mx-20 flex-col md:flex-row items-center md:items-start mb-8 group">
         {/* Avatar */}
-        <div className="mb-4 md:mb-0 md:mr-6 relative">
+        <div className="mb-4 md:mb-0 md:mr-6 relative flex flex-col items-center gap-3">
           <Avatar
             size={"xl"}
-            className="border-2 border-cyan-300"
+            className="border-2 border-cyan-300 order-2 md:order-1"
             src={userData?.profilePicUrl}
             key={userData?.name}
             name={userData?.name}
@@ -69,13 +75,23 @@ function UserProfileInfo({ id }: { id: string }) {
               @{userData?.userName}
             </h1>
             <div className="md:ml-4 mt-2 md:mt-0">
-              <Button
-                onClick={() => setIsFollowing(!isFollowing)}
-                variant="filled"
-                color={isFollowing ? "gray" : "cyan"}
-              >
-                {isFollowing ? "Following" : "Follow"}
-              </Button>
+              {authId && authId === userData?.userId ? (
+                <Link
+                  href={"/update-profile"}
+                  className="md:hidden md:group-hover:block order-1 md:order-2"
+                >
+                  <Button
+                    className=""
+                    variant="subtle"
+                    radius={"lg"}
+                    color={"gray"}
+                  >
+                    <Pen size={20} className="mr-2" /> Edit
+                  </Button>
+                </Link>
+              ) : (
+               <FollowBtn followerId={authId as string} followingId={userData.userId} />
+              )}
             </div>
           </div>
 
@@ -107,10 +123,13 @@ function UserProfileInfo({ id }: { id: string }) {
             {userData?.bio}
           </p>
           {/* Social Media */}
-          {userData?.socialLinks?.map((link,i) => (
-          <div key={i} className="flex justify-center md:justify-start space-x-6">
-            <SocialLinkIcon url={link} />
-          </div>
+          {userData?.socialLinks?.map((link, i) => (
+            <div
+              key={i}
+              className="flex justify-center md:justify-start space-x-6"
+            >
+              <SocialLinkIcon url={link} />
+            </div>
           ))}
         </div>
       </div>

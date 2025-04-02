@@ -69,6 +69,6 @@ export const getSocialIcon = (url: string): LucideIcon => {
 
 export const SocialLinkIcon: FC<SocialIconProps> = ({ url, size = 18, className = "" }) => {
   const Icon = getSocialIcon(url)
-  return <Link href={url} className='flex text-gray-700 dark:text-gray-300 gap-2 items-center hover:text-blue-600'><Icon size={size} className={className} />{url}</Link>
+  return <Link href={url} className='flex text-gray-700 dark:text-gray-300 gap-2 items-center hover:text-blue-600 text-sm'><Icon size={size} className={className} />{url}</Link>
 }
 
