@@ -2,13 +2,15 @@
 import React, { useEffect, useState } from "react";
 import { Avatar, Button } from "@mantine/core";
 import { SocialLinkIcon } from "./SocialLinkIcon";
-import { Loader, Pen } from "lucide-react";
+import { Pen } from "lucide-react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import ScreenLoader from "./ScreenLoader";
+import ScreenLoader from "../ScreenLoader";
 import FollowBtn from "./FollowBtn";
+import ProfilePic from "./ProfilePic";
 
-interface UserProfileInfoI {
+
+export interface UserProfileInfoI {
   userId: string;
   userName: string;
   name: string;
@@ -21,7 +23,7 @@ interface UserProfileInfoI {
   socialLinks?: string[];
 }
 
-function UserProfileInfo({ id }: { id: string }) {
+function UserProfileInfo({ username }: { username: string }) {
 
   const [userData, setUserData] = useState<UserProfileInfoI | null>(null);
   const { data: session } = useSession();
@@ -37,16 +39,17 @@ function UserProfileInfo({ id }: { id: string }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(`/api/user/${id}`);
+        const res = await fetch(`/api/user/${username}`);
         const result = await res.json();
         setUserData(result);
+        console.log(result)
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
     };
 
-    if (id) fetchData();
-  }, [id]);
+    if (username) fetchData();
+  }, [username]);
 
   
 
@@ -57,17 +60,7 @@ function UserProfileInfo({ id }: { id: string }) {
     <main className="flex-grow container mx-auto px-4 py-6">
       <div className="flex mx-20 flex-col md:flex-row items-center md:items-start mb-8 group">
         {/* Avatar */}
-        <div className="mb-4 md:mb-0 md:mr-6 relative flex flex-col items-center gap-3">
-          <Avatar
-            size={"xl"}
-            className="border-2 border-cyan-300 order-2 md:order-1"
-            src={userData?.profilePicUrl}
-            key={userData?.name}
-            name={userData?.name}
-            color="initials"
-          />
-        </div>
-
+        <ProfilePic name={userData?.name} size="120px" className="md:mr-8 mb-2 md:mb-0 md:mt-2" url={userData?.profilePicUrl as string} />
         {/* Profile Info */}
         <div className="flex-grow text-center md:text-left">
           <div className="flex flex-col md:flex-row items-center mb-4">
@@ -81,7 +74,6 @@ function UserProfileInfo({ id }: { id: string }) {
                   className="md:hidden md:group-hover:block order-1 md:order-2"
                 >
                   <Button
-                    className=""
                     variant="subtle"
                     radius={"lg"}
                     color={"gray"}
@@ -90,7 +82,7 @@ function UserProfileInfo({ id }: { id: string }) {
                   </Button>
                 </Link>
               ) : (
-               <FollowBtn followerId={authId as string} followingId={userData.userId} />
+               <FollowBtn followerId={authId as string} followingId={userData.userId} followings={userData.followings} />
               )}
             </div>
           </div>
@@ -99,7 +91,7 @@ function UserProfileInfo({ id }: { id: string }) {
           <div className="flex justify-center md:justify-start space-x-6 mb-4">
             <div className="text-center">
               <div className="font-bold text-gray-900 dark:text-white">
-                {formatNumber(userData?.followers.length as number)}
+                {formatNumber(userData?.followers?.length ?? 0)}
               </div>
               <div className="text-sm text-gray-600 dark:text-gray-400">
                 Followers
@@ -107,7 +99,7 @@ function UserProfileInfo({ id }: { id: string }) {
             </div>
             <div className="text-center">
               <div className="font-bold text-gray-900 dark:text-white">
-                {formatNumber(userData?.followings.length as number)}
+                {formatNumber(userData?.followings?.length ?? 0)}
               </div>
               <div className="text-sm text-gray-600 dark:text-gray-400">
                 Following
@@ -138,3 +130,7 @@ function UserProfileInfo({ id }: { id: string }) {
 }
 
 export default UserProfileInfo;
+
+
+
+

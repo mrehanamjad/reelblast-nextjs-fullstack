@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
-import UserProfileInfo from '@/components/UserProfileInfo';
+import UserProfileInfo from '@/components/UserComps/UserProfileInfo';
 import { use } from "react";
 
 export default function UserProfile({ params }: { params: Promise<{ id: string }> }) {
@@ -68,7 +68,7 @@ export default function UserProfile({ params }: { params: Promise<{ id: string }
 
       {/* Profile Section */}
       <main className="flex-grow container mx-auto px-4 py-6">
-        <UserProfileInfo id={id} />
+        <UserProfileInfo username={id} />
 
         {/* Tabs */}
         <div className="border-b dark:border-gray-700 mb-4">
@@ -174,17 +174,3 @@ export default function UserProfile({ params }: { params: Promise<{ id: string }
     </div>
   );
 }
-
-// // In a real app, you would fetch this data from your API
-// export async function getServerSideProps(context) {
-//   const { username } = context.params;
-  
-//   // Here you would normally fetch user data from your API
-//   // const user = await fetchUserData(username);
-  
-//   return {
-//     props: {
-//       // user
-//     }
-//   };
-// }

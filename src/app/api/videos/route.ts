@@ -1,3 +1,4 @@
+import { VidI } from "@/lib/api-client";
 import { AuthOptions } from "@/lib/auth";
 import { connectionToDatabase } from "@/lib/db";
 import Video, { VideoI } from "@/models/Video";
@@ -7,7 +8,41 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET() {
   try {
     await connectionToDatabase();
-    const videos = await Video.find({}).sort({ createdAt: -1 }).lean();
+
+    const videos:VidI[] = await Video.aggregate([
+      {
+        $lookup: {
+          from: "users", // The collection to join with (users collection)
+          localField: "userId", // The field from the Video collection
+          foreignField: "_id", // The field from the User collection
+          as: "user", // The alias for the matched user data
+        },
+      },
+      {
+        $unwind: "$user", // Unwind the user array to include user data in each video object
+      },
+      {
+        $project: {
+          _id: 1,
+          userId: 1, 
+          title: 1,
+          description: 1,
+          videoUrl: 1,
+          thumbnailUrl: 1,
+          controls: 1,
+          transformation: 1,
+          likes: 1,
+          createdAt: 1,
+          updatedAt: 1,
+          "user.userName": 1, 
+          "user.profilePicUrl": 1, 
+        },
+      },
+      {
+        $sort: { createdAt: -1 }, // Sorting by createdAt in descending order
+      },
+    ])
+
     if (!videos || videos.length === 0) {
       return NextResponse.json([], { status: 200 });
     }
@@ -40,6 +75,7 @@ export async function POST(request: NextRequest) {
 
     const videoData = {
       ...body,
+      likes: [],
       controls: body.controls ?? true,
       transformation: {
         height: 1920,

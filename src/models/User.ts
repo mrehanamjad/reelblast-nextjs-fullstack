@@ -91,6 +91,8 @@ const UserSchema = new Schema<UserI>(
     }
 );
 
+// UserSchema.index({ userName: 1 }); 
+
 // Hash password before saving
 UserSchema.pre("save", async function(next) {
     // we creating account/password first time then we have to hash the password

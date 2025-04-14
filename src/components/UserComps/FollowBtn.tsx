@@ -1,16 +1,16 @@
 "use client"
 import { Button } from "@mantine/core";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface FollowBtnProps {
   followerId: string; // Current user ID
   followingId: string; // Profile user ID
-  initialFollowing?: boolean; // Initial following state (optional)
+  followings?: string[]; // Initial following state (optional)
 }
 
-const FollowBtn: React.FC<FollowBtnProps> = ({ followerId, followingId, initialFollowing = false }) => {
-  const [isFollowing, setIsFollowing] = useState(initialFollowing);
+const FollowBtn: React.FC<FollowBtnProps> = ({ followerId, followingId, followings }) => {
+  const [isFollowing, setIsFollowing] = useState(false);
   const [loading, setLoading] = useState(false);
 
     const router = useRouter()
@@ -41,6 +41,12 @@ const FollowBtn: React.FC<FollowBtnProps> = ({ followerId, followingId, initialF
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+   setIsFollowing(followings?.some((id) => id === followerId) || false)
+  }, [])
+  
+
 
   return (
     <Button

@@ -9,9 +9,6 @@ export const VIDEO_DIMENTIONS = {
     as const makes everything readonly and preserves literal values.
     Types/interfaces define structures but do not enforce exact values.
     If you want fixed constants, use as const instead of a type or interface.
-*/
-
-/*
 
     How Type script behaves:
     🔹 Without as const TypeScript treats this as: { width: number; height: number; }
@@ -32,7 +29,7 @@ export interface VideoI {
     width: number;
     quality?: number;
   };
-  likes: mongoose.Types.ObjectId[]; 
+  likes?: mongoose.Types.ObjectId[]; 
   createdAt?: Date;
   updatedAt?: Date;
 }

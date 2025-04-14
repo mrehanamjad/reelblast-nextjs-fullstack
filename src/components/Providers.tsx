@@ -1,6 +1,7 @@
 "use client";
 import { ImageKitProvider, IKImage } from "imagekitio-next";
 import { SessionProvider } from "next-auth/react";
+import UserProfileProvider from "./UserProfileContext";
 
 const urlEndpoint = process.env.NEXT_PUBLIC_URL_ENDPOINT;
 const publicKey = process.env.NEXT_PUBLIC_PUBLIC_KEY;
@@ -32,7 +33,9 @@ export default function Providers({ children }: { children: React.ReactNode }) {
         publicKey={publicKey}
         authenticator={authenticator}
       >
+        <UserProfileProvider>
         {children}
+        </UserProfileProvider>
       </ImageKitProvider>
     </SessionProvider>
   );

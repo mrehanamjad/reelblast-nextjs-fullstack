@@ -3,10 +3,15 @@ import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import Logo from "./Logo";
 import { Avatar } from "@mantine/core";
+import ProfilePic from "./UserComps/ProfilePic";
+import { useUserProfile } from "./UserProfileContext";
 
 export default function Header() {
   const { data: session } = useSession();
   console.log("use session data", session);
+  console.log("use session username", session?.user.name);
+
+  const {user} = useUserProfile()
 
   async function handleSignout() {
     try {
@@ -49,14 +54,10 @@ export default function Header() {
                 Upload
               </Link>
             <Link
-                href={`/${session.user.id}`}
+                href={`/${session?.user.username}`}
                 className="text-gray-300 text-lg hover:text-white"
               >
-                <Avatar
-                          size={"md"}
-                          className="border-2 border-cyan-300"
-                          color="initials"
-                        />
+                <ProfilePic url={user?.profilePicUrl!} name={session?.user.username!} />
               </Link>
             <button
               onClick={handleSignout}

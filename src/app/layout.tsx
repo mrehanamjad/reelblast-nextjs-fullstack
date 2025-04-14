@@ -5,6 +5,7 @@ import Providers from "@/components/Providers";
 import Header from "@/components/Header";
 import '@mantine/core/styles.css';
 import { ColorSchemeScript, MantineProvider, mantineHtmlProps } from '@mantine/core';
+import SideNavbar from "@/components/SideNavbar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,18 +27,22 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+
   return (
-    <html lang="en">
+    <html lang="en" {...mantineHtmlProps}>
       <head>
         <ColorSchemeScript />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-    <MantineProvider defaultColorScheme="dark">
+    <MantineProvider defaultColorScheme="dark" >
         <Providers >
-        <Header />
-        <main>{children}</main>
+        <div className="flex">
+        <SideNavbar />
+        <main className="flex-1">{children}</main>
+        </div>
         </Providers>
         </MantineProvider>
       </body>

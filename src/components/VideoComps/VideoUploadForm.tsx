@@ -8,6 +8,7 @@ import FileUpload from "./FileUpload";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import mongoose from "mongoose";
+import { useRouter } from "next/navigation";
 
 
 interface VideoFormDataI {
@@ -20,6 +21,7 @@ interface VideoFormDataI {
 function VideoUploadForm() {
   const [loading, setLoading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
+  const router = useRouter()
 
   const {data:session} = useSession()
 
@@ -53,9 +55,13 @@ function VideoUploadForm() {
       console.log("Please upload a video first");
       return;
     }
+    if(!session || !session.user.id) {
+      router.push('/login');
+      return;
+    }
     setLoading(true);
     try {
-      await apiClient.createVideo({...data, userId: new mongoose.Types.ObjectId(session?.user.id),likes: []});
+      await apiClient.createVideo({...data, userId: new mongoose.Types.ObjectId(session?.user.id)});
       console.log("Video published successfully ");
         
       // reset form after upload completes
@@ -63,12 +69,14 @@ function VideoUploadForm() {
       setValue("description", "");
       setValue("videoUrl", "");
       setValue("thumbnailUrl", "");
+      router.push('/')
     } catch (error) {
       console.log("Error :: Failed to publish video  " + error);
     } finally {
       setLoading(false);
     }
   };
+
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">

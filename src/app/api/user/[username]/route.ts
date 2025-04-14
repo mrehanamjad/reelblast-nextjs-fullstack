@@ -3,14 +3,14 @@ import User, { UserI } from "@/models/User";
 import { NextResponse } from "next/server";
 
 type UserPublicInfoT = Omit<UserI,"password" | "email">
-export async function GET(req: Request, { params }: { params: { id: string } }) {
+export async function GET(req: Request, { params }: { params: { username: string } }) {
   try {
       await connectionToDatabase();
 
-      const {id} = await params
+      const {username} = await params
 
-      const user = await User.findById(id);
-  
+      const user = await User.findOne({userName: username});
+      
       if (!user) {
           return NextResponse.json({ message: "User not found" }, { status: 404 });
       }

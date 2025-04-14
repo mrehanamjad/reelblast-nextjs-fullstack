@@ -2,11 +2,20 @@ import { VideoI } from "@/models/Video";
 
 export type VideoFormData = Omit<VideoI,"_id"> 
 
+export interface VidI extends VideoI {
+  user: {
+    userName: string;
+    profilePic: string;
+  };
+}
+
 type FetchOpts = {
     method: 'GET' | 'POST' | 'PUT' | 'DELETE';
     body: any;
     headers?: Record<string, string>;
 }
+
+
 
 class ApiClient {
     private async myFetch<T>(
@@ -33,11 +42,11 @@ class ApiClient {
     }
 
     async getVideos(){
-        return await this.myFetch<VideoI[]>('/videos');
+        return await this.myFetch<VidI[]>('/videos');
     }
 
     async getAVideo(id: string){
-        return await this.myFetch<VideoI>(`/videos/${id}`);
+        return await this.myFetch<VidI>(`/videos/${id}`);
     }
 
     async createVideo(video: VideoFormData){

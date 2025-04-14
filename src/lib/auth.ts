@@ -25,10 +25,7 @@ export const AuthOptions: NextAuthOptions = {
             throw new Error("No user found with this email");
           }
 
-          const isValid = await bcrypt.compare(
-            credentials.password,
-            user.password
-          );
+          const isValid = await bcrypt.compare(credentials.password, user.password);
 
           if (!isValid) {
             throw new Error("Invalid Password");
@@ -37,6 +34,7 @@ export const AuthOptions: NextAuthOptions = {
           return {
             id: user._id.toString(),
             email: user.email,
+            username: user.userName, 
           };
         } catch (error) {
           console.error("Auth error:", error);
@@ -49,12 +47,16 @@ export const AuthOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
+        token.email = user.email;
+        token.username = user.username;
       }
       return token;
     },
     async session({ session, token }) {
       if (session.user) {
         session.user.id = token.id as string;
+        session.user.email = token.email as string;
+        session.user.username = token.username as string;
       }
       return session;
     },
@@ -65,7 +67,7 @@ export const AuthOptions: NextAuthOptions = {
   },
   session: {
     strategy: "jwt",
-    maxAge: 30 * 24 * 60 * 60,  
+    maxAge: 30 * 24 * 60 * 60,
   },
   secret: process.env.NEXTAUTH_SECRET,
 };
