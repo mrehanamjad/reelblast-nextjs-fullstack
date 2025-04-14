@@ -38,7 +38,7 @@ const NavItem: React.FC<NavItemProps> = ({
     <Link href={href}>
       <button
         onClick={onClick}
-        className={`flex items-center w-full p-3 rounded-lg transition-colors ${
+        className={`flex items-center cursor-pointer w-full p-3 rounded-lg transition-colors ${
           active
             ? "bg-blue-100 text-blue-600 dark:text-blue-300 dark:bg-gray-900"
             : "text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-900  dark:text-gray-100"
@@ -109,14 +109,15 @@ export default function SideNavbar() {
       label: session?.user.username || "Profile",
       href: `/${session?.user.username}`,
     },
-    
   ];
 
   return (
+    <>
+    <div className={`${collapsed ? "w-12" : "w-64"}`}></div>
     <div
-      className={`h-screen bg-white dark:bg-black/95  border-r border-gray-200 transition-all duration-300 ${
+      className={`fixed top-0 z-50 bottom-0 left-0 h-screen bg-white dark:bg-black/95   border-gray-200 transition-all duration-300 ${
         collapsed ? "w-16" : "w-64"
-      }`}
+      } max-sm:hidden`}
     >
       <div className="p-4 flex items-center justify-between border-b border-gray-200">
         {!collapsed && (
@@ -146,5 +147,6 @@ export default function SideNavbar() {
         </div>
       </div>
     </div>
+    </>
   );
 }

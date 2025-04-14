@@ -411,22 +411,22 @@ import ShareVideo from "./ShareVideo";
 import SaveVideo from "./SaveVideo";
 import { useSession } from "next-auth/react";
 import mongoose from "mongoose";
+import { useUserProfile } from "../UserProfileContext";
 
 
 
 interface VideoComponentProps {
   video: VidI;
-  onNext?: () => void;
+  // onNext?: () => void;
   active?: boolean;
 }
 
 export default function VideoComponent({
   video,
-  onNext,
+  // onNext,
   active = true,
 }: VideoComponentProps) {
   const [liked, setLiked] = useState(false);
-  const [saved, setSaved] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [expanded, setExpanded] = useState(false);
@@ -442,6 +442,9 @@ export default function VideoComponent({
   const userId = session?.user.id
   const _userId =  new mongoose.Types.ObjectId(userId)
   const username = session?.user.username
+
+  const authUser = useUserProfile()
+  
 
   // Handle video visibility and playback
   useEffect(() => {
@@ -709,7 +712,7 @@ export default function VideoComponent({
                   : "Just now"}
               </p>
             </div>
-            {/* <FollowBtn /> */}
+            <FollowBtn size="sm" radius="xl" userToFollow={video.userId.toString()} />
             <div className="flex-1"></div>
           </div>
 

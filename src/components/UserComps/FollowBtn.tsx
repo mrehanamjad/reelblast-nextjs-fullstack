@@ -1,32 +1,32 @@
-"use client"
+"use client";
 import { Button } from "@mantine/core";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { useUserProfile } from "../UserProfileContext";
 
-interface FollowBtnProps {
-  followerId: string; // Current user ID
-  followingId: string; // Profile user ID
-  followings?: string[]; // Initial following state (optional)
-}
-
-const FollowBtn: React.FC<FollowBtnProps> = ({ followerId, followingId, followings }) => {
+const FollowBtn = ({
+  userToFollow,
+  size = "md",
+  radius = "sm"
+}:{userToFollow: string;size?:string;radius?:string}) => {
   const [isFollowing, setIsFollowing] = useState(false);
   const [loading, setLoading] = useState(false);
 
-    const router = useRouter()
+  const router = useRouter();
+  const {user} = useUserProfile()
 
   const handleFollow = async () => {
-      try {
-        setLoading(true);
-        if(!followerId) {
-            router.push('/login');
-            return;
-        }
+    try {
+      setLoading(true);
+      if (user?.userId) {
+        router.push("/login");
+        return;
+      }
 
       const response = await fetch("/api/user/follow", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ followerId, followingId }),
+        body: JSON.stringify({ followerId: user?.userId, followingId: userToFollow }),
       });
 
       if (!response.ok) {
@@ -43,10 +43,9 @@ const FollowBtn: React.FC<FollowBtnProps> = ({ followerId, followingId, followin
   };
 
   useEffect(() => {
-   setIsFollowing(followings?.some((id) => id === followerId) || false)
-  }, [])
-  
+      setIsFollowing(user?.followings?.some((id) => id === userToFollow) || false);
 
+  }, []);
 
   return (
     <Button
@@ -55,6 +54,8 @@ const FollowBtn: React.FC<FollowBtnProps> = ({ followerId, followingId, followin
       color={isFollowing ? "gray" : "cyan"}
       loading={loading}
       disabled={loading}
+      size={size}
+      radius={radius}
     >
       {isFollowing ? "Following" : "Follow"}
     </Button>

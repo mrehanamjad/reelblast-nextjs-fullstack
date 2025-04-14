@@ -39,7 +39,7 @@ export default function RootLayout({
       >
     <MantineProvider defaultColorScheme="dark" >
         <Providers >
-        <div className="flex">
+        <div className="flex ">
         <SideNavbar />
         <main className="flex-1">{children}</main>
         </div>

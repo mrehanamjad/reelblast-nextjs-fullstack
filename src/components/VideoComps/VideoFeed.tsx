@@ -495,21 +495,25 @@ import { VidI } from '@/lib/api-client';
 
 interface VideoFeedProps {
   videos: VidI[];
+  playingVideoIndex?:number;
 }
 
-export default function VideoFeed({ videos }: VideoFeedProps) {
+export default function VideoFeed({ videos,playingVideoIndex=0 }: VideoFeedProps) {
   const [isLoading, setIsLoading] = useState(true);
-  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(2);
   const feedRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
   const videoRefs = useRef<Map<number, HTMLDivElement>>(new Map());
 
+  
+
+
   // Simulate loading state
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 800);
+    }, 700);
 
     return () => clearTimeout(timer);
   }, [videos]);
@@ -635,7 +639,7 @@ export default function VideoFeed({ videos }: VideoFeedProps) {
             >
               <VideoComponent 
                 video={video}
-                onNext={index < videos.length - 1 ? goToNextVideo : undefined}
+                // onNext={index < videos.length - 1 ? goToNextVideo : undefined}
               />
             </div>
           ))}
@@ -683,7 +687,7 @@ export default function VideoFeed({ videos }: VideoFeedProps) {
       )}
 
       {/* Progress indicator */}
-      {!isLoading && videos.length > 1 && (
+      {/* {!isLoading && videos.length > 1 && (
         <div className="fixed right-3 top-1/2 transform -translate-y-1/2 z-40 flex flex-col items-center gap-1">
           {videos.map((_, index) => (
             <div 
@@ -694,7 +698,7 @@ export default function VideoFeed({ videos }: VideoFeedProps) {
             ></div>
           ))}
         </div>
-      )}
+      )} */}
     </div>
   );
 }

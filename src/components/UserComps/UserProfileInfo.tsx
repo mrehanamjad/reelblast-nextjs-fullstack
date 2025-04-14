@@ -82,7 +82,7 @@ function UserProfileInfo({ username }: { username: string }) {
                   </Button>
                 </Link>
               ) : (
-               <FollowBtn followerId={authId as string} followingId={userData.userId} followings={userData.followings} />
+               <FollowBtn userToFollow={userData.userId}/>
               )}
             </div>
           </div>
