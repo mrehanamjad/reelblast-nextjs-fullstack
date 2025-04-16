@@ -3,6 +3,7 @@ import { Button } from "@mantine/core";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useUserProfile } from "../UserProfileContext";
+import { apiClient } from "@/lib/api-client";
 
 const FollowBtn = ({
   userToFollow,
@@ -23,16 +24,18 @@ const FollowBtn = ({
         return;
       }
 
-      const response = await fetch("/api/user/follow", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ followerId: user?.userId, followingId: userToFollow }),
-      });
+      // const response = await fetch("/api/user/follow", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify({ followerId: user?.userId, followingId: userToFollow }),
+      // });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Follow/Unfollow failed");
-      }
+      // if (!response.ok) {
+      //   const errorData = await response.json();
+      //   throw new Error(errorData.message || "Follow/Unfollow failed");
+      // }
+
+      const response = await apiClient.follow({ followerId: user?.userId!, followingId: userToFollow })
 
       setIsFollowing((prev) => !prev);
     } catch (error) {

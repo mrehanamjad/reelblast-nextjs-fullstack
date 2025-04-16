@@ -1,17 +1,11 @@
+import { UserInfoI } from "@/lib/api-client";
 import { AuthOptions } from "@/lib/auth";
 import { connectionToDatabase } from "@/lib/db";
 import User from "@/models/User";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
-interface UserInfoI {
-  userId: string;
-  name?: string;
-  username?: string;
-  bio?: string;
-  profilePicUrl?: string;
-  socialLinks?: string[];
-}
+
 
 export async function PATCH(req: Request) {
   try {

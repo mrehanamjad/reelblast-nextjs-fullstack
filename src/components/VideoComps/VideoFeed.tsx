@@ -30,8 +30,8 @@
 //       {isLoading ? (
 //         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
 //           {[...Array(8)].map((_, index) => (
-//             <div 
-//               key={`skeleton-${index}`} 
+//             <div
+//               key={`skeleton-${index}`}
 //               className="bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden shadow-sm animate-pulse h-64"
 //             />
 //           ))}
@@ -39,8 +39,8 @@
 //       ) : videos.length > 0 ? (
 //         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
 //           {videos.map((video) => (
-//             <div 
-//               key={video._id?.toString()} 
+//             <div
+//               key={video._id?.toString()}
 //               className="transition-all duration-300 transform hover:scale-105 hover:shadow-xl"
 //             >
 //               <VideoComponent video={video} />
@@ -49,17 +49,17 @@
 //         </div>
 //       ) : (
 //         <div className="flex flex-col items-center justify-center py-16 px-4 bg-gray-50 dark:bg-gray-800 rounded-xl">
-//           <svg 
-//             className="w-16 h-16 text-gray-400 mb-4" 
-//             fill="none" 
-//             stroke="currentColor" 
-//             viewBox="0 0 24 24" 
+//           <svg
+//             className="w-16 h-16 text-gray-400 mb-4"
+//             fill="none"
+//             stroke="currentColor"
+//             viewBox="0 0 24 24"
 //             xmlns="http://www.w3.org/2000/svg"
 //           >
-//             <path 
-//               strokeLinecap="round" 
-//               strokeLinejoin="round" 
-//               strokeWidth={1.5} 
+//             <path
+//               strokeLinecap="round"
+//               strokeLinejoin="round"
+//               strokeWidth={1.5}
 //               d="M7 4v16M17 4v16M3 8h18M3 16h18"
 //             />
 //           </svg>
@@ -72,8 +72,6 @@
 //     </div>
 //   );
 // }
-
-
 
 // Insta UI =================================================================================================
 
@@ -172,8 +170,8 @@
 //       {isLoading ? (
 //         <div className="space-y-6">
 //           {[...Array(3)].map((_, index) => (
-//             <div 
-//               key={`skeleton-${index}`} 
+//             <div
+//               key={`skeleton-${index}`}
 //               className="rounded-lg overflow-hidden shadow animate-pulse"
 //             >
 //               {/* Header skeleton */}
@@ -199,9 +197,9 @@
 //       ) : videos.length > 0 ? (
 //         <div className="space-y-4">
 //           {videos.map((video, index) => (
-//             <div 
+//             <div
 //               id={`video-${index}`}
-//               key={video._id?.toString()} 
+//               key={video._id?.toString()}
 //               className={`snap-start ${index === currentVideoIndex ? 'ring-2 ring-blue-500 rounded-lg' : ''}`}
 //             >
 //               <InstagramVideoComponent video={video} />
@@ -210,17 +208,17 @@
 //         </div>
 //       ) : (
 //         <div className="flex flex-col items-center justify-center py-16 px-4 bg-gray-50 dark:bg-gray-800 rounded-xl">
-//           <svg 
-//             className="w-16 h-16 text-gray-400 mb-4" 
-//             fill="none" 
-//             stroke="currentColor" 
-//             viewBox="0 0 24 24" 
+//           <svg
+//             className="w-16 h-16 text-gray-400 mb-4"
+//             fill="none"
+//             stroke="currentColor"
+//             viewBox="0 0 24 24"
 //             xmlns="http://www.w3.org/2000/svg"
 //           >
-//             <path 
-//               strokeLinecap="round" 
-//               strokeLinejoin="round" 
-//               strokeWidth={1.5} 
+//             <path
+//               strokeLinecap="round"
+//               strokeLinejoin="round"
+//               strokeWidth={1.5}
 //               d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"
 //             />
 //           </svg>
@@ -233,7 +231,7 @@
 
 //       {/* Scroll to top button - Instagram style */}
 //       {showScrollTop && (
-//         <button 
+//         <button
 //           onClick={scrollToTop}
 //           className="fixed bottom-6 right-6 bg-gray-800 text-white dark:bg-white dark:text-gray-800 rounded-full p-3 shadow-lg hover:bg-gray-700 dark:hover:bg-gray-200 transition-all duration-300"
 //         >
@@ -272,7 +270,6 @@
 //     </div>
 //   );
 // }
-
 
 // new ui =======================================================
 // "use client"
@@ -366,15 +363,15 @@
 
 //   return (
 //     <div className="flex min-h-screen bg-gray-50 dark:bg-gray-900">
-      
+
 //       <div className="w-full md:ml-16 lg:ml-64 min-h-screen">
 
 //         <main ref={feedRef} className="max-w-6xl mx-auto px-4 py-6 relative">
 //           {isLoading ? (
 //             <div className={`${viewMode === 'grid' ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4' : 'space-y-6'}`}>
 //               {[...Array(6)].map((_, index) => (
-//                 <div 
-//                   key={`skeleton-${index}`} 
+//                 <div
+//                   key={`skeleton-${index}`}
 //                   className="rounded-xl overflow-hidden shadow-md bg-white dark:bg-gray-800 animate-pulse"
 //                 >
 //                   {/* Header skeleton */}
@@ -400,15 +397,15 @@
 //           ) : videos.length > 0 ? (
 //             <div className={`${viewMode === 'grid' ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6' : 'space-y-6'}`}>
 //               {videos.map((video, index) => (
-//                 <div 
+//                 <div
 //                   id={`video-${index}`}
-//                   key={video._id?.toString()} 
+//                   key={video._id?.toString()}
 //                   className={`rounded-xl overflow-hidden bg-white dark:bg-gray-800 shadow-md hover:shadow-lg transition-shadow ${
 //                     index === currentVideoIndex ? 'ring-2 ring-indigo-500 dark:ring-indigo-400' : ''
 //                   }`}
 //                 >
-//                   <VideoComponent 
-//                     video={video} 
+//                   <VideoComponent
+//                     video={video}
 //                   />
 //                 </div>
 //               ))}
@@ -432,23 +429,23 @@
 //           {showNavButtons && (
 //             <>
 //               {/* Previous Video Button - disabled if at first video */}
-//               <button 
+//               <button
 //                 onClick={goToPrevVideo}
 //                 disabled={currentVideoIndex === 0}
-//                 className={`fixed z-40 left-4 md:left-24 lg:left-72 top-1/2 transform -translate-y-16 bg-white dark:bg-gray-800 rounded-full p-3 shadow-lg 
-//                   ${currentVideoIndex === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer'} 
+//                 className={`fixed z-40 left-4 md:left-24 lg:left-72 top-1/2 transform -translate-y-16 bg-white dark:bg-gray-800 rounded-full p-3 shadow-lg
+//                   ${currentVideoIndex === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer'}
 //                   transition-all duration-300`}
 //                 aria-label="Previous video"
 //               >
 //                 <ChevronUp size={24} className="text-gray-800 dark:text-gray-200" />
 //               </button>
-              
+
 //               {/* Next Video Button - disabled if at last video */}
-//               <button 
+//               <button
 //                 onClick={goToNextVideo}
 //                 disabled={currentVideoIndex === videos.length - 1}
-//                 className={`fixed z-40 left-4 md:left-24 lg:left-72 top-1/2 transform translate-y-16 bg-white dark:bg-gray-800 rounded-full p-3 shadow-lg 
-//                   ${currentVideoIndex === videos.length - 1 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer'} 
+//                 className={`fixed z-40 left-4 md:left-24 lg:left-72 top-1/2 transform translate-y-16 bg-white dark:bg-gray-800 rounded-full p-3 shadow-lg
+//                   ${currentVideoIndex === videos.length - 1 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer'}
 //                   transition-all duration-300`}
 //                 aria-label="Next video"
 //               >
@@ -461,7 +458,7 @@
 
 //       {/* Scroll to top button */}
 //       {showScrollTop && (
-//         <button 
+//         <button
 //           onClick={scrollToTop}
 //           className="fixed bottom-20 md:bottom-6 right-6 bg-indigo-600 text-white dark:bg-indigo-500 rounded-full p-3 shadow-lg hover:bg-indigo-700 dark:hover:bg-indigo-600 transition-all duration-300"
 //           aria-label="Scroll to top"
@@ -474,40 +471,31 @@
 //   );
 // }
 
+"use client";
 
-
-
-
-
-
-
-
-
-
-
-
-"use client"
-
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from "react";
 import { ChevronUp, ChevronDown } from "lucide-react";
-import VideoComponent from "./VideoComponent"; 
-import { VidI } from '@/lib/api-client';
+import VideoComponent from "./VideoComponent";
+import { VidI } from "@/lib/api-client";
+import ScrollHeader from "../Header";
+import ReelNavMobile from "./ReelNavMobile";
 
 interface VideoFeedProps {
   videos: VidI[];
-  playingVideoIndex?:number;
+  playingVideoIndex?: number;
 }
 
-export default function VideoFeed({ videos,playingVideoIndex=0 }: VideoFeedProps) {
+export default function VideoFeed({
+  videos,
+  playingVideoIndex = 0,
+}: VideoFeedProps) {
   const [isLoading, setIsLoading] = useState(true);
-  const [currentVideoIndex, setCurrentVideoIndex] = useState(2);
+  // Initial state should reflect the prop
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(playingVideoIndex);
   const feedRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
   const videoRefs = useRef<Map<number, HTMLDivElement>>(new Map());
-
-  
-
 
   // Simulate loading state
   useEffect(() => {
@@ -518,14 +506,29 @@ export default function VideoFeed({ videos,playingVideoIndex=0 }: VideoFeedProps
     return () => clearTimeout(timer);
   }, [videos]);
 
+
+  // Scroll to the specified initial video once loading is complete
+useEffect(() => {
+  if (!isLoading && videos.length > 0) {
+    const initialVideo = document.getElementById(`reel-${playingVideoIndex}`);
+    if (initialVideo) {
+      initialVideo.scrollIntoView({ behavior: 'auto', block: 'center' });
+      setCurrentVideoIndex(playingVideoIndex);
+    }
+  }
+}, [isLoading, playingVideoIndex, videos]);
+
+
   // Set up intersection observer to detect which video is currently visible
   useEffect(() => {
     if (!isLoading && videos.length > 0) {
+      console.log("observerRef.current",observerRef.current)
       observerRef.current = new IntersectionObserver(
         (entries) => {
+          console.log("entries",entries)
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
-              const index = parseInt(entry.target.id.split('-')[1]);
+              const index = parseInt(entry.target.id.split("-")[1]);
               setCurrentVideoIndex(index);
             }
           });
@@ -537,6 +540,8 @@ export default function VideoFeed({ videos,playingVideoIndex=0 }: VideoFeedProps
         }
       );
 
+
+      console.log("videoRefs.current",videoRefs.current)
       // Observe all video elements
       videoRefs.current.forEach((ref) => {
         if (observerRef.current && ref) {
@@ -558,7 +563,7 @@ export default function VideoFeed({ videos,playingVideoIndex=0 }: VideoFeedProps
       const nextIndex = currentVideoIndex + 1;
       const nextVideo = document.getElementById(`reel-${nextIndex}`);
       if (nextVideo) {
-        nextVideo.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        nextVideo.scrollIntoView({ behavior: "smooth", block: "center" });
         setCurrentVideoIndex(nextIndex);
       }
     }
@@ -570,7 +575,7 @@ export default function VideoFeed({ videos,playingVideoIndex=0 }: VideoFeedProps
       const prevIndex = currentVideoIndex - 1;
       const prevVideo = document.getElementById(`reel-${prevIndex}`);
       if (prevVideo) {
-        prevVideo.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        prevVideo.scrollIntoView({ behavior: "smooth", block: "center" });
         setCurrentVideoIndex(prevIndex);
       }
     }
@@ -579,15 +584,15 @@ export default function VideoFeed({ videos,playingVideoIndex=0 }: VideoFeedProps
   // Handle keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowDown' || e.key === 'j') {
+      if (e.key === "ArrowDown" || e.key === "j") {
         goToNextVideo();
-      } else if (e.key === 'ArrowUp' || e.key === 'k') {
+      } else if (e.key === "ArrowUp" || e.key === "k") {
         goToPrevVideo();
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [currentVideoIndex]);
 
   // Handle touch swipe gestures
@@ -597,10 +602,10 @@ export default function VideoFeed({ videos,playingVideoIndex=0 }: VideoFeedProps
   };
   const handleTouchEnd = (e: React.TouchEvent) => {
     if (touchStartY.current === null) return;
-    
+
     const touchEndY = e.changedTouches[0].clientY;
     const diff = touchStartY.current - touchEndY;
-    
+
     // If swipe distance is significant enough
     if (Math.abs(diff) > 50) {
       if (diff > 0) {
@@ -613,18 +618,21 @@ export default function VideoFeed({ videos,playingVideoIndex=0 }: VideoFeedProps
   };
 
   return (
-    <div 
+    <div
       ref={containerRef}
-      className="bg-black min-h-screen"
+      className=" bg-black min-h-screen relative"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
+      
     >
+      {/* <div className="text w-full absolute justify-center items-center bg-red-500 z-20 text-black pt-5 flex top-0 ">For You | Following</div> */}
+      <ReelNavMobile  />
       {isLoading ? (
         <div className="h-screen w-full flex justify-center items-center">
           <div className="w-16 h-16 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
         </div>
       ) : videos.length > 0 ? (
-        <div 
+        <div
           ref={feedRef}
           className="h-screen snap-y snap-mandatory overflow-y-scroll"
         >
@@ -637,9 +645,8 @@ export default function VideoFeed({ videos,playingVideoIndex=0 }: VideoFeedProps
               }}
               className="h-screen snap-start snap-always"
             >
-              <VideoComponent 
+              <VideoComponent
                 video={video}
-                // onNext={index < videos.length - 1 ? goToNextVideo : undefined}
               />
             </div>
           ))}
@@ -662,22 +669,26 @@ export default function VideoFeed({ videos,playingVideoIndex=0 }: VideoFeedProps
       {/* Navigation buttons - fixed to the side */}
       {!isLoading && videos.length > 1 && (
         <>
-          <button 
+          <button
             onClick={goToPrevVideo}
             disabled={currentVideoIndex === 0}
             className={`fixed z-40 right-4 top-1/4 transform -translate-y-1/2 bg-black bg-opacity-40 rounded-full p-3 ${
-              currentVideoIndex === 0 ? 'opacity-30 cursor-not-allowed' : 'opacity-70 hover:opacity-100'
+              currentVideoIndex === 0
+                ? "opacity-30 cursor-not-allowed"
+                : "opacity-70 hover:opacity-100"
             } transition-opacity duration-300`}
             aria-label="Previous video"
           >
             <ChevronUp size={24} className="text-white" />
           </button>
-          
-          <button 
+
+          <button
             onClick={goToNextVideo}
             disabled={currentVideoIndex === videos.length - 1}
             className={`fixed z-40 right-4 top-3/4 transform -translate-y-1/2 bg-black bg-opacity-40 rounded-full p-3 ${
-              currentVideoIndex === videos.length - 1 ? 'opacity-30 cursor-not-allowed' : 'opacity-70 hover:opacity-100'
+              currentVideoIndex === videos.length - 1
+                ? "opacity-30 cursor-not-allowed"
+                : "opacity-70 hover:opacity-100"
             } transition-opacity duration-300`}
             aria-label="Next video"
           >
@@ -685,20 +696,6 @@ export default function VideoFeed({ videos,playingVideoIndex=0 }: VideoFeedProps
           </button>
         </>
       )}
-
-      {/* Progress indicator */}
-      {/* {!isLoading && videos.length > 1 && (
-        <div className="fixed right-3 top-1/2 transform -translate-y-1/2 z-40 flex flex-col items-center gap-1">
-          {videos.map((_, index) => (
-            <div 
-              key={`indicator-${index}`}
-              className={`w-1.5 h-${index === currentVideoIndex ? '6' : '3'} rounded-full ${
-                index === currentVideoIndex ? 'bg-white' : 'bg-white bg-opacity-40'
-              } transition-all duration-300`}
-            ></div>
-          ))}
-        </div>
-      )} */}
     </div>
   );
 }

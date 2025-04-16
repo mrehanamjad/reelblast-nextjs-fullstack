@@ -244,6 +244,7 @@ import { useSession } from "next-auth/react";
 import ScreenLoader from "@/components/ScreenLoader";
 import FileUpload from "@/components/VideoComps/FileUpload";
 import { IKUploadResponse } from "imagekitio-next/dist/types/components/IKUpload/props";
+import { apiClient } from "@/lib/api-client";
 
 type FormValues = {
   userName: string;
@@ -332,17 +333,7 @@ export default function UpdateProfile() {
     setError(null);
     
     try {
-      const response = await fetch("/api/user/update", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId, ...data, socialLinks }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Profile update failed");
-      }
-
+      await apiClient.updateUser({ userId, ...data, socialLinks });
       router.push(`/${userId}`);
     } catch (error) {
       console.error("Error updating profile:", error);

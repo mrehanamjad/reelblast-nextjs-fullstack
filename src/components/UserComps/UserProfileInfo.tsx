@@ -1,31 +1,45 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Avatar, Button } from "@mantine/core";
+import { Button } from "@mantine/core";
 import { SocialLinkIcon } from "./SocialLinkIcon";
-import { Pen } from "lucide-react";
+import { LogOut, Pen, Settings } from "lucide-react";
 import Link from "next/link";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import ScreenLoader from "../ScreenLoader";
 import FollowBtn from "./FollowBtn";
 import ProfilePic from "./ProfilePic";
+import { apiClient, UserProfileInfoI } from "@/lib/api-client";
+import { NavItem } from "../SideNavbar";
 
-
-export interface UserProfileInfoI {
-  userId: string;
-  userName: string;
-  name: string;
-  bio?: string;
-  createdAt: string | Date;
-  profilePicUrl?: string;
-  followers: string[]; // Assuming array of user IDs
-  followings: string[]; // Assuming array of user IDs
-  savedReels: string[];
-  socialLinks?: string[];
+export function UserSettingsNav() {
+  async function handleSignout() {
+    try {
+      await signOut();
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
+  }
+  return (
+    <div className="w-48 bg-white dark:bg-gray-800 rounded-xl shadow-xl p-3 border border-gray-200 dark:border-gray-700">
+      <Link
+        href="/update-profile"
+        className="flex items-center px-3 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+      >
+        <Pen size={18} className="mr-2" />
+        Edit Profile
+      </Link>
+      <NavItem
+        icon={<LogOut size={18} />}
+        label="Logout"
+        href=""
+        onClick={handleSignout}
+      />
+    </div>
+  );
 }
-
 function UserProfileInfo({ username }: { username: string }) {
-
   const [userData, setUserData] = useState<UserProfileInfoI | null>(null);
+  const [expendUserSettings, setExpendUserSettings] = useState(false);
   const { data: session } = useSession();
   const authId = session?.user.id;
 
@@ -39,10 +53,9 @@ function UserProfileInfo({ username }: { username: string }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(`/api/user/${username}`);
-        const result = await res.json();
+        const result = await apiClient.getUser(username);
         setUserData(result);
-        console.log(result)
+        console.log(result);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -51,16 +64,18 @@ function UserProfileInfo({ username }: { username: string }) {
     if (username) fetchData();
   }, [username]);
 
-  
-
-
   if (!userData) return <ScreenLoader />;
 
   return (
-    <main className="flex-grow container mx-auto px-4 py-6">
-      <div className="flex mx-20 flex-col md:flex-row items-center md:items-start mb-8 group">
+    <main className="flex-grow container mx-auto px-4 py-6 max-sm:my-7">
+      <div className="flex sm:mx-20 flex-col md:flex-row items-center md:items-start mb-8 ">
         {/* Avatar */}
-        <ProfilePic name={userData?.name} size="120px" className="md:mr-8 mb-2 md:mb-0 md:mt-2" url={userData?.profilePicUrl as string} />
+        <ProfilePic
+          name={userData?.name}
+          size="120px"
+          className="md:mr-8 mb-2 md:mb-0 md:mt-2"
+          url={userData?.profilePicUrl as string}
+        />
         {/* Profile Info */}
         <div className="flex-grow text-center md:text-left">
           <div className="flex flex-col md:flex-row items-center mb-4">
@@ -69,20 +84,28 @@ function UserProfileInfo({ username }: { username: string }) {
             </h1>
             <div className="md:ml-4 mt-2 md:mt-0">
               {authId && authId === userData?.userId ? (
-                <Link
-                  href={"/update-profile"}
-                  className="md:hidden md:group-hover:block order-1 md:order-2"
-                >
+
+                <div className="relative flex flex-col w-full items-start">
                   <Button
+                    onClick={() => setExpendUserSettings((prev) => !prev)}
                     variant="subtle"
-                    radius={"lg"}
-                    color={"gray"}
+                    size="icon"
+                    className="rounded-md p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
                   >
-                    <Pen size={20} className="mr-2" /> Edit
+                    <Settings
+                      size={22}
+                      className="text-gray-700 dark:text-gray-300"
+                    />
                   </Button>
-                </Link>
+
+                  {expendUserSettings && (
+                    <div className="absolute top-12 left-0 z-50">
+                      <UserSettingsNav />
+                    </div>
+                  )}
+                </div>
               ) : (
-               <FollowBtn userToFollow={userData.userId}/>
+                <FollowBtn userToFollow={userData.userId} />
               )}
             </div>
           </div>
@@ -130,7 +153,3 @@ function UserProfileInfo({ username }: { username: string }) {
 }
 
 export default UserProfileInfo;
-
-
-
-

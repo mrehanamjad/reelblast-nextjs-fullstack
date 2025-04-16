@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import VideoFeed from "@/components/VideoComps/VideoFeed"
 import { apiClient, VidI } from "@/lib/api-client";
 import { useSession } from "next-auth/react";
-import { UserProfileInfoI } from "@/components/UserComps/UserProfileInfo";
+
 
 
 export default function Home() {

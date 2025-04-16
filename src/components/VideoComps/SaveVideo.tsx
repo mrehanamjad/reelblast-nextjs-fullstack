@@ -4,6 +4,7 @@ import { Bookmark } from "lucide-react";
 import mongoose from "mongoose";
 import React, { useEffect, useState } from "react";
 import { useUserProfile } from "../UserProfileContext";
+import { apiClient } from "@/lib/api-client";
 
 
 function SaveVideo({ videoId }: { videoId: mongoose.Types.ObjectId}) {
@@ -20,21 +21,16 @@ function SaveVideo({ videoId }: { videoId: mongoose.Types.ObjectId}) {
 
       const handleVideoSave = async () => {
           try {
-              
-              const res = await fetch(`/api/videos/${videoId}/save`, {
-                  method: "PATCH",
-              });
-              if (!res.ok) throw new Error("Failed to save/unsave video");
-              const data = await res.json();
-              console.log(data);
-              if(data.message.toLowerCase().includes("remove")){
+              const responseJson = await apiClient.saveVideo(videoId)
+              console.log(responseJson);
+              if(responseJson.message.toLowerCase().includes("remove")){
                 addOrRemoveToSavedReels(videoId.toString())
                 setIsSaved(false)
-                console.log(data.message)
+                console.log(responseJson.message)
               } else {
                 addOrRemoveToSavedReels(videoId.toString())
                 setIsSaved(true)
-                console.log(data.message)
+                console.log(responseJson.message)
               }
                 
           } catch (error) {

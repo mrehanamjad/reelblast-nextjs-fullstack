@@ -7,7 +7,8 @@ import {
   useCallback,
 } from "react";
 import { useSession } from "next-auth/react";
-import { UserProfileInfoI } from "./UserComps/UserProfileInfo";
+import { apiClient, UserProfileInfoI } from "@/lib/api-client";
+
 
 interface UserProfileContextType {
   user: UserProfileInfoI | null;
@@ -50,14 +51,12 @@ function UserProfileProvider({ children }: { children: React.ReactNode }) {
 
     try {
       setLoading(true);
-      const res = await fetch(`/api/user/${session.user.username}`);
-      if (!res.ok) throw new Error("User not found");
 
-      const data = await res.json();
+      const data = await apiClient.getUser(session.user.username);
       setUser(data);
       console.log("I am saved  to context api");
     } catch (err) {
-      console.error(err);
+      console.error("User not found",err);
       setUser(null);
     } finally {
       setLoading(false);
