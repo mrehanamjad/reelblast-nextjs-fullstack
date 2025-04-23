@@ -9,10 +9,6 @@ import { NextResponse } from "next/server";
 
 export async function PATCH(req: Request) {
   try {
-    if (req.method !== "PATCH") {
-      return NextResponse.json({ error: "Method Not Allowed" }, { status: 405 });
-    }
-
     await connectionToDatabase();
 
     const session = await getServerSession(AuthOptions);
@@ -21,7 +17,7 @@ export async function PATCH(req: Request) {
     }
 
     const body: UserInfoI = await req.json();
-    const { userId, name, username, bio, profilePicUrl, socialLinks } = body;
+    const { userId, name, username, bio, profilePicUrl,profilePicId,phone, socialLinks } = body;
 
     if (!userId) {
       return NextResponse.json({ error: "User ID is required" }, { status: 400 });
@@ -40,7 +36,9 @@ export async function PATCH(req: Request) {
     if (name) user.name = name;
     if (username) user.username = username;
     if (bio !== undefined) user.bio = bio;
-    if (profilePicUrl !== undefined) user.profilePicUrl = profilePicUrl;
+    if (profilePicUrl !== undefined) user.profilePic.url = profilePicUrl;
+    if (profilePicId !== undefined) user.profilePic.id = profilePicId;
+    if (phone !== undefined) user.phone = phone;
 
     if (socialLinks !== undefined) {
       if (!Array.isArray(socialLinks)) {

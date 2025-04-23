@@ -16,6 +16,7 @@ interface VideoFormDataI {
   description: string;
   videoUrl: string;
   thumbnailUrl: string;
+  videoIdImagekit?: string;
 }
 
 function VideoUploadForm() {
@@ -35,6 +36,7 @@ function VideoUploadForm() {
       title: "",
       description: "",
       videoUrl: "",
+      videoIdImagekit: "",
       thumbnailUrl: "",
     },
   });
@@ -42,6 +44,8 @@ function VideoUploadForm() {
   const handleUploadSuccess = (res: IKUploadResponse) => {
     setValue("videoUrl", res.filePath);
     setValue("thumbnailUrl", res.thumbnailUrl || res.filePath);
+    setValue("videoIdImagekit", res.fileId);
+    setUploadProgress(100);
     setLoading(false);
     console.log("Video uploaded successfully ");
   };
@@ -113,7 +117,7 @@ function VideoUploadForm() {
         {uploadProgress > 0 && (
           <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
             <div
-              className="bg-primary h-2.5 rounded-full transition-all duration-300"
+              className="bg-cyan-200 h-2.5 rounded-full transition-all duration-300"
               style={{ width: `${uploadProgress}%` }}
             />
           </div>

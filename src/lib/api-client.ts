@@ -22,7 +22,11 @@ export interface UserProfileInfoI {
   name: string;
   bio?: string;
   createdAt: string | Date;
-  profilePicUrl?: string;
+  phone?: string;   
+  profilePic: {
+    url: string;
+    id: string;
+  };
   followers: string[]; // Assuming array of user IDs
   followings: string[]; // Assuming array of user IDs
   savedReels: string[];
@@ -42,6 +46,8 @@ export interface UserInfoI {
     username?: string;
     bio?: string;
     profilePicUrl?: string;
+    profilePicId?: string;
+    phone?: string;
     socialLinks?: string[];
   }
 
@@ -75,8 +81,9 @@ class ApiClient {
     }
 
     async updateUser(data:UserInfoI){
-        return await this.myFetch("/api/user/update", {method:"PATCH",body:data})
+        return await this.myFetch("/user/update", {method:"PATCH",body:data})
     }
+
     async getVideos(){
         return await this.myFetch<VidI[]>('/videos');
     }
@@ -103,6 +110,10 @@ class ApiClient {
 
     async saveVideo(videoId:string | mongoose.Types.ObjectId){
         return await this.myFetch<saveVideoI>(`/videos/${videoId}/save`,{method:"PATCH"})
+    }
+
+    async delFile(id:string,fileType: "video" | "profilePic" | "thumbnail"){
+        return await this.myFetch(`/imagekit/delete-file`,{method:"DELETE",body:{id,fileType}})
     }
 }
 

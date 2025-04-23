@@ -22,7 +22,10 @@ export async function GET(req: Request, { params }: { params: { username: string
         bio: user.bio,
         phone: user.phone,
         createdAt: user.createdAt,
-        profilePicUrl: user.profilePicUrl,
+        profilePic: {
+          url: user.profilePic.url,
+          id: user.profilePic.id,
+        },
         followers: user.followers,
         followings: user.followings,
         savedReels: user.savedReels,

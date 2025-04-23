@@ -105,7 +105,7 @@
 //       href: "/saved",
 //     },
 //     {
-//       icon: <ProfilePic size="sm" name={user?.name!} url={user?.profilePicUrl!}  />,
+//       icon: <ProfilePic size="sm" name={user?.name!} url={user?.profilePic.!}  />,
 //       label: session?.user.username || "Profile",
 //       href: `/${session?.user.username}`,
 //     },
@@ -166,6 +166,8 @@ import {
   Bookmark,
   Bell,
   LogOut,
+  LogIn,
+  UserPlus,
 } from "lucide-react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
@@ -260,6 +262,7 @@ export default function SideNavbar() {
       label: "Home",
       href: "/",
       showOnMobile: true,
+      isLogedIn: true,
     },
     {
       icon: <Search size={20} />,
@@ -267,6 +270,7 @@ export default function SideNavbar() {
       label: "Search",
       href: "/search",
       showOnMobile: true,
+      isLogedIn: true,
     },
     {
       icon: <Clapperboard size={20} />,
@@ -274,6 +278,7 @@ export default function SideNavbar() {
       label: "Following",
       href: "/followings",
       showOnMobile: false,
+      isLogedIn: true,
     },
     {
       icon: <Film size={20} />,
@@ -281,6 +286,7 @@ export default function SideNavbar() {
       label: "Reels",
       href: "/",
       showOnMobile: false,
+      isLogedIn: true,
     },
     {
       icon: <PlusSquare size={24} />,
@@ -288,6 +294,7 @@ export default function SideNavbar() {
       label: "Create",
       href: "/upload",
       showOnMobile: true,
+      isLogedIn: true,
     },
     {
       icon: <Heart size={20} />,
@@ -295,6 +302,7 @@ export default function SideNavbar() {
       label: "Notifications",
       href: "/notifications",
       showOnMobile: true,
+      isLogedIn: true,
     },
     {
       icon: <Bookmark size={20} />,
@@ -302,27 +310,56 @@ export default function SideNavbar() {
       label: "Saved",
       href: "/saved",
       showOnMobile: false,
+      isLogedIn: true,
     },
     {
       icon: (
         <ProfilePic
           size="sm"
           name={user?.name!}
-          url={user?.profilePicUrl!}
+          url={user?.profilePic.url!}
         />
       ),
       mobileIcon: (
         <ProfilePic
           size="sm"
           name={user?.name!}
-          url={user?.profilePicUrl!}
+          url={user?.profilePic.url!}
         />
       ),
       label: "Profile",
       href: `/${session?.user.username}`,
       showOnMobile: true,
+      isLogedIn: true,
     },
+    {
+      icon: <LogIn size={20} />,
+      mobileIcon: <LogIn size={24} />,
+      label: "Login",
+      href: "/login",
+      showOnMobile: true,
+      isLogedIn: false,
+    },
+    {
+      icon: <UserPlus size={20} />,
+      mobileIcon: <UserPlus size={24} />,
+      label: "Sign Up",
+      href: "/register",
+      showOnMobile: true,
+      isLogedIn: false,
+    }
   ];
+
+  // Filter items based on login status
+  const filteredNavItems = navItemsData.filter((item) => {
+    if (item.label === "Home") {
+      return true;
+    }
+    if (session?.user.id) {
+      return item.isLogedIn === true;
+    }
+    return item.isLogedIn === false;
+  });
 
   const logoutData =  {
     icon: <LogOut size={20}/>,
@@ -334,7 +371,7 @@ export default function SideNavbar() {
   }
 
   // Filter items for mobile navigation to only show the most important ones
-  const mobileNavItems = navItemsData.filter(item => item.showOnMobile);
+  const mobileNavItems = filteredNavItems.filter(item => item.showOnMobile);
 
   return (
     <>
@@ -357,7 +394,7 @@ export default function SideNavbar() {
 
         <div className="p-2 relative overflow-y-auto h-[calc(100vh-4rem)]">
           <div className="space-y-2">
-            {navItemsData.map((nav) => (
+            {filteredNavItems.map((nav) => (
               <NavItem
                 key={nav.label}
                 icon={nav.icon}
@@ -367,7 +404,7 @@ export default function SideNavbar() {
                 href={nav.href}
               />
             ))}
-            <div className="border-t border-gray-200 py-3 my-2 w-11/12 absolute bottom-0">
+            {session?.user.id && <div className="border-t border-gray-200 py-3 my-2 w-11/12 absolute bottom-0">
             <NavItem
               key={logoutData.label}
               icon={logoutData.icon}
@@ -375,7 +412,8 @@ export default function SideNavbar() {
               active={activeItem === logoutData.label}
               onClick={logoutData.onClick}
               href={logoutData.href}
-            /></div>
+            />
+            </div>}
           </div>
         </div>
       </div>

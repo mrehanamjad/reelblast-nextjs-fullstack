@@ -76,7 +76,7 @@ export default function FileUpload({
         validateFile={fileValidator}
         folder={fileType === "video" ? "/videos" : "/images"}
         onError={onError}
-        onSuccess={onSuccess}
+        onSuccess={handleSuccess}
         onUploadProgress={handleProgress}
         onUploadStart={handleStartUpload}
         accept={fileType === "video" ? "video/*" : "image/*"}

@@ -22,6 +22,7 @@ export interface VideoI {
   title: string;
   description: string;
   videoUrl: string;
+  videoIdImagekit?: string; 
   thumbnailUrl: string;
   controls?: boolean;
   transformation?: {
@@ -44,6 +45,7 @@ const videoSchema = new Schema<VideoI>(
     title: { type: String, required: true },
     description: { type: String, required: true },
     videoUrl: { type: String, required: true },
+    videoIdImagekit: { type: String, required: true },
     thumbnailUrl: { type: String },
     controls: { type: Boolean, default: true },
     transformation: {

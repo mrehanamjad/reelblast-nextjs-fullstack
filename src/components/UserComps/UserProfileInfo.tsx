@@ -2,41 +2,15 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "@mantine/core";
 import { SocialLinkIcon } from "./SocialLinkIcon";
-import { LogOut, Pen, Settings } from "lucide-react";
-import Link from "next/link";
-import { signOut, useSession } from "next-auth/react";
+import { Settings } from "lucide-react";
+import {  useSession } from "next-auth/react";
 import ScreenLoader from "../ScreenLoader";
 import FollowBtn from "./FollowBtn";
 import ProfilePic from "./ProfilePic";
 import { apiClient, UserProfileInfoI } from "@/lib/api-client";
-import { NavItem } from "../SideNavbar";
+import UserSettingsNav from "./UserSettingsNav";
 
-export function UserSettingsNav() {
-  async function handleSignout() {
-    try {
-      await signOut();
-    } catch (error) {
-      console.error("Error signing out:", error);
-    }
-  }
-  return (
-    <div className="w-48 bg-white dark:bg-gray-800 rounded-xl shadow-xl p-3 border border-gray-200 dark:border-gray-700">
-      <Link
-        href="/update-profile"
-        className="flex items-center px-3 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
-      >
-        <Pen size={18} className="mr-2" />
-        Edit Profile
-      </Link>
-      <NavItem
-        icon={<LogOut size={18} />}
-        label="Logout"
-        href=""
-        onClick={handleSignout}
-      />
-    </div>
-  );
-}
+
 function UserProfileInfo({ username }: { username: string }) {
   const [userData, setUserData] = useState<UserProfileInfoI | null>(null);
   const [expendUserSettings, setExpendUserSettings] = useState(false);
@@ -74,7 +48,7 @@ function UserProfileInfo({ username }: { username: string }) {
           name={userData?.name}
           size="120px"
           className="md:mr-8 mb-2 md:mb-0 md:mt-2"
-          url={userData?.profilePicUrl as string}
+          url={userData?.profilePic.url as string}
         />
         {/* Profile Info */}
         <div className="flex-grow text-center md:text-left">

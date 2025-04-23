@@ -2,7 +2,7 @@
 import React from 'react'
 import { Avatar } from "@mantine/core";
 
-function ProfilePic({size="md",className="",name, url}:{size?:string;className?:string;name:string;url: string}) {
+function ProfilePic({size="md",className="",name, url,radius=100}:{size?:string;className?:string;name:string;url: string;radius?:number}) {
   return (
     <div className={`relative flex flex-col items-center gap-3 ${className}`}>
               <Avatar
@@ -12,6 +12,7 @@ function ProfilePic({size="md",className="",name, url}:{size?:string;className?:
                 key={name}
                 name={name}
                 color="initials"
+                radius={radius}
               />
             </div>
   )
