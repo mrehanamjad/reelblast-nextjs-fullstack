@@ -477,7 +477,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { ChevronUp, ChevronDown } from "lucide-react";
 import VideoComponent from "./VideoComponent";
 import { VidI } from "@/lib/api-client";
-import ScrollHeader from "../Header";
 import ReelNavMobile from "./ReelNavMobile";
 
 interface VideoFeedProps {

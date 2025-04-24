@@ -35,7 +35,7 @@ export async function GET() {
           createdAt: 1,
           updatedAt: 1,
           "user.userName": 1, 
-          "user.profilePicUrl": 1, 
+          "user.profilePic": 1, 
         },
       },
       {

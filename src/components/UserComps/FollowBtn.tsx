@@ -23,18 +23,7 @@ const FollowBtn = ({
         router.push("/login");
         return;
       }
-
-      // const response = await fetch("/api/user/follow", {
-      //   method: "POST",
-      //   headers: { "Content-Type": "application/json" },
-      //   body: JSON.stringify({ followerId: user?.userId, followingId: userToFollow }),
-      // });
-
-      // if (!response.ok) {
-      //   const errorData = await response.json();
-      //   throw new Error(errorData.message || "Follow/Unfollow failed");
-      // }
-
+      
       const response = await apiClient.follow({ followerId: user?.userId!, followingId: userToFollow })
 
       setIsFollowing((prev) => !prev);

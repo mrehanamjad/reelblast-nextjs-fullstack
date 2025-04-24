@@ -249,6 +249,7 @@ import FileUpload from "@/components/VideoComps/FileUpload";
 import { IKUploadResponse } from "imagekitio-next/dist/types/components/IKUpload/props";
 import { apiClient } from "@/lib/api-client";
 import ProfilePic from "@/components/UserComps/ProfilePic";
+import { notifications } from "@mantine/notifications";
 
 type FormValues = {
   userName: string;
@@ -335,7 +336,13 @@ export default function UpdateProfile() {
         });
     }
     setPrevProfilePicId(res.fileId);
-    console.log("Profile picture uploaded successfully ");
+
+    notifications.show({
+      title: "Success",
+      message: "Profile picture uploaded successfully",
+      color: "green",
+    })
+
   };
 
   const addSocialLink = () => setSocialLinks([...socialLinks, ""]);
@@ -362,9 +369,19 @@ export default function UpdateProfile() {
         socialLinks,
       });
       await apiClient.updateUser({ userId, ...data, socialLinks });
+      notifications.show({
+        title: "Success",
+        message: "Profile updated successfully",
+        color: "green",
+      });
       router.push(`/${username}`);
     } catch (error) {
       console.error("Error updating profile:", error);
+      notifications.show({
+        title: "Error",
+        message: "Failed to update profile",
+        color: "red",
+      })
       setError(
         error instanceof Error
           ? error.message

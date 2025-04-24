@@ -9,6 +9,7 @@ import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import mongoose from "mongoose";
 import { useRouter } from "next/navigation";
+import { notifications } from "@mantine/notifications";
 
 
 interface VideoFormDataI {
@@ -19,7 +20,7 @@ interface VideoFormDataI {
   videoIdImagekit?: string;
 }
 
-function VideoUploadForm() {
+function VideoUploadForm({mode = "create", editData}: {mode?: "edit" | "create"; editData?: {title: string; description: string; videoUrl: string; videoIdImagekit: string; videoId: string}}) {
   const [loading, setLoading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const router = useRouter()
@@ -33,10 +34,10 @@ function VideoUploadForm() {
     formState: { errors },
   } = useForm<VideoFormDataI>({
     defaultValues: {
-      title: "",
-      description: "",
-      videoUrl: "",
-      videoIdImagekit: "",
+      title: editData?.title || "",
+      description: editData?.description || "",
+      videoUrl: editData?.videoUrl || "",
+      videoIdImagekit: editData?.videoIdImagekit || "",
       thumbnailUrl: "",
     },
   });
@@ -47,28 +48,30 @@ function VideoUploadForm() {
     setValue("videoIdImagekit", res.fileId);
     setUploadProgress(100);
     setLoading(false);
-    console.log("Video uploaded successfully ");
+
+    notifications.show({
+      title: "Success",
+      message: "Video uploaded successfully",
+      color: "green",
+    })
+
   };
 
   const handleUploadProgress = (progress: number) => {
     setUploadProgress(progress);
   };
 
-  const onSubmit = async (data: VideoFormDataI) => {
-    if (!data.videoUrl) {
-      console.log("Please upload a video first");
-      return;
-    }
-    if(!session || !session.user.id) {
-      router.push('/login');
-      return;
-    }
-    setLoading(true);
+  const handleCreateVideo = async (data: VideoFormDataI) => {
     try {
+      setLoading(true);
       await apiClient.createVideo({...data, userId: new mongoose.Types.ObjectId(session?.user.id)});
-      console.log("Video published successfully ");
+      
+      notifications.show({
+        title: "Success",
+        message: "Video published successfully",
+        color: "green",
+      });
         
-      // reset form after upload completes
       setValue("title", "");
       setValue("description", "");
       setValue("videoUrl", "");
@@ -76,9 +79,62 @@ function VideoUploadForm() {
       router.push('/')
     } catch (error) {
       console.log("Error :: Failed to publish video  " + error);
+      notifications.show({
+        title: "Error",
+        message: "Failed to publish video",
+        color: "red",
+      });
     } finally {
       setLoading(false);
     }
+  }
+
+  const handleEditVideo = async (data: VideoFormDataI) => {
+    try {
+      setLoading(true);
+      setUploadProgress(100);
+      const res = await apiClient.editVideo(editData?.videoId!, {...data});
+      console.log(res)
+      notifications.show({
+        title: "Success",
+        message: "Video Edited successfully",
+        color: "green",
+      });
+
+      router.push('/')
+    } catch (error) {
+      console.log("Error :: Failed to edit video  " + error);
+      notifications.show({
+        title: "Error",
+        message: "Failed to Edit video",
+        color: "red",
+      });
+    } finally {
+      setLoading(false);
+    }
+  }
+
+
+  const onSubmit = async (data: VideoFormDataI) => {
+    if(!session || !session.user.id) {
+      router.push('/login');
+      return;
+    }
+    if (!data.videoUrl) {
+      notifications.show({
+        title: "Error",
+        message: "Video Not Found",
+        color: "red",
+      });
+      return;
+    }
+
+    if (mode === "create") {
+      await handleCreateVideo(data);
+    } else if (mode === "edit") {
+      await handleEditVideo(data);
+    }
+ 
   };
 
 
@@ -107,7 +163,7 @@ function VideoUploadForm() {
         {...register("description", { required: "Description is required" })}
       />
 
-      <div className="form-control">
+  { mode === "create" &&   <div className="form-control">
         <label className="font-semibold">Upload Video</label>
         <FileUpload
           fileType="video"
@@ -122,23 +178,24 @@ function VideoUploadForm() {
             />
           </div>
         )}
-      </div>
+      </div>}
       <Button
         type="submit"
         className="mb-4 mt-6"
         fullWidth
         color="cyan"
-        disabled={loading || !uploadProgress}
+        disabled={mode==="create" ? loading || !uploadProgress : false}
       >
         {loading ? (
           <>
             <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-            Publishing Video...
+            {mode === "create" ? "Publishing..." : "Editing..."}
           </>
         ) : (
-          "Publish Video"
+          mode === "create" ? "Publish Video" : "Edit Video"
         )}
       </Button>
+      
     </form>
   );
 }

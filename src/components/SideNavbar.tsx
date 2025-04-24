@@ -292,7 +292,7 @@ export default function SideNavbar() {
       icon: <PlusSquare size={24} />,
       mobileIcon: <PlusSquare size={24} />,
       label: "Create",
-      href: "/upload",
+      href: "/video/upload",
       showOnMobile: true,
       isLogedIn: true,
     },

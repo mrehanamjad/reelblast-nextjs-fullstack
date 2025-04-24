@@ -1,20 +1,23 @@
 import { VideoI } from "@/models/Video";
 import mongoose from "mongoose";
 
-export type VideoFormData = Omit<VideoI,"_id"> 
+export type VideoFormData = Omit<VideoI, "_id">;
 
 export interface VidI extends VideoI {
   user: {
     userName: string;
-    profilePic: string;
+    profilePic: {
+        url?: string;
+        id?: string;
+    }
   };
 }
 
 type FetchOpts = {
-    method: 'GET' | 'POST' | 'PUT' | "PATCH" | 'DELETE';
-    body?: any;
-    headers?: Record<string, string>;
-}
+  method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+  body?: any;
+  headers?: Record<string, string>;
+};
 
 export interface UserProfileInfoI {
   userId: string;
@@ -22,7 +25,7 @@ export interface UserProfileInfoI {
   name: string;
   bio?: string;
   createdAt: string | Date;
-  phone?: string;   
+  phone?: string;
   profilePic: {
     url: string;
     id: string;
@@ -33,88 +36,106 @@ export interface UserProfileInfoI {
   socialLinks?: string[];
 }
 
-
 interface saveVideoI {
-    success: boolean;
-    message: string;
-    savedVideos: number;
+  success: boolean;
+  message: string;
+  savedVideos: number;
 }
 
 export interface UserInfoI {
-    userId: string;
-    name?: string;
-    username?: string;
-    bio?: string;
-    profilePicUrl?: string;
-    profilePicId?: string;
-    phone?: string;
-    socialLinks?: string[];
-  }
+  userId: string;
+  name?: string;
+  username?: string;
+  bio?: string;
+  profilePicUrl?: string;
+  profilePicId?: string;
+  phone?: string;
+  socialLinks?: string[];
+}
 
 class ApiClient {
-    private async myFetch<T>(
-        endpoint: string,
-        options: FetchOpts = {} as FetchOpts,
-    ):Promise<T> {
-        const {method = "GET", body, headers={}} = options;
-        const defaultHeaders = {
-            'Content-Type': 'application/json',
-            ...headers
-        } 
+  private async myFetch<T>(
+    endpoint: string,
+    options: FetchOpts = {} as FetchOpts
+  ): Promise<T> {
+    const { method = "GET", body, headers = {} } = options;
+    const defaultHeaders = {
+      "Content-Type": "application/json",
+      ...headers,
+    };
 
-        const response = await fetch(`/api${endpoint}`,{
-            method,
-            headers: defaultHeaders,
-            body: body ? JSON.stringify(body) : undefined,
-        })
+    const response = await fetch(`/api${endpoint}`, {
+      method,
+      headers: defaultHeaders,
+      body: body ? JSON.stringify(body) : undefined,
+    });
 
-        if (!response.ok) {
-            throw new Error(await response.text());
-        }
-
-        return response.json();
+    if (!response.ok) {
+      throw new Error(await response.text());
     }
 
-    //user Methods
-    async getUser(username:string){
-        return await this.myFetch<UserProfileInfoI>(`/user/${username}`)
-    }
+    return response.json();
+  }
 
-    async updateUser(data:UserInfoI){
-        return await this.myFetch("/user/update", {method:"PATCH",body:data})
-    }
+  //user Methods
+  async getUser(username: string) {
+    return await this.myFetch<UserProfileInfoI>(`/user/${username}`);
+  }
 
-    async getVideos(){
-        return await this.myFetch<VidI[]>('/videos');
-    }
+  async updateUser(data: UserInfoI) {
+    return await this.myFetch("/user/update", { method: "PATCH", body: data });
+  }
 
-    async follow(bothUser:{ followerId: string, followingId: string }){
-        return await this.myFetch('/user/follow',{method:'POST',body:bothUser})
-    }
+  async getVideos() {
+    return await this.myFetch<VidI[]>("/videos");
+  }
 
-    async getAVideo(id: string){
-        return await this.myFetch<VidI>(`/videos/${id}`);
-    }
+  async follow(bothUser: { followerId: string; followingId: string }) {
+    return await this.myFetch("/user/follow", {
+      method: "POST",
+      body: bothUser,
+    });
+  }
 
-    async getUserVideos(username:string){
-        return await this.myFetch<VidI[]>(`/user/${username}/videos`)
-    }
+  async getAVideo(id: string) {
+    return await this.myFetch<VidI>(`/videos/${id}`);
+  }
 
-    async getSavedVideos(){
-        return await this.myFetch<VidI[]>("/videos/feed/save")
-    }
+  async getUserVideos(username: string) {
+    return await this.myFetch<VidI[]>(`/user/${username}/videos`);
+  }
 
-    async createVideo(video: VideoFormData){
-        return await this.myFetch('/videos', {method: 'POST', body: video});
-    }
+  async getSavedVideos() {
+    return await this.myFetch<VidI[]>("/videos/feed/save");
+  }
 
-    async saveVideo(videoId:string | mongoose.Types.ObjectId){
-        return await this.myFetch<saveVideoI>(`/videos/${videoId}/save`,{method:"PATCH"})
-    }
+  async createVideo(video: VideoFormData) {
+    return await this.myFetch("/videos", { method: "POST", body: video });
+  }
 
-    async delFile(id:string,fileType: "video" | "profilePic" | "thumbnail"){
-        return await this.myFetch(`/imagekit/delete-file`,{method:"DELETE",body:{id,fileType}})
-    }
+  async saveVideo(videoId: string | mongoose.Types.ObjectId) {
+    return await this.myFetch<saveVideoI>(`/videos/${videoId}/save`, {
+      method: "PATCH",
+    });
+  }
+
+  async editVideo(id: string, data: { title?: string; description?: string }) {
+    return await this.myFetch(`/videos/${id}/edit`, {
+      method: "PATCH",
+      body: data,
+    });
+  }
+
+  async deleteVideo(id: string) {
+    return await this.myFetch(`/videos/${id}/delete`, { method: "DELETE" });
+  }
+
+  async delFile(id: string, fileType: "video" | "profilePic" | "thumbnail") {
+    return await this.myFetch(`/imagekit/delete-file`, {
+      method: "DELETE",
+      body: { id, fileType },
+    });
+  }
 }
 
 export const apiClient = new ApiClient();

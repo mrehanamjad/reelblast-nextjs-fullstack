@@ -700,7 +700,7 @@ export default function VideoComponent({
           {/* Author Info */}
           <div className="flex items-center gap-2 justify-center mb-2">
           <Link href={`/${video.user?.userName}`} >
-            <ProfilePic url={video.user.profilePic} name={video.user.userName} />
+            <ProfilePic url={video?.user?.profilePic?.url || "./vercel.svg"} name={video.user.userName || "Anonymous"} />
             </Link>
             <div className="flex flex-col justify-center">
               <Link href={`/${video.user?.userName}`} className="font-semibold hover:underline hover:text-cyan-200 text-white text-sm">

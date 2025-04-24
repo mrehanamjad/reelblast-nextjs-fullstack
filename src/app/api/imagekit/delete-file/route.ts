@@ -26,7 +26,8 @@ export async function DELETE(req: Request) {
     return NextResponse.json({
       success: true,
       message: `${fileType || "File"} deleted successfully`,
-    });
+    },
+    { status: 200 });
   } catch (error) {
     console.error(`Error deleting ${fileType || "file"}:`, error);
     return NextResponse.json(

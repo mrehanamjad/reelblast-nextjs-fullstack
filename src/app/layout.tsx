@@ -2,10 +2,12 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Providers from "@/components/Providers";
-import Header from "@/components/Header";
 import '@mantine/core/styles.css';
+import '@mantine/notifications/styles.css';
 import { ColorSchemeScript, MantineProvider, mantineHtmlProps } from '@mantine/core';
 import SideNavbar from "@/components/SideNavbar";
+import { Notifications } from '@mantine/notifications';
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,6 +41,7 @@ export default function RootLayout({
       >
     <MantineProvider defaultColorScheme="dark" >
         <Providers >
+        <Notifications color="cyan" position="top-right" />
         <div className="flex ">
         <SideNavbar />
         <main className="flex-1">{children}</main>
