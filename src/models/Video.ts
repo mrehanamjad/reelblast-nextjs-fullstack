@@ -22,7 +22,7 @@ export interface VideoI {
   title: string;
   description: string;
   videoUrl: string;
-  videoIdImagekit?: string; 
+  videoIdImagekit: string; 
   thumbnailUrl: string;
   controls?: boolean;
   transformation?: {

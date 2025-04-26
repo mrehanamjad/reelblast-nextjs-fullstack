@@ -6,6 +6,7 @@ import { EllipsisVertical, Pen, Trash } from "lucide-react";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useDisclosure } from "@mantine/hooks";
+import { useState } from "react";
 
 export default function VideoMenu({
   className,
@@ -18,9 +19,11 @@ export default function VideoMenu({
 }) {
   const { data: session } = useSession();
   const [opened, { open, close }] = useDisclosure(false);
+  const [loading, setLoading] = useState(false);
 
   const handleDeleteVideo = async () => {
     try {
+      setLoading(true);
       if (!session?.user) return;
 
       const res = await apiClient.deleteVideo(videoId);
@@ -32,6 +35,7 @@ export default function VideoMenu({
             message: "Video deleted successfully",
             color: "green",
           });
+          close();
         } else {
           notifications.show({
             title: "Error",
@@ -47,6 +51,8 @@ export default function VideoMenu({
         message: "Failed to delete video",
         color: "red",
       });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -90,7 +96,7 @@ export default function VideoMenu({
           <Button onClick={close} variant="default">
             Cancel
           </Button>
-          <Button onClick={handleDeleteVideo} color="red">
+          <Button loading={loading} onClick={handleDeleteVideo} color="red">
             Delete
           </Button>
         </Group>

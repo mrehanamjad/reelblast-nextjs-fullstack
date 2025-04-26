@@ -53,6 +53,39 @@ export interface UserInfoI {
   socialLinks?: string[];
 }
 
+export interface SearchUserI {
+  name: string;
+  userName: string;
+  bio?: string;
+  _id: string;
+  profilePic: {
+    id?: string;
+    url: string;
+  };
+}
+
+export interface SearchVideoI {
+  _id: string;
+  title: string;
+  description: string;
+  thumbnailUrl: string;
+  videoIdImagekit: string;
+  videoUrl: string;
+  userId: {
+    _id: string;
+    userName: string;
+    profilePic: {
+      id?: string;
+      url: string;
+    };
+  };
+}
+
+export interface SearchResponse {
+    users: SearchUserI[];
+    videos: SearchVideoI[];
+  }
+
 class ApiClient {
   private async myFetch<T>(
     endpoint: string,
@@ -135,6 +168,10 @@ class ApiClient {
       method: "DELETE",
       body: { id, fileType },
     });
+  }
+
+  async search(query: string) {
+    return await this.myFetch<SearchResponse>(`/search?q=${query}`);
   }
 }
 

@@ -34,6 +34,7 @@ export async function GET(
           title: 1,
           description: 1,
           videoUrl: 1,
+          videoIdImagekit: 1,
           thumbnailUrl: 1,
           controls: 1,
           transformation: 1,

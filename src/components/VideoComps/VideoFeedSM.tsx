@@ -1,73 +1,104 @@
-"use client"
-import { useState, useEffect } from "react";
-import { BookmarkIcon, Clapperboard } from "lucide-react";
-import { apiClient, VidI } from "@/lib/api-client";
+"use client";
+import { useState } from "react";
+import { VidI } from "@/lib/api-client";
 import VideoComponentSM from "@/components/VideoComps/VideoComponentSM";
 import ScreenLoader from "@/components/ScreenLoader";
 import VideoFeed from "@/components/VideoComps/VideoFeed";
-import { notifications } from "@mantine/notifications";
+import { useRouter } from "next/navigation";
+import NotFound, { NotFoundI } from "../NotFound";
 
-function VideoFeedSM({apiName,username}:{apiName:string,username?:string}) {
-    const [reels, setReels] = useState<VidI[]>([]);
-      const [isLoading, setIsLoading] = useState<boolean>(true);
-      const [playOnFeed, setPlayOnFeed] = useState(false);
-      const [currentVideoIndex,setCurrentVideoIndex] = useState(0)
-    
-      useEffect(() => {
-        const fetchreels = async () => {
-          setIsLoading(true);
-          try {
-            const data = apiName === "save" ? await apiClient.getSavedVideos() : await apiClient.getUserVideos(username!);
-            setReels(data);
-            setIsLoading(false);
-          } catch (error) {
-            console.error(`Error fetching ${apiName} reels:`, error);
-            setIsLoading(false);
-            notifications.show({
-              title: "Error",
-              message: `Failed to fetch ${apiName} reels`,
-              color: "red",
-            });
-          }
-        };
-    
-        fetchreels();
-      }, []);
-    
+
+export interface VideoSMI {
+    _id: string;
+    videoIdImagekit: string;
+    videoUrl: string;
+    title: string;
+    createdAt?: Date;
+    likeCount?: number;
+    userId: string;
+    userName: string;
+    profilePicUrl: string;
+    description?: string;
+  };
+
+
+function VideoFeedSM({
+  reelsLG,
+  reelsSM,
+  isLoading = false,
+  notFound,
+}: {
+  reelsLG?: VidI[];
+  reelsSM?: VideoSMI[];
+  isLoading?: boolean;
+  notFound: NotFoundI;
+}) {
+  const [playOnFeed, setPlayOnFeed] = useState(false);
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+  const router = useRouter();
+
+  const reels = reelsLG ?? reelsSM;
+
+  function normalizeVideo(reel: VidI | VideoSMI): VideoSMI {
+    if ("userName" in reel) return reel;
+  
+    return {
+      _id: reel._id?.toString() ?? "",
+      videoIdImagekit: reel.videoIdImagekit,
+      videoUrl: reel.videoUrl,
+      title: reel.title,
+      createdAt: reel.createdAt as Date,
+      likeCount: reel.likes?.length ?? 0,
+      userId: reel.userId?.toString() ?? "",
+      userName: reel.user?.userName ?? "Unknown",
+      profilePicUrl: reel.user?.profilePic?.url ?? "",
+    };
+  }
+
+  if (isLoading) {
+    return (
+      <main className="container mx-auto px-4 py-6 mb-4">
+        <ScreenLoader />
+      </main>
+    );
+  }
+
+  if (!reels || reels.length === 0) {
+    return (
+      <NotFound NotFound={notFound}  />
+    );
+  }
+
   return (
-       <main className="container mx-auto px-4 py-6 mb-4">
-            {isLoading ? (
-              <ScreenLoader />
-            ) : reels.length === 0 ? (
-              <div className="flex flex-col items-center justify-center h-64">
-                {apiName == 'save' ? <BookmarkIcon size={64} className="text-gray-300 mb-4" />: <Clapperboard size={64} className="text-gray-300 mb-4" /> }
-                <h2 className="text-xl font-medium text-gray-600">
-                  {apiName == 'save' ? "No saved reels yet" : "No videos yet "}
-                </h2>
-                <p className="text-gray-500 mt-2">
-                {apiName == 'save' ? "Reels you save will appear here" : "Start uploading to share your creativity"}
-                </p>
-              </div>
-            ) : playOnFeed ? (
-              <div className="bg-black absolute top-0 h-full w-full">
-              <VideoFeed videos={reels} playingVideoIndex={currentVideoIndex} /></div>
-            ) : (
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {reels.map((reel,idx) => (
-                  <VideoComponentSM
-                  key={idx}
-                  video={reel}
-                  onclick={() => {
+    <main className="container mx-auto px-4 py-6 mb-4">
+      {reelsLG && playOnFeed ? (
+        <div className="bg-black absolute top-0 h-full w-full">
+          <VideoFeed videos={reelsLG} playingVideoIndex={currentVideoIndex} />
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {reels.map((reel, idx) => {
+            const video = normalizeVideo(reel);
+
+            return (
+              <VideoComponentSM
+                key={video._id}
+                video={video}
+                onclick={() => {
+                  if (reelsLG) {
                     setPlayOnFeed(true);
                     setCurrentVideoIndex(idx);
-                  }}
-                />
-                
-                ))}
-              </div>
-            )}
-          </main>
-  )
+                  } else {
+                    router.push(`/video/${video.videoUrl}`);
+                  }
+                }}
+              />
+            );
+          })}
+        </div>
+      )}
+    </main>
+  );
 }
 
-export default VideoFeedSM
+export default VideoFeedSM;

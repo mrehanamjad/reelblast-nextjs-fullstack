@@ -17,7 +17,7 @@ interface VideoFormDataI {
   description: string;
   videoUrl: string;
   thumbnailUrl: string;
-  videoIdImagekit?: string;
+  videoIdImagekit: string;
 }
 
 function VideoUploadForm({mode = "create", editData}: {mode?: "edit" | "create"; editData?: {title: string; description: string; videoUrl: string; videoIdImagekit: string; videoId: string}}) {
