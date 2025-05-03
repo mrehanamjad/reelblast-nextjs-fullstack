@@ -10,12 +10,13 @@ export async function GET(req: Request, { params }: { params: { username: string
 
       const {username} = await params
     const user = await User.findOne({userName: username});
-      const userId = user._id
-
-      if (!user) {
-          return NextResponse.json({ message: "User not found" }, { status: 404 });
-      }
-
+    
+    if (!user) {
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
+    }
+    
+    const userId = user._id
+    
       const userReels = await Video.aggregate([
         {
           $match: {

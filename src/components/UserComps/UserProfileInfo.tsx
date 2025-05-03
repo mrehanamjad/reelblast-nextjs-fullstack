@@ -18,7 +18,7 @@ function UserProfileInfo({ username }: { username: string }) {
   const authId = session?.user.id;
 
   const formatNumber = (num?: number) => {
-    if (!num || isNaN(num)) return "0"; // Ensure num is valid
+    if (!num || isNaN(num)) return "0"; 
     if (num >= 1000000) return (num / 1000000).toFixed(1) + "M";
     if (num >= 1000) return (num / 1000).toFixed(1) + "K";
     return num.toString();

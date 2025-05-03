@@ -500,31 +500,29 @@ export default function VideoFeed({
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 700);
+    }, 100);
 
     return () => clearTimeout(timer);
   }, [videos]);
 
-
   // Scroll to the specified initial video once loading is complete
-useEffect(() => {
-  if (!isLoading && videos.length > 0) {
-    const initialVideo = document.getElementById(`reel-${playingVideoIndex}`);
-    if (initialVideo) {
-      initialVideo.scrollIntoView({ behavior: 'auto', block: 'center' });
-      setCurrentVideoIndex(playingVideoIndex);
+  useEffect(() => {
+    if (!isLoading && videos.length > 0) {
+      const initialVideo = document.getElementById(`reel-${playingVideoIndex}`);
+      if (initialVideo) {
+        initialVideo.scrollIntoView({ behavior: "auto", block: "center" });
+        setCurrentVideoIndex(playingVideoIndex);
+      }
     }
-  }
-}, [isLoading, playingVideoIndex, videos]);
-
+  }, [isLoading, playingVideoIndex, videos]);
 
   // Set up intersection observer to detect which video is currently visible
   useEffect(() => {
     if (!isLoading && videos.length > 0) {
-      console.log("observerRef.current",observerRef.current)
+      console.log("observerRef.current", observerRef.current);
       observerRef.current = new IntersectionObserver(
         (entries) => {
-          console.log("entries",entries)
+          console.log("entries", entries);
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
               const index = parseInt(entry.target.id.split("-")[1]);
@@ -539,8 +537,7 @@ useEffect(() => {
         }
       );
 
-
-      console.log("videoRefs.current",videoRefs.current)
+      console.log("videoRefs.current", videoRefs.current);
       // Observe all video elements
       videoRefs.current.forEach((ref) => {
         if (observerRef.current && ref) {
@@ -622,10 +619,9 @@ useEffect(() => {
       className=" bg-black min-h-screen relative"
       onTouchStart={handleTouchStart}
       onTouchEnd={handleTouchEnd}
-      
     >
       {/* <div className="text w-full absolute justify-center items-center bg-red-500 z-20 text-black pt-5 flex top-0 ">For You | Following</div> */}
-      <ReelNavMobile  />
+      <ReelNavMobile />
       {isLoading ? (
         <div className="h-screen w-full flex justify-center items-center">
           <div className="w-16 h-16 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
@@ -644,9 +640,7 @@ useEffect(() => {
               }}
               className="h-screen snap-start snap-always"
             >
-              <VideoComponent
-                video={video}
-              />
+              <VideoComponent video={video} />
             </div>
           ))}
         </div>

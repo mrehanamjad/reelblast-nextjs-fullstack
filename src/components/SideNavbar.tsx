@@ -275,7 +275,7 @@ export default function SideNavbar() {
     {
       icon: <Clapperboard size={20} />,
       mobileIcon: <Clapperboard size={24} />,
-      label: "Following",
+      label: "Followings",
       href: "/followings",
       showOnMobile: false,
       isLogedIn: true,

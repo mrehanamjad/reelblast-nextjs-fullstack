@@ -130,6 +130,10 @@ class ApiClient {
     });
   }
 
+  async getFollowingVideos() {
+    return await this.myFetch<VidI[]>("/videos/followings");
+  }
+
   async getAVideo(id: string) {
     return await this.myFetch<VidI>(`/videos/${id}`);
   }

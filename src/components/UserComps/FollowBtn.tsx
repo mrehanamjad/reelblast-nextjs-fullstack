@@ -4,17 +4,23 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useUserProfile } from "../UserProfileContext";
 import { apiClient } from "@/lib/api-client";
+import { useSession } from "next-auth/react";
 
 const FollowBtn = ({
   userToFollow,
   size = "md",
-  radius = "sm"
-}:{userToFollow: string;size?:string;radius?:string}) => {
+  radius = "sm",
+}: {
+  userToFollow: string;
+  size?: string;
+  radius?: string;
+}) => {
   const [isFollowing, setIsFollowing] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const router = useRouter();
-  const {user} = useUserProfile()
+  const { user } = useUserProfile();
+  const { data: session } = useSession();
 
   const handleFollow = async () => {
     try {
@@ -23,8 +29,11 @@ const FollowBtn = ({
         router.push("/login");
         return;
       }
-      
-      const response = await apiClient.follow({ followerId: user?.userId!, followingId: userToFollow })
+
+      const response = await apiClient.follow({
+        followerId: user?.userId!,
+        followingId: userToFollow,
+      });
 
       setIsFollowing((prev) => !prev);
     } catch (error) {
@@ -35,9 +44,10 @@ const FollowBtn = ({
   };
 
   useEffect(() => {
-      setIsFollowing(user?.followings?.some((id) => id === userToFollow) || false);
-
-  }, []);
+    setIsFollowing(
+      user?.followings?.some((id) => id === userToFollow) || false
+    );
+  }, [session?.user?.username, user]);
 
   return (
     <Button
