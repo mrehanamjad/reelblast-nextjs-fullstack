@@ -11,8 +11,8 @@ function FollowingsPage() {
 
   useEffect(() => {
     const getFollowingsVideos = async () => {
+      setLoading(true);
       try {
-        setLoading(true);
         const data = await apiClient.getFollowingVideos();
         setVideos(data);
       } catch (err) {

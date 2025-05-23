@@ -297,22 +297,6 @@ export default function SideNavbar() {
       isLogedIn: true,
     },
     {
-      icon: <Heart size={20} />,
-      mobileIcon: <Bell size={24} />,
-      label: "Notifications",
-      href: "/notifications",
-      showOnMobile: true,
-      isLogedIn: true,
-    },
-    {
-      icon: <Bookmark size={20} />,
-      mobileIcon: <Bookmark size={24} />,
-      label: "Saved",
-      href: "/saved",
-      showOnMobile: false,
-      isLogedIn: true,
-    },
-    {
       icon: (
         <ProfilePic
           size="sm"

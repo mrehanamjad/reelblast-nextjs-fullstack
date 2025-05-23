@@ -57,7 +57,7 @@ export default function Header() {
                 href={`/${session?.user.username}`}
                 className="text-gray-300 text-lg hover:text-white"
               >
-                <ProfilePic url={user?.profilePicUrl!} name={session?.user.username!} />
+                <ProfilePic url={user?.profilePic.url!} name={session?.user.username!} />
               </Link>
             <button
               onClick={handleSignout}

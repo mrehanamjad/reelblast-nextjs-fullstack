@@ -20,8 +20,6 @@ export async function GET(req: NextRequest) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    console.log("following video api -> user ::",user.followings)
-
     const followings = user.followings;
 
     const followingVideos = await Video.aggregate([
@@ -64,7 +62,6 @@ export async function GET(req: NextRequest) {
       },
     ]);
 
-    console.log("following video api --> videos ::", followingVideos)
 
     return NextResponse.json(followingVideos);
   } catch (error) {
