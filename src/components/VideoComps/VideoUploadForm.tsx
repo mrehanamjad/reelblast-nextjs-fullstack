@@ -93,7 +93,17 @@ function VideoUploadForm({mode = "create", editData}: {mode?: "edit" | "create";
     try {
       setLoading(true);
       setUploadProgress(100);
-      const res = await apiClient.editVideo(editData?.videoId!, {...data});
+
+         if (!editData || !editData.videoId) {
+      notifications.show({
+        title: "Error",
+        message: "Video ID is missing. Cannot edit video.",
+        color: "red",
+      });
+      return; 
+    }
+
+      const res = await apiClient.editVideo(editData.videoId, {...data});
       console.log(res)
       notifications.show({
         title: "Success",

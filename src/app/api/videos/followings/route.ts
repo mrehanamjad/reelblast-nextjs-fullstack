@@ -3,7 +3,7 @@ import { connectionToDatabase } from "@/lib/db";
 import User from "@/models/User";
 import Video from "@/models/Video";
 import { getServerSession } from "next-auth";
-import { NextRequest, NextResponse } from "next/server";
+import {  NextResponse } from "next/server";
 
 export async function GET() {
   try {

@@ -25,13 +25,13 @@ const FollowBtn = ({
   const handleFollow = async () => {
     try {
       setLoading(true);
-      if (user?.userId) {
+      if (!user?.userId) {
         router.push("/login");
         return;
       }
 
       await apiClient.follow({
-        followerId: user?.userId!,
+        followerId: user?.userId ?? "",
         followingId: userToFollow,
       });
 

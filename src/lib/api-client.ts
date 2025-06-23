@@ -15,9 +15,7 @@ export interface VidI extends VideoI {
 
 type FetchOpts = {
   method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
-  // FIXME:
-  // @ts-ignore
-  body?: any;
+  body?: unknown;
   headers?: Record<string, string>;
 };
 

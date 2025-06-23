@@ -32,11 +32,11 @@ function SearchTabs({ data,loading }: { data: SearchResponse ; loading: boolean 
     subMessage: "Try searching for something else",
   }
 
-  const allNotFound = {
-    icon: <SearchX size={50} />,
-    message: "No results found",
-    subMessage: "Try searching for something else",
-  }
+  // const allNotFound = {
+  //   icon: <SearchX size={50} />,
+  //   message: "No results found",
+  //   subMessage: "Try searching for something else",
+  // }
 
   return (
     <Tabs color="cyan" defaultValue="all">

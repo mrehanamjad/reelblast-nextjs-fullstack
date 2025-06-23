@@ -297,19 +297,19 @@ export default function SideNavbar() {
       icon: (
         <ProfilePic
           size="sm"
-          name={user?.name!}
-          url={user?.profilePic.url! || ""}
+          name={user?.name ?? ""}
+          url={user?.profilePic.url ?? ""}
         />
       ),
       mobileIcon: (
         <ProfilePic
           size="sm"
-          name={user?.name!}
-          url={user?.profilePic.url! || ""}
+          name={user?.name ?? ""}
+          url={user?.profilePic.url ?? ""}
         />
       ),
       label: "Profile",
-      href: `/${session?.user.username || ""}`,
+      href: `/${session?.user.username ?? ""}`,
       showOnMobile: true,
       isLogedIn: true,
     },
