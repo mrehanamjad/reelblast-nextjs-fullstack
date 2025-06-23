@@ -589,7 +589,7 @@ export default function VideoFeed({
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [currentVideoIndex,goToNextVideo, goToPrevVideo]);
+  }, [currentVideoIndex]);
 
   // Handle touch swipe gestures
   const touchStartY = useRef<number | null>(null);

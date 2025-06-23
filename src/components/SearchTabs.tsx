@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { Tabs } from "@mantine/core";
-import { Bookmark, Clapperboard, SearchX, SquarePlay, UserX } from "lucide-react";
+import { Bookmark, Clapperboard,  SquarePlay, UserX } from "lucide-react";
 import VideoFeedSM from "./VideoComps/VideoFeedSM";
 import {  SearchResponse } from "@/lib/api-client";
 import UserFeed from "./UserComps/UserFeed";
