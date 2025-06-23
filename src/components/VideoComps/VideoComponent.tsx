@@ -408,7 +408,7 @@ import ShareVideo from "./ShareVideo";
 import SaveVideo from "./SaveVideo";
 import { useSession } from "next-auth/react";
 import mongoose from "mongoose";
-import { useUserProfile } from "../UserProfileContext";
+// import { useUserProfile } from "../UserProfileContext";
 import Image from "next/image";
 
 
