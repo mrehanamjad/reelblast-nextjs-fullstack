@@ -314,7 +314,7 @@ export default function UpdateProfile() {
     };
 
     fetchUserData();
-  }, [userId, reset]);
+  }, [userId, reset,username]);
 
   const handleUploadProgress = (progress: number) => {
     setUploadProgress(progress);

@@ -62,6 +62,7 @@ export const getSocialIcon = (url: string): LucideIcon => {
       return Globe
     }
   } catch (error) {
+    console.log(error)
     // If URL parsing fails, return default icon
     return Globe
   }

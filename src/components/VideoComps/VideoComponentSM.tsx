@@ -1,4 +1,3 @@
-import { VidI } from "@/lib/api-client";
 import { IKVideo } from "imagekitio-next";
 import { Heart } from "lucide-react";
 import React from "react";

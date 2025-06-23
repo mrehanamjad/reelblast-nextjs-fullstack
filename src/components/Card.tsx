@@ -1,10 +1,11 @@
+import Image from 'next/image'
 import React from 'react'
 
 function Card() {
   return (
     <div className="card bg-base-100 w-96 shadow-sm">
   <figure>
-    <img
+    <Image
       src=""
       alt="Shoes" />
   </figure>

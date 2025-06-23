@@ -8,7 +8,7 @@ import { Search } from "lucide-react";
 
 import React, { useState } from "react";
 
-function page() {
+function SearchPage() {
     const [searched, setSearched] = useState<string>("");
   const [searchText, setSearchText] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
@@ -73,7 +73,7 @@ function page() {
         {searchResult && searchResult.videos.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-64">
             <h2 className="text-xl font-medium text-gray-600 dark:text-white">
-              No results found for "{searched}"
+              No results found for &quot;{searched}&quot;
             </h2>
             <p className="text-gray-500 dark:text-gray-400 mt-2">
               Try searching for something else.
@@ -87,4 +87,4 @@ function page() {
   );
 }
 
-export default page;
+export default SearchPage;

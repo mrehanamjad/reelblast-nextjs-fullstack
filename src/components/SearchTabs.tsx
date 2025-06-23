@@ -5,8 +5,7 @@ import { Bookmark, Clapperboard, SearchX, SquarePlay, UserX } from "lucide-react
 import VideoFeedSM from "./VideoComps/VideoFeedSM";
 import {  SearchResponse } from "@/lib/api-client";
 import UserFeed from "./UserComps/UserFeed";
-import ScreenLoader from "./ScreenLoader";
-import NotFound from "./NotFound";
+
 
 function SearchTabs({ data,loading }: { data: SearchResponse ; loading: boolean }) {
 

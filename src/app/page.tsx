@@ -8,7 +8,7 @@ import { useSession } from "next-auth/react";
 export default function Home() {
   const [videos, setVideos] = useState<VidI[]>([]);
   const [userSavedList, setUserSavedList] = useState({});
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
 
   const fetchVideos = async () => {
     try {

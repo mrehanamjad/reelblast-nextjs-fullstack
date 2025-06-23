@@ -1,5 +1,5 @@
 "use client";
-import { ImageKitProvider, IKImage } from "imagekitio-next";
+import { ImageKitProvider } from "imagekitio-next";
 import { SessionProvider } from "next-auth/react";
 import UserProfileProvider from "./UserProfileContext";
 

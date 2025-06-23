@@ -1,6 +1,7 @@
 import { AuthOptions } from "@/lib/auth";
 import { connectionToDatabase } from "@/lib/db";
 import User from "@/models/User";
+import mongoose from "mongoose";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -40,10 +41,10 @@ export async function POST(req: NextRequest) {
     if (isFollowing) {
       // Unfollow: Remove from both lists
       follower.followings = follower.followings.filter(
-        (id:any) => id.toString() !== followingId
+        (id:mongoose.ObjectId) => id.toString() !== followingId
       );
       following.followers = following.followers.filter(
-        (id:any) => id.toString() !== followerId
+        (id:mongoose.ObjectId) => id.toString() !== followerId
       );
     } else {
       // Follow: Add to both lists

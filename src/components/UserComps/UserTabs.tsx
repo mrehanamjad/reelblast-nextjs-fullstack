@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { Tabs } from "@mantine/core";
-import { Bookmark, Clapperboard, icons, Settings, Video } from "lucide-react";
+import { Bookmark, Clapperboard } from "lucide-react";
 import VideoFeedSM from "../VideoComps/VideoFeedSM";
 import { useSession } from "next-auth/react";
 import { apiClient, VidI } from "@/lib/api-client";

@@ -158,13 +158,10 @@ import {
   Home,
   Search,
   PlusSquare,
-  Heart,
   Menu,
   X,
   Clapperboard,
   Film,
-  Bookmark,
-  Bell,
   LogOut,
   LogIn,
   UserPlus,
@@ -301,18 +298,18 @@ export default function SideNavbar() {
         <ProfilePic
           size="sm"
           name={user?.name!}
-          url={user?.profilePic.url!}
+          url={user?.profilePic.url! || ""}
         />
       ),
       mobileIcon: (
         <ProfilePic
           size="sm"
           name={user?.name!}
-          url={user?.profilePic.url!}
+          url={user?.profilePic.url! || ""}
         />
       ),
       label: "Profile",
-      href: `/${session?.user.username}`,
+      href: `/${session?.user.username || ""}`,
       showOnMobile: true,
       isLogedIn: true,
     },

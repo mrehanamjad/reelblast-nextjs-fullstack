@@ -2,14 +2,11 @@
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import Logo from "./Logo";
-import { Avatar } from "@mantine/core";
 import ProfilePic from "./UserComps/ProfilePic";
 import { useUserProfile } from "./UserProfileContext";
 
 export default function Header() {
   const { data: session } = useSession();
-  console.log("use session data", session);
-  console.log("use session username", session?.user.name);
 
   const {user} = useUserProfile()
 
@@ -57,7 +54,7 @@ export default function Header() {
                 href={`/${session?.user.username}`}
                 className="text-gray-300 text-lg hover:text-white"
               >
-                <ProfilePic url={user?.profilePic.url!} name={session?.user.username!} />
+                <ProfilePic url={user && user.profilePic.url || ""} name={session.user.username || "user"} />
               </Link>
             <button
               onClick={handleSignout}

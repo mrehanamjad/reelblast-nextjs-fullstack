@@ -7,14 +7,16 @@ export interface VidI extends VideoI {
   user: {
     userName: string;
     profilePic: {
-        url?: string;
-        id?: string;
-    }
+      url?: string;
+      id?: string;
+    };
   };
 }
 
 type FetchOpts = {
   method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+  // FIXME:
+  // @ts-ignore
   body?: any;
   headers?: Record<string, string>;
 };
@@ -82,9 +84,9 @@ export interface SearchVideoI {
 }
 
 export interface SearchResponse {
-    users: SearchUserI[];
-    videos: SearchVideoI[];
-  }
+  users: SearchUserI[];
+  videos: SearchVideoI[];
+}
 
 class ApiClient {
   private async myFetch<T>(

@@ -62,7 +62,7 @@
 //       <div className="flex items-center p-3">
 //         <div className="h-8 w-8 rounded-full bg-gradient-to-tr from-yellow-400 to-pink-600 p-0.5">
 //           <div className="h-full w-full rounded-full overflow-hidden bg-white">
-//             <img
+//             <Image
 //               src={video.author?.profilePic || "/api/placeholder/32/32"}
 //               alt="Profile"
 //               className="h-full w-full object-cover"
@@ -262,7 +262,7 @@
 //           </button>
 
 //           <div className="h-12 w-12 rounded-full border-2 border-white overflow-hidden transform animate-pulse">
-//             <img
+//             <Image
 //               src={video.author?.profilePic || "/api/placeholder/48/48"}
 //               alt="Profile"
 //               className="h-full w-full object-cover"
@@ -275,7 +275,7 @@
 //           {/* Author Info */}
 //           <div className="flex items-center mb-3">
 //             <div className="h-10 w-10 rounded-full overflow-hidden border-2 border-white">
-//               <img
+//               <Image
 //                 src={video.author?.profilePic || "/api/placeholder/40/40"}
 //                 alt="Profile"
 //                 className="h-full w-full object-cover"
@@ -342,7 +342,7 @@
 //               {(video.comments || []).map((comment: any, idx: number) => (
 //                 <div key={idx} className="flex items-start space-x-3">
 //                   <div className="h-8 w-8 rounded-full overflow-hidden">
-//                     <img src={`/api/placeholder/${24 + idx}/${24 + idx}`} alt="User" className="h-full w-full object-cover" />
+//                     <Image src={`/api/placeholder/${24 + idx}/${24 + idx}`} alt="User" className="h-full w-full object-cover" />
 //                   </div>
 //                   <div className="flex-1">
 //                     <p className="text-sm font-medium text-white">{comment?.user || `user${idx + 1}`}</p>
@@ -368,7 +368,7 @@
 //             <div className="absolute bottom-0 left-0 right-0 p-4 bg-gray-900 border-t border-gray-800">
 //               <div className="flex items-center space-x-2">
 //                 <div className="h-8 w-8 rounded-full overflow-hidden">
-//                   <img src="/api/placeholder/32/32" alt="Your profile" className="h-full w-full object-cover" />
+//                   <Image src="/api/placeholder/32/32" alt="Your profile" className="h-full w-full object-cover" />
 //                 </div>
 //                 <input
 //                   type="text"
@@ -394,10 +394,7 @@ import { IKVideo } from "imagekitio-next";
 import Link from "next/link";
 import {
   Heart,
-  MessageCircle,
   Send,
-  Bookmark,
-  Share2,
   Volume2,
   VolumeX,
   X,
@@ -412,6 +409,7 @@ import SaveVideo from "./SaveVideo";
 import { useSession } from "next-auth/react";
 import mongoose from "mongoose";
 import { useUserProfile } from "../UserProfileContext";
+import Image from "next/image";
 
 
 
@@ -426,7 +424,7 @@ export default function VideoComponent({
   // onNext,
   active = true,
 }: VideoComponentProps) {
-  const [liked, setLiked] = useState(false);
+  // const [liked, setLiked] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [expanded, setExpanded] = useState(false);
@@ -441,9 +439,9 @@ export default function VideoComponent({
   const {data: session} = useSession()
   const userId = session?.user.id
   const _userId =  new mongoose.Types.ObjectId(userId)
-  const username = session?.user.username
+  // const username = session?.user.username
 
-  const authUser = useUserProfile()
+  // const authUser = useUserProfile()
   
 
   // Handle video visibility and playback
@@ -524,14 +522,14 @@ export default function VideoComponent({
   };
 
   // Format like count
-  const formatCount = (count: number) => {
-    if (count >= 1000000) {
-      return (count / 1000000).toFixed(1) + "M";
-    } else if (count >= 1000) {
-      return (count / 1000).toFixed(1) + "K";
-    }
-    return count.toString();
-  };
+  // const formatCount = (count: number) => {
+  //   if (count >= 1000000) {
+  //     return (count / 1000000).toFixed(1) + "M";
+  //   } else if (count >= 1000) {
+  //     return (count / 1000).toFixed(1) + "K";
+  //   }
+  //   return count.toString();
+  // };
 
   // Calculate video progress as percentage (for progress bar)
   const [progress, setProgress] = useState(0);
@@ -556,7 +554,7 @@ export default function VideoComponent({
 
     if (tapDiff < 300 && tapDiff > 0) {
       // Double tap detected
-      setLiked(true);
+      // setLiked(true);
       showHeartAnimation(e.clientX, e.clientY);
     }
 
@@ -752,10 +750,16 @@ export default function VideoComponent({
 
             <div className="overflow-y-auto h-[calc(100%-6rem)] space-y-4 pb-4">
               {([]).length > 0 ? (
-                ([]).map((comment: any, idx: number) => (
+                ([]).map((comment:{
+                  user?: string;
+                  text?: string;
+                  time?: string;
+                  likes?: number;
+                  profilePic: string;
+                }, idx: number) => ( // TODO:  Fix comment type
                   <div key={idx} className="flex items-start space-x-3">
                     <div className="h-8 w-8 rounded-full overflow-hidden">
-                      <img
+                      <Image
                         src={
                           comment.profilePic ||
                           `/api/placeholder/${24 + idx}/${24 + idx}`
@@ -797,7 +801,7 @@ export default function VideoComponent({
             <div className="absolute bottom-0 left-0 right-0 p-4 bg-gray-900 border-t border-gray-800">
               <div className="flex items-center space-x-2">
                 <div className="h-8 w-8 rounded-full overflow-hidden">
-                  <img
+                  <Image
                     src="/api/placeholder/32/32"
                     alt="Your profile"
                     className="h-full w-full object-cover"

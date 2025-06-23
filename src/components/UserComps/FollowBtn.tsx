@@ -30,7 +30,7 @@ const FollowBtn = ({
         return;
       }
 
-      const response = await apiClient.follow({
+      await apiClient.follow({
         followerId: user?.userId!,
         followingId: userToFollow,
       });
@@ -47,7 +47,7 @@ const FollowBtn = ({
     setIsFollowing(
       user?.followings?.some((id) => id === userToFollow) || false
     );
-  }, [session?.user?.username, user]);
+  }, [session?.user?.username, user,userToFollow]);
 
   return (
     <Button
