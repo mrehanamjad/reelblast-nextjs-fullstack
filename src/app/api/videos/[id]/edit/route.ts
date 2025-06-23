@@ -6,7 +6,6 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
 ) {
   try {
     const session = await getServerSession(AuthOptions);
@@ -17,7 +16,10 @@ export async function PATCH(
 
     await connectionToDatabase();
 
-    const { id } = await params;
+    const url = new URL(request.url);
+    const segments = url.pathname.split("/");
+    const id = segments[segments.indexOf("videos") + 1];
+
     const body = await request.json();
     const { title, description } = body;
 

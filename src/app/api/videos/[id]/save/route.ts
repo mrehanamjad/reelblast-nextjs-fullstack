@@ -8,7 +8,6 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
 ) {
   try {
     const session = await getServerSession(AuthOptions);
@@ -19,7 +18,10 @@ export async function PATCH(
 
     await connectionToDatabase();
 
-    const { id } = params;
+    const url = new URL(request.url);
+    const segments = url.pathname.split("/");
+    const id = segments[segments.indexOf("videos") + 1];
+
     const userId = session.user.id;
     const videoId = new mongoose.Types.ObjectId(id);
     const user = await User.findById(userId);

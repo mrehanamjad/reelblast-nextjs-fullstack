@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { imagekit } from "../imagekit-auth/route";
+import { imagekit } from "../imagekitCredentials";
 
 export async function DELETE(req: Request) {
   const { id, fileType } = await req.json();

@@ -5,12 +5,12 @@ import mongoose from "mongoose";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
 ) {
   try {
     await connectionToDatabase();
 
-    const { id } = params;
+    const url = new URL(request.url);
+    const id = url.pathname.split("/").pop();
 
     const video = await Video.aggregate([
       {

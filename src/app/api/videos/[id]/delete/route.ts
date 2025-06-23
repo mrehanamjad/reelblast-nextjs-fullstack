@@ -4,10 +4,7 @@ import { getServerSession } from "next-auth";
 import { AuthOptions } from "@/lib/auth";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { id: string } }
-) {
+export async function DELETE(request: NextRequest) {
   try {
     const session = await getServerSession(AuthOptions);
 
@@ -17,7 +14,15 @@ export async function DELETE(
 
     await connectionToDatabase();
 
-    const { id } = await params;
+    // Extract `id` from URL
+    const url = new URL(request.url);
+    const segments = url.pathname.split("/");
+    const id = segments[segments.indexOf("videos") + 1]; // get [id] from /api/videos/[id]/delete
+
+    if (!id) {
+      return NextResponse.json({ error: "Video ID is missing" }, { status: 400 });
+    }
+
     const video = await Video.findById(id);
 
     if (!video) {
