@@ -1,8 +1,9 @@
+/* eslint-disable no-var */
+
 import { Connection } from "mongoose"
 
-
 declare global {
-    let mongoose: {
+    var mongoose: {
         conn: Connection | null,
         promise: Promise<Connection> | null, 
     }

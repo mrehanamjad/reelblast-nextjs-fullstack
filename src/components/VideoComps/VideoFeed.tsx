@@ -473,7 +473,7 @@
 
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { ChevronUp, ChevronDown } from "lucide-react";
 import VideoComponent from "./VideoComponent";
 import { VidI } from "@/lib/api-client";
@@ -554,28 +554,29 @@ export default function VideoFeed({
   }, [isLoading, videos]);
 
   // Navigate to next video
-  const goToNextVideo = () => {
-    if (currentVideoIndex < videos.length - 1) {
-      const nextIndex = currentVideoIndex + 1;
-      const nextVideo = document.getElementById(`reel-${nextIndex}`);
-      if (nextVideo) {
-        nextVideo.scrollIntoView({ behavior: "smooth", block: "center" });
-        setCurrentVideoIndex(nextIndex);
-      }
+
+const goToNextVideo = useCallback(() => {
+  if (currentVideoIndex < videos.length - 1) {
+    const nextIndex = currentVideoIndex + 1;
+    const nextVideo = document.getElementById(`reel-${nextIndex}`);
+    if (nextVideo) {
+      nextVideo.scrollIntoView({ behavior: "smooth", block: "center" });
+      setCurrentVideoIndex(nextIndex);
     }
-  };
+  }
+}, [currentVideoIndex]);
 
   // Navigate to previous video
-  const goToPrevVideo = () => {
-    if (currentVideoIndex > 0) {
-      const prevIndex = currentVideoIndex - 1;
-      const prevVideo = document.getElementById(`reel-${prevIndex}`);
-      if (prevVideo) {
-        prevVideo.scrollIntoView({ behavior: "smooth", block: "center" });
-        setCurrentVideoIndex(prevIndex);
-      }
+  const goToPrevVideo = useCallback(() => {
+  if (currentVideoIndex > 0) {
+    const prevIndex = currentVideoIndex - 1;
+    const prevVideo = document.getElementById(`reel-${prevIndex}`);
+    if (prevVideo) {
+      prevVideo.scrollIntoView({ behavior: "smooth", block: "center" });
+      setCurrentVideoIndex(prevIndex);
     }
-  };
+  }
+}, [currentVideoIndex]);
 
   // Handle keyboard navigation
   useEffect(() => {
@@ -589,7 +590,7 @@ export default function VideoFeed({
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [currentVideoIndex]);
+  }, [currentVideoIndex,goToNextVideo, goToPrevVideo]); 
 
   // Handle touch swipe gestures
   const touchStartY = useRef<number | null>(null);
