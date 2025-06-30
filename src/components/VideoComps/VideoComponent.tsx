@@ -576,7 +576,7 @@ export default function VideoComponent({
     <div className="relative h-[90vh] sm:h-screen  w-full my-auto mx-auto max-w-sm bg-black overflow-hidden snap-center">
       {/* Full Screen Video */}
       <div
-        className="absolute inset-0 z-0"
+        className="absolute inset-0 z-0 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
         onClick={togglePlayPause}
         onDoubleClick={handleDoubleTap}
       >
