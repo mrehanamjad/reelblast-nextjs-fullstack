@@ -573,7 +573,7 @@ export default function VideoComponent({
   };
 
   return (
-    <div className="relative h-screen  w-full my-auto mx-auto max-w-sm bg-black overflow-hidden snap-center">
+    <div className="relative h-[90vh] sm:h-screen  w-full my-auto mx-auto max-w-sm bg-black overflow-hidden snap-center">
       {/* Full Screen Video */}
       <div
         className="absolute inset-0 z-0"
