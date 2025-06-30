@@ -471,6 +471,9 @@
 //   );
 // }
 
+
+// ================================== 2nd Good ===============================
+
 "use client";
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
@@ -670,7 +673,7 @@ const goToNextVideo = useCallback(() => {
               currentVideoIndex === 0
                 ? "opacity-30 cursor-not-allowed"
                 : "opacity-70 hover:opacity-100"
-            } transition-opacity duration-300`}
+            } transition-opacity duration-300 max-sm:hidden`}
             aria-label="Previous video"
           >
             <ChevronUp size={24} className="text-white" />
@@ -683,7 +686,7 @@ const goToNextVideo = useCallback(() => {
               currentVideoIndex === videos.length - 1
                 ? "opacity-30 cursor-not-allowed"
                 : "opacity-70 hover:opacity-100"
-            } transition-opacity duration-300`}
+            } transition-opacity duration-300 max-sm:hidden`}
             aria-label="Next video"
           >
             <ChevronDown size={24} className="text-white" />

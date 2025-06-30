@@ -45,8 +45,8 @@ function SearchPage() {
 
   return (
     <div className="min-h-screen max-w-7xl w-full py-2 px-5 mx-auto bg-gray-50 dark:bg-black/90">
-      <h1 className="text-4xl font-bold mt-8 px-8 ">Search</h1>
-      <form className="flex  gap-2 w-full px-8 my-4 " onSubmit={submit}>
+      <h1 className="text-4xl font-bold mt-8 px-1 sm:px-8 ">Search</h1>
+      <form className="flex  gap-2 w-full px-1 sm:px-8 my-4 " onSubmit={submit}>
         <TextInput
           size="lg"
           className="mb-4 w-full"
@@ -58,7 +58,7 @@ function SearchPage() {
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
         />
-        <Button size="lg" type="submit">
+        <Button size="lg" style={{}} type="submit">
           Search..
         </Button>
       </form>

@@ -387,18 +387,14 @@
 //   );
 // }
 
+// ======================= 2nd Good ===================== =======
+
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
 import { IKVideo } from "imagekitio-next";
 import Link from "next/link";
-import {
-  Heart,
-  Send,
-  Volume2,
-  VolumeX,
-  X,
-} from "lucide-react";
+import { Heart, Send, Volume2, VolumeX, X } from "lucide-react";
 import FollowBtn from "../UserComps/FollowBtn";
 import { VidI } from "@/lib/api-client";
 import ProfilePic from "../UserComps/ProfilePic";
@@ -410,8 +406,6 @@ import { useSession } from "next-auth/react";
 import mongoose from "mongoose";
 // import { useUserProfile } from "../UserProfileContext";
 import Image from "next/image";
-
-
 
 interface VideoComponentProps {
   video: VidI;
@@ -434,15 +428,12 @@ export default function VideoComponent({
   const ikVideoRef = useRef<HTMLVideoElement>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
 
-
-      
-  const {data: session} = useSession()
-  const userId = session?.user.id
-  const _userId =  new mongoose.Types.ObjectId(userId)
+  const { data: session } = useSession();
+  const userId = session?.user.id;
+  const _userId = new mongoose.Types.ObjectId(userId);
   // const username = session?.user.username
 
   // const authUser = useUserProfile()
-  
 
   // Handle video visibility and playback
   useEffect(() => {
@@ -582,7 +573,7 @@ export default function VideoComponent({
   };
 
   return (
-    <div className="relative h-screen w-full my-auto mx-auto max-w-sm bg-black overflow-hidden snap-center">
+    <div className="relative h-[93vh] sm:h-screen  w-full my-auto mx-auto max-w-sm bg-black overflow-hidden snap-center">
       {/* Full Screen Video */}
       <div
         className="absolute inset-0 z-0"
@@ -644,8 +635,12 @@ export default function VideoComponent({
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black bg-opacity-50 z-10">
         {/* Top Bar */}
         <div className="absolute top-0 left-0 right-0 p-4 flex justify-between items-center">
-          <Link href="/reels" className="text-white font-bold text-lg">
-            Reels
+          <Link
+            href="/reels"
+            className="text-white font-bold flex flex-col justify-center items-center text-base leading-tight"
+          >
+            <span className="-mb-0.5">Reel</span>
+            <span className="-mt-0.5">Blast</span>
           </Link>
           <button
             className="p-2 rounded-full bg-black bg-opacity-20 text-white"
@@ -673,9 +668,13 @@ export default function VideoComponent({
               {formatCount((video.likes?.length || 0) + (liked ? 1 : 0))}
             </span>
           </button> */}
-          <LikeVideo videoId={video._id! } likes={video.likes!} userId={_userId} />
+          <LikeVideo
+            videoId={video._id!}
+            likes={video.likes!}
+            userId={_userId}
+          />
           <Comment />
-          <SaveVideo videoId={video._id! } />
+          <SaveVideo videoId={video._id!} />
           <ShareVideo />
           {/* <button
             className="flex flex-col items-center"
@@ -685,23 +684,27 @@ export default function VideoComponent({
               <MessageCircle size={28} className="text-white" />
             </div>
             <span className="text-white text-xs "> */}
-              {/* {formatCount(video.comments?.length || 0)} */}
-              {/* Comments */}
-            {/* </span>
+          {/* {formatCount(video.comments?.length || 0)} */}
+          {/* Comments */}
+          {/* </span>
           </button> */}
-
-
         </div>
 
         {/* Bottom Content */}
         <div className="absolute bottom-8 left-4 right-16 z-20">
           {/* Author Info */}
           <div className="flex items-center gap-2 justify-center mb-2">
-          <Link href={`/${video.user?.userName}`} >
-            <ProfilePic url={video?.user?.profilePic?.url || "./vercel.svg"} name={video.user.userName || "Anonymous"} />
+            <Link href={`/${video.user?.userName}`}>
+              <ProfilePic
+                url={video?.user?.profilePic?.url || "./vercel.svg"}
+                name={video.user.userName || "Anonymous"}
+              />
             </Link>
             <div className="flex flex-col justify-center">
-              <Link href={`/${video.user?.userName}`} className="font-semibold hover:underline hover:text-cyan-200 text-white text-sm">
+              <Link
+                href={`/${video.user?.userName}`}
+                className="font-semibold hover:underline hover:text-cyan-200 text-white text-sm"
+              >
                 {video.user?.userName || "username"}
               </Link>
               <p className="text-gray-300 text-xs">
@@ -710,11 +713,16 @@ export default function VideoComponent({
                   : "Just now"}
               </p>
             </div>
-            <FollowBtn size="sm" radius="xl" userToFollow={video.userId.toString()} />
+            <FollowBtn
+              size="sm"
+              radius="xl"
+              userToFollow={video.userId.toString()}
+            />
             <div className="flex-1"></div>
           </div>
 
           {/* Title and Description */}
+          <span onClick={() => setExpanded(!expanded)} >
           <h3 className="font-bold text-white mb-1">{video.title}</h3>
           <p
             className={`text-gray-200 text-sm ${
@@ -723,14 +731,17 @@ export default function VideoComponent({
           >
             {video.description}
           </p>
-          {video.description && video.description.length > 80 && (
+
+          {/* //TODO:  Remove it */}
+          {/* {video.description && video.description.length > 80 && (
             <button
               onClick={() => setExpanded(!expanded)}
               className="text-gray-300 text-xs"
             >
               {expanded ? "Show less" : "Read more"}
             </button>
-          )}
+          )} */}
+          </span>
         </div>
       </div>
 
@@ -749,45 +760,52 @@ export default function VideoComponent({
             </div>
 
             <div className="overflow-y-auto h-[calc(100%-6rem)] space-y-4 pb-4">
-              {([]).length > 0 ? (
-                ([]).map((comment:{
-                  user?: string;
-                  text?: string;
-                  time?: string;
-                  likes?: number;
-                  profilePic: string;
-                }, idx: number) => ( // TODO:  Fix comment type
-                  <div key={idx} className="flex items-start space-x-3">
-                    <div className="h-8 w-8 rounded-full overflow-hidden">
-                      <Image
-                        src={
-                          comment.profilePic ||
-                          `/api/placeholder/${24 + idx}/${24 + idx}`
-                        }
-                        alt="User"
-                        className="h-full w-full object-cover"
-                      />
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-sm font-medium text-white">
-                        {comment?.user || `user${idx + 1}`}
-                      </p>
-                      <p className="text-sm text-gray-300">
-                        {comment?.text || "Great video!"}
-                      </p>
-                      <div className="flex items-center space-x-4 mt-1">
-                        <span className="text-gray-400 text-xs">
-                          {comment?.time || "1d"}
-                        </span>
-                        <button className="text-gray-400 text-xs">Reply</button>
-                        <button className="text-gray-400 text-xs flex items-center">
-                          <Heart size={12} className="mr-1" />{" "}
-                          {comment?.likes || Math.floor(Math.random() * 20)}
-                        </button>
+              {[].length > 0 ? (
+                [].map(
+                  (
+                    comment: {
+                      user?: string;
+                      text?: string;
+                      time?: string;
+                      likes?: number;
+                      profilePic: string;
+                    },
+                    idx: number // TODO:  Fix comment type
+                  ) => (
+                    <div key={idx} className="flex items-start space-x-3">
+                      <div className="h-8 w-8 rounded-full overflow-hidden">
+                        <Image
+                          src={
+                            comment.profilePic ||
+                            `/api/placeholder/${24 + idx}/${24 + idx}`
+                          }
+                          alt="User"
+                          className="h-full w-full object-cover"
+                        />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-sm font-medium text-white">
+                          {comment?.user || `user${idx + 1}`}
+                        </p>
+                        <p className="text-sm text-gray-300">
+                          {comment?.text || "Great video!"}
+                        </p>
+                        <div className="flex items-center space-x-4 mt-1">
+                          <span className="text-gray-400 text-xs">
+                            {comment?.time || "1d"}
+                          </span>
+                          <button className="text-gray-400 text-xs">
+                            Reply
+                          </button>
+                          <button className="text-gray-400 text-xs flex items-center">
+                            <Heart size={12} className="mr-1" />{" "}
+                            {comment?.likes || Math.floor(Math.random() * 20)}
+                          </button>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))
+                  )
+                )
               ) : (
                 <div className="bg-gray-800 rounded-lg p-4">
                   <p className="text-gray-300 text-center">
