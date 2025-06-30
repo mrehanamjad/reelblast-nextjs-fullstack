@@ -591,7 +591,7 @@ export default function VideoComponent({
       >
         <div ref={videoRef} className="w-full h-full">
           <IKVideo
-            ref={ikVideoRef}
+            ref={ikVideoRef as React.RefObject<HTMLVideoElement>}
             path={video.videoUrl}
             transformation={[
               {
