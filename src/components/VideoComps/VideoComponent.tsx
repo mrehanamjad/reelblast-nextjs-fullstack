@@ -389,200 +389,619 @@
 
 // ======================= 2nd Good ===================== =======
 
-"use client";
+// "use client";
 
-import React, { useState, useRef, useEffect } from "react";
-import { IKVideo } from "imagekitio-next";
-import Link from "next/link";
-import { Heart, Send, Volume2, VolumeX, X } from "lucide-react";
-import FollowBtn from "../UserComps/FollowBtn";
-import { VidI } from "@/lib/api-client";
-import ProfilePic from "../UserComps/ProfilePic";
-import LikeVideo from "./LikeVideo";
-import Comment from "./Comment";
-import ShareVideo from "./ShareVideo";
-import SaveVideo from "./SaveVideo";
-import { useSession } from "next-auth/react";
-import mongoose from "mongoose";
-// import { useUserProfile } from "../UserProfileContext";
-import Image from "next/image";
+// import React, { useState, useRef, useEffect } from "react";
+// import { IKVideo } from "imagekitio-next";
+// import Link from "next/link";
+// import { Heart, Send, Volume2, VolumeX, X } from "lucide-react";
+// import FollowBtn from "../UserComps/FollowBtn";
+// import { VidI } from "@/lib/api-client";
+// import ProfilePic from "../UserComps/ProfilePic";
+// import LikeVideo from "./LikeVideo";
+// import Comment from "./Comment";
+// import ShareVideo from "./ShareVideo";
+// import SaveVideo from "./SaveVideo";
+// import { useSession } from "next-auth/react";
+// import mongoose from "mongoose";
+// // import { useUserProfile } from "../UserProfileContext";
+// import Image from "next/image";
+
+// interface VideoComponentProps {
+//   video: VidI;
+//   // onNext?: () => void;
+//   active?: boolean;
+// }
+
+// export default function VideoComponent({
+//   video,
+//   // onNext,
+//   active = true,
+// }: VideoComponentProps) {
+//   // const [liked, setLiked] = useState(false);
+//   const [showComments, setShowComments] = useState(false);
+//   const [isMuted, setIsMuted] = useState(true);
+//   const [expanded, setExpanded] = useState(false);
+//   const [isPlaying, setIsPlaying] = useState(active);
+//   const [commentText, setCommentText] = useState("");
+//   const videoRef = useRef<HTMLDivElement>(null);
+//   const ikVideoRef = useRef<HTMLVideoElement>(null);
+//   const observerRef = useRef<IntersectionObserver | null>(null);
+
+//   const { data: session } = useSession();
+//   const userId = session?.user.id;
+//   const _userId = new mongoose.Types.ObjectId(userId);
+//   // const username = session?.user.username
+
+//   // const authUser = useUserProfile()
+
+//   // Handle video visibility and playback
+//   useEffect(() => {
+//     if (!videoRef.current) return;
+
+//     observerRef.current = new IntersectionObserver(
+//       (entries) => {
+//         entries.forEach((entry) => {
+//           if (entry.isIntersecting) {
+//             setIsPlaying(true);
+//             if (ikVideoRef.current) {
+//               ikVideoRef.current
+//                 .play()
+//                 .catch((err) => console.error("Failed to play:", err));
+//             }
+//           } else {
+//             setIsPlaying(false);
+//             if (ikVideoRef.current) {
+//               ikVideoRef.current.pause();
+//             }
+//           }
+//         });
+//       },
+//       { threshold: 0.6 }
+//     );
+
+//     observerRef.current.observe(videoRef.current);
+
+//     return () => {
+//       if (observerRef.current) {
+//         observerRef.current.disconnect();
+//       }
+//     };
+//   }, []);
+
+//   // Effect to handle active prop changes
+//   useEffect(() => {
+//     if (ikVideoRef.current) {
+//       if (active) {
+//         ikVideoRef.current
+//           .play()
+//           .catch((err) => console.error("Failed to play:", err));
+//       } else {
+//         ikVideoRef.current.pause();
+//       }
+//     }
+//   }, [active]);
+
+//   // Handle video tap to toggle play/pause
+//   const togglePlayPause = (e: React.MouseEvent) => {
+//     // Don't toggle if click was on a button or control
+//     if ((e.target as HTMLElement).closest("button")) {
+//       return;
+//     }
+
+//     if (ikVideoRef.current) {
+//       if (isPlaying) {
+//         ikVideoRef.current.pause();
+//         setIsPlaying(false);
+//       } else {
+//         ikVideoRef.current
+//           .play()
+//           .catch((err) => console.error("Failed to play:", err));
+//         setIsPlaying(true);
+//       }
+//     }
+//   };
+
+//   // Handle comment submission
+//   const handleCommentSubmit = () => {
+//     if (commentText.trim()) {
+//       // In a real app, you would submit the comment to your backend
+//       console.log("Submitting comment:", commentText);
+//       setCommentText("");
+//       // Optionally, you could update the local comments list here
+//     }
+//   };
+
+//   // Format like count
+//   // const formatCount = (count: number) => {
+//   //   if (count >= 1000000) {
+//   //     return (count / 1000000).toFixed(1) + "M";
+//   //   } else if (count >= 1000) {
+//   //     return (count / 1000).toFixed(1) + "K";
+//   //   }
+//   //   return count.toString();
+//   // };
+
+//   // Calculate video progress as percentage (for progress bar)
+//   const [progress, setProgress] = useState(0);
+//   const handleTimeUpdate = () => {
+//     if (ikVideoRef.current) {
+//       const percentage =
+//         (ikVideoRef.current.currentTime / ikVideoRef.current.duration) * 100;
+//       setProgress(percentage);
+//     }
+//   };
+
+//   // Double tap to like
+//   const lastTap = useRef<number>(0);
+//   const handleDoubleTap = (e: React.MouseEvent) => {
+//     // Don't trigger if click was on a button or control
+//     if ((e.target as HTMLElement).closest("button")) {
+//       return;
+//     }
+
+//     const currentTime = new Date().getTime();
+//     const tapDiff = currentTime - lastTap.current;
+
+//     if (tapDiff < 300 && tapDiff > 0) {
+//       // Double tap detected
+//       // setLiked(true);
+//       showHeartAnimation(e.clientX, e.clientY);
+//     }
+
+//     lastTap.current = currentTime;
+//   };
+
+//   // Heart animation on double tap
+//   const [hearts, setHearts] = useState<{ id: number; x: number; y: number }[]>(
+//     []
+//   );
+//   const heartIdCounter = useRef(0);
+
+//   const showHeartAnimation = (x: number, y: number) => {
+//     const newHeart = {
+//       id: heartIdCounter.current++,
+//       x: x,
+//       y: y,
+//     };
+//     setHearts((prev) => [...prev, newHeart]);
+
+//     // Remove heart after animation completes
+//     setTimeout(() => {
+//       setHearts((prev) => prev.filter((heart) => heart.id !== newHeart.id));
+//     }, 1000);
+//   };
+
+//   return (
+//     <div className="relative h-[93vh] sm:h-screen  w-full my-auto mx-auto max-w-sm bg-black overflow-hidden snap-center">
+//       {/* Full Screen Video */}
+//       <div
+//         className="absolute inset-0 z-0"
+//         onClick={togglePlayPause}
+//         onDoubleClick={handleDoubleTap}
+//       >
+//         <div ref={videoRef} className="w-full h-full">
+//           <IKVideo
+//             // ref={ikVideoRef as React.RefObject<HTMLVideoElement>}
+//             path={video.videoUrl}
+//             transformation={[
+//               {
+//                 height: "1920",
+//                 width: "1080",
+//               },
+//             ]}
+//             controls={true}
+//             autoPlay={active}
+//             loop
+//             muted={isMuted}
+//             className="w-full h-full object-cover"
+//             onTimeUpdate={handleTimeUpdate}
+//           />
+//         </div>
+
+//         {/* Video Progress Bar */}
+//         <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-800 bg-opacity-50">
+//           <div
+//             className="h-full bg-white transition-all duration-100"
+//             style={{ width: `${progress}%` }}
+//           ></div>
+//         </div>
+
+//         {/* Play/Pause Indicator (Shows briefly when toggled) */}
+//         {!isPlaying && (
+//           <div className="absolute inset-0 flex items-center justify-center">
+//             <div className="bg-black bg-opacity-50 rounded-full p-6">
+//               <span className="text-white text-6xl">▶</span>
+//             </div>
+//           </div>
+//         )}
+
+//         {/* Double-tap heart animation */}
+//         {hearts.map((heart) => (
+//           <div
+//             key={heart.id}
+//             className="absolute pointer-events-none animate-heart-pop"
+//             style={{
+//               left: heart.x - 40,
+//               top: heart.y - 40,
+//             }}
+//           >
+//             <Heart size={80} className="text-red-500 fill-red-500" />
+//           </div>
+//         ))}
+//       </div>
+
+//       {/* Content Overlay with Gradient */}
+//       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black bg-opacity-50 z-10">
+//         {/* Top Bar */}
+//         <div className="absolute top-0 left-0 right-0 p-4 flex justify-between items-center">
+//           <Link
+//             href="/reels"
+//             className="text-white font-bold flex flex-col justify-center items-center text-base leading-tight"
+//           >
+//             <span className="-mb-0.5">Reel</span>
+//             <span className="-mt-0.5">Blast</span>
+//           </Link>
+//           <button
+//             className="p-2 rounded-full bg-black bg-opacity-20 text-white"
+//             onClick={() => setIsMuted(!isMuted)}
+//           >
+//             {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+//           </button>
+//         </div>
+
+//         {/* Right Side Actions */}
+//         <div className="absolute right-4 bottom-32 flex flex-col items-center space-y-2">
+//           {/* <button
+//             className="flex flex-col items-center"
+//             onClick={() => setLiked(!liked)}
+//           >
+//             <div className="bg-black bg-opacity-20 rounded-full p-3">
+//               <Heart
+//                 size={28}
+//                 className={`transition-all duration-300 ${
+//                   liked ? "fill-red-500 text-red-500 scale-110" : "text-white"
+//                 }`}
+//               />
+//             </div>
+//             <span className="text-white text-xs ">
+//               {formatCount((video.likes?.length || 0) + (liked ? 1 : 0))}
+//             </span>
+//           </button> */}
+//           <LikeVideo
+//             videoId={video._id!}
+//             likes={video.likes!}
+//             userId={_userId}
+//           />
+//           <Comment />
+//           <SaveVideo videoId={video._id!} />
+//           <ShareVideo />
+//           {/* <button
+//             className="flex flex-col items-center"
+//             onClick={() => setShowComments(!showComments)}
+//           >
+//             <div className="bg-black bg-opacity-20 rounded-full p-3">
+//               <MessageCircle size={28} className="text-white" />
+//             </div>
+//             <span className="text-white text-xs "> */}
+//           {/* {formatCount(video.comments?.length || 0)} */}
+//           {/* Comments */}
+//           {/* </span>
+//           </button> */}
+//         </div>
+
+//         {/* Bottom Content */}
+//         <div className="absolute bottom-8 left-4 right-16 z-20">
+//           {/* Author Info */}
+//           <div className="flex items-center gap-2 justify-center mb-2">
+//             <Link href={`/${video.user?.userName}`}>
+//               <ProfilePic
+//                 url={video?.user?.profilePic?.url || "./vercel.svg"}
+//                 name={video.user.userName || "Anonymous"}
+//               />
+//             </Link>
+//             <div className="flex flex-col justify-center">
+//               <Link
+//                 href={`/${video.user?.userName}`}
+//                 className="font-semibold hover:underline hover:text-cyan-200 text-white text-sm"
+//               >
+//                 {video.user?.userName || "username"}
+//               </Link>
+//               <p className="text-gray-300 text-xs">
+//                 {video.createdAt
+//                   ? new Date(video.createdAt).toLocaleDateString()
+//                   : "Just now"}
+//               </p>
+//             </div>
+//             <FollowBtn
+//               size="sm"
+//               radius="xl"
+//               userToFollow={video.userId.toString()}
+//             />
+//             <div className="flex-1"></div>
+//           </div>
+
+//           {/* Title and Description */}
+//           <span onClick={() => setExpanded(!expanded)} >
+//           <h3 className="font-bold text-white mb-1">{video.title}</h3>
+//           <p
+//             className={`text-gray-200 text-sm ${
+//               expanded ? "" : "line-clamp-1"
+//             }`}
+//           >
+//             {video.description}
+//           </p>
+
+//           {/* //TODO:  Remove it */}
+//           {/* {video.description && video.description.length > 80 && (
+//             <button
+//               onClick={() => setExpanded(!expanded)}
+//               className="text-gray-300 text-xs"
+//             >
+//               {expanded ? "Show less" : "Read more"}
+//             </button>
+//           )} */}
+//           </span>
+//         </div>
+//       </div>
+
+//       {/* Comments Slide-up Panel */}
+//       {showComments && (
+//         <div className="absolute inset-0 z-30 bg-black bg-opacity-80 transition-all duration-300">
+//           <div className="absolute bottom-0 left-0 right-0 bg-gray-900 rounded-t-3xl p-4 h-2/3 transition-transform">
+//             <div className="flex justify-between items-center mb-4">
+//               <h3 className="text-white font-bold">Comments</h3>
+//               <button
+//                 onClick={() => setShowComments(false)}
+//                 className="text-white p-1"
+//               >
+//                 <X size={20} />
+//               </button>
+//             </div>
+
+//             <div className="overflow-y-auto h-[calc(100%-6rem)] space-y-4 pb-4">
+//               {[].length > 0 ? (
+//                 [].map(
+//                   (
+//                     comment: {
+//                       user?: string;
+//                       text?: string;
+//                       time?: string;
+//                       likes?: number;
+//                       profilePic: string;
+//                     },
+//                     idx: number // TODO:  Fix comment type
+//                   ) => (
+//                     <div key={idx} className="flex items-start space-x-3">
+//                       <div className="h-8 w-8 rounded-full overflow-hidden">
+//                         <Image
+//                           src={
+//                             comment.profilePic ||
+//                             `/api/placeholder/${24 + idx}/${24 + idx}`
+//                           }
+//                           alt="User"
+//                           className="h-full w-full object-cover"
+//                         />
+//                       </div>
+//                       <div className="flex-1">
+//                         <p className="text-sm font-medium text-white">
+//                           {comment?.user || `user${idx + 1}`}
+//                         </p>
+//                         <p className="text-sm text-gray-300">
+//                           {comment?.text || "Great video!"}
+//                         </p>
+//                         <div className="flex items-center space-x-4 mt-1">
+//                           <span className="text-gray-400 text-xs">
+//                             {comment?.time || "1d"}
+//                           </span>
+//                           <button className="text-gray-400 text-xs">
+//                             Reply
+//                           </button>
+//                           <button className="text-gray-400 text-xs flex items-center">
+//                             <Heart size={12} className="mr-1" />{" "}
+//                             {comment?.likes || Math.floor(Math.random() * 20)}
+//                           </button>
+//                         </div>
+//                       </div>
+//                     </div>
+//                   )
+//                 )
+//               ) : (
+//                 <div className="bg-gray-800 rounded-lg p-4">
+//                   <p className="text-gray-300 text-center">
+//                     Be the first to comment
+//                   </p>
+//                 </div>
+//               )}
+//             </div>
+
+//             {/* Comment Input */}
+//             <div className="absolute bottom-0 left-0 right-0 p-4 bg-gray-900 border-t border-gray-800">
+//               <div className="flex items-center space-x-2">
+//                 <div className="h-8 w-8 rounded-full overflow-hidden">
+//                   <Image
+//                     src="/api/placeholder/32/32"
+//                     alt="Your profile"
+//                     className="h-full w-full object-cover"
+//                   />
+//                 </div>
+//                 <input
+//                   type="text"
+//                   placeholder="Add a comment..."
+//                   className="bg-gray-800 text-white rounded-full px-4 py-2 text-sm flex-1 focus:outline-none"
+//                   value={commentText}
+//                   onChange={(e) => setCommentText(e.target.value)}
+//                   onKeyPress={(e) => e.key === "Enter" && handleCommentSubmit()}
+//                 />
+//                 <button
+//                   className={`text-white ${
+//                     !commentText.trim() ? "opacity-50" : "opacity-100"
+//                   }`}
+//                   onClick={handleCommentSubmit}
+//                   disabled={!commentText.trim()}
+//                 >
+//                   <Send size={20} />
+//                 </button>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//       )}
+//     </div>
+//   );
+// }
+
+
+
+"use client"
+
+import type React from "react"
+import { useState, useRef, useEffect } from "react"
+import { IKVideo } from "imagekitio-next"
+import Link from "next/link"
+import { Heart, Send, Volume2, VolumeX, X } from "lucide-react"
+import FollowBtn from "../UserComps/FollowBtn"
+import type { VidI } from "@/lib/api-client"
+import ProfilePic from "../UserComps/ProfilePic"
+import LikeVideo from "./LikeVideo"
+import Comment from "./Comment"
+import ShareVideo from "./ShareVideo"
+import SaveVideo from "./SaveVideo"
+import { useSession } from "next-auth/react"
+import mongoose from "mongoose"
+import Image from "next/image"
 
 interface VideoComponentProps {
-  video: VidI;
-  // onNext?: () => void;
-  active?: boolean;
+  video: VidI
+  active?: boolean
 }
 
-export default function VideoComponent({
-  video,
-  // onNext,
-  active = true,
-}: VideoComponentProps) {
-  // const [liked, setLiked] = useState(false);
-  const [showComments, setShowComments] = useState(false);
-  const [isMuted, setIsMuted] = useState(true);
-  const [expanded, setExpanded] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(active);
-  const [commentText, setCommentText] = useState("");
-  const videoRef = useRef<HTMLDivElement>(null);
-  const ikVideoRef = useRef<HTMLVideoElement>(null);
-  const observerRef = useRef<IntersectionObserver | null>(null);
+export default function VideoComponent({ video, active = true }: VideoComponentProps) {
+  const [showComments, setShowComments] = useState(false)
+  const [isMuted, setIsMuted] = useState(true)
+  const [expanded, setExpanded] = useState(false)
+  const [isPlaying, setIsPlaying] = useState(active)
+  const [commentText, setCommentText] = useState("")
+  const videoRef = useRef<HTMLDivElement>(null)
+  const ikVideoRef = useRef<HTMLVideoElement>(null)
+  const observerRef = useRef<IntersectionObserver | null>(null)
 
-  const { data: session } = useSession();
-  const userId = session?.user.id;
-  const _userId = new mongoose.Types.ObjectId(userId);
-  // const username = session?.user.username
-
-  // const authUser = useUserProfile()
+  const { data: session } = useSession()
+  const userId = session?.user.id
+  const _userId = new mongoose.Types.ObjectId(userId)
 
   // Handle video visibility and playback
   useEffect(() => {
-    if (!videoRef.current) return;
+    if (!videoRef.current) return
 
     observerRef.current = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setIsPlaying(true);
+            setIsPlaying(true)
             if (ikVideoRef.current) {
-              ikVideoRef.current
-                .play()
-                .catch((err) => console.error("Failed to play:", err));
+              ikVideoRef.current.play().catch((err) => console.error("Failed to play:", err))
             }
           } else {
-            setIsPlaying(false);
+            setIsPlaying(false)
             if (ikVideoRef.current) {
-              ikVideoRef.current.pause();
+              ikVideoRef.current.pause()
             }
           }
-        });
+        })
       },
-      { threshold: 0.6 }
-    );
+      { threshold: 0.6 },
+    )
 
-    observerRef.current.observe(videoRef.current);
+    observerRef.current.observe(videoRef.current)
 
     return () => {
       if (observerRef.current) {
-        observerRef.current.disconnect();
+        observerRef.current.disconnect()
       }
-    };
-  }, []);
+    }
+  }, [])
 
-  // Effect to handle active prop changes
   useEffect(() => {
     if (ikVideoRef.current) {
       if (active) {
-        ikVideoRef.current
-          .play()
-          .catch((err) => console.error("Failed to play:", err));
+        ikVideoRef.current.play().catch((err) => console.error("Failed to play:", err))
       } else {
-        ikVideoRef.current.pause();
+        ikVideoRef.current.pause()
       }
     }
-  }, [active]);
+  }, [active])
 
-  // Handle video tap to toggle play/pause
   const togglePlayPause = (e: React.MouseEvent) => {
-    // Don't toggle if click was on a button or control
     if ((e.target as HTMLElement).closest("button")) {
-      return;
+      return
     }
 
     if (ikVideoRef.current) {
       if (isPlaying) {
-        ikVideoRef.current.pause();
-        setIsPlaying(false);
+        ikVideoRef.current.pause()
+        setIsPlaying(false)
       } else {
-        ikVideoRef.current
-          .play()
-          .catch((err) => console.error("Failed to play:", err));
-        setIsPlaying(true);
+        ikVideoRef.current.play().catch((err) => console.error("Failed to play:", err))
+        setIsPlaying(true)
       }
     }
-  };
+  }
 
-  // Handle comment submission
   const handleCommentSubmit = () => {
     if (commentText.trim()) {
-      // In a real app, you would submit the comment to your backend
-      console.log("Submitting comment:", commentText);
-      setCommentText("");
-      // Optionally, you could update the local comments list here
+      console.log("Submitting comment:", commentText)
+      setCommentText("")
     }
-  };
+  }
 
-  // Format like count
-  // const formatCount = (count: number) => {
-  //   if (count >= 1000000) {
-  //     return (count / 1000000).toFixed(1) + "M";
-  //   } else if (count >= 1000) {
-  //     return (count / 1000).toFixed(1) + "K";
-  //   }
-  //   return count.toString();
-  // };
-
-  // Calculate video progress as percentage (for progress bar)
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useState(0)
   const handleTimeUpdate = () => {
     if (ikVideoRef.current) {
-      const percentage =
-        (ikVideoRef.current.currentTime / ikVideoRef.current.duration) * 100;
-      setProgress(percentage);
+      const percentage = (ikVideoRef.current.currentTime / ikVideoRef.current.duration) * 100
+      setProgress(percentage)
     }
-  };
+  }
 
   // Double tap to like
-  const lastTap = useRef<number>(0);
+  const lastTap = useRef<number>(0)
   const handleDoubleTap = (e: React.MouseEvent) => {
-    // Don't trigger if click was on a button or control
     if ((e.target as HTMLElement).closest("button")) {
-      return;
+      return
     }
 
-    const currentTime = new Date().getTime();
-    const tapDiff = currentTime - lastTap.current;
+    const currentTime = new Date().getTime()
+    const tapDiff = currentTime - lastTap.current
 
     if (tapDiff < 300 && tapDiff > 0) {
-      // Double tap detected
-      // setLiked(true);
-      showHeartAnimation(e.clientX, e.clientY);
+      showHeartAnimation(e.clientX, e.clientY)
     }
 
-    lastTap.current = currentTime;
-  };
+    lastTap.current = currentTime
+  }
 
-  // Heart animation on double tap
-  const [hearts, setHearts] = useState<{ id: number; x: number; y: number }[]>(
-    []
-  );
-  const heartIdCounter = useRef(0);
+  const [hearts, setHearts] = useState<{ id: number; x: number; y: number }[]>([])
+  const heartIdCounter = useRef(0)
 
   const showHeartAnimation = (x: number, y: number) => {
     const newHeart = {
       id: heartIdCounter.current++,
       x: x,
       y: y,
-    };
-    setHearts((prev) => [...prev, newHeart]);
+    }
+    setHearts((prev) => [...prev, newHeart])
 
-    // Remove heart after animation completes
     setTimeout(() => {
-      setHearts((prev) => prev.filter((heart) => heart.id !== newHeart.id));
-    }, 1000);
-  };
+      setHearts((prev) => prev.filter((heart) => heart.id !== newHeart.id))
+    }, 1000)
+  }
 
   return (
-    <div className="relative h-[93vh] sm:h-screen  w-full my-auto mx-auto max-w-sm bg-black overflow-hidden snap-center">
+    <div className="relative h-screen w-full bg-black overflow-hidden">
       {/* Full Screen Video */}
-      <div
-        className="absolute inset-0 z-0"
-        onClick={togglePlayPause}
-        onDoubleClick={handleDoubleTap}
-      >
+      <div className="absolute inset-0 z-0" onClick={togglePlayPause} onDoubleClick={handleDoubleTap}>
         <div ref={videoRef} className="w-full h-full">
           <IKVideo
-            // ref={ikVideoRef as React.RefObject<HTMLVideoElement>}
             path={video.videoUrl}
             transformation={[
               {
@@ -590,7 +1009,7 @@ export default function VideoComponent({
                 width: "1080",
               },
             ]}
-            controls={true}
+            controls={false}
             autoPlay={active}
             loop
             muted={isMuted}
@@ -600,18 +1019,15 @@ export default function VideoComponent({
         </div>
 
         {/* Video Progress Bar */}
-        <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-800 bg-opacity-50">
-          <div
-            className="h-full bg-white transition-all duration-100"
-            style={{ width: `${progress}%` }}
-          ></div>
+        <div className="absolute bottom-0 left-0 right-0 h-0.5 sm:h-1 bg-gray-800/50">
+          <div className="h-full bg-white transition-all duration-100" style={{ width: `${progress}%` }} />
         </div>
 
-        {/* Play/Pause Indicator (Shows briefly when toggled) */}
+        {/* Play/Pause Indicator */}
         {!isPlaying && (
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="bg-black bg-opacity-50 rounded-full p-6">
-              <span className="text-white text-6xl">▶</span>
+            <div className="bg-black/60 backdrop-blur-sm rounded-full p-4 sm:p-6">
+              <span className="text-white text-4xl sm:text-6xl">▶</span>
             </div>
           </div>
         )}
@@ -620,7 +1036,7 @@ export default function VideoComponent({
         {hearts.map((heart) => (
           <div
             key={heart.id}
-            className="absolute pointer-events-none animate-heart-pop"
+            className="absolute pointer-events-none animate-heart-pop z-20"
             style={{
               left: heart.x - 40,
               top: heart.y - 40,
@@ -631,216 +1047,163 @@ export default function VideoComponent({
         ))}
       </div>
 
-      {/* Content Overlay with Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black bg-opacity-50 z-10">
+      {/* Content Overlay */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/60 z-10 pt-12 sm:pt-0">
         {/* Top Bar */}
-        <div className="absolute top-0 left-0 right-0 p-4 flex justify-between items-center">
-          <Link
-            href="/reels"
-            className="text-white font-bold flex flex-col justify-center items-center text-base leading-tight"
-          >
-            <span className="-mb-0.5">Reel</span>
-            <span className="-mt-0.5">Blast</span>
+        <div className="absolute top-12 sm:top-0 left-0 right-0 p-3 sm:p-4 flex justify-between items-center">
+          <Link href="/reels" className="text-white font-bold text-base sm:text-lg sm:block hidden">
+            Reels
           </Link>
+          <div className="flex-1 sm:flex-none"></div>
           <button
-            className="p-2 rounded-full bg-black bg-opacity-20 text-white"
+            className="p-2 rounded-full bg-black/30 backdrop-blur-sm text-white hover:bg-black/50 active:scale-95 transition-all"
             onClick={() => setIsMuted(!isMuted)}
           >
-            {isMuted ? <VolumeX size={20} /> : <Volume2 size={20} />}
+            {isMuted ? <VolumeX size={18} /> : <Volume2 size={18} />}
           </button>
         </div>
 
         {/* Right Side Actions */}
-        <div className="absolute right-4 bottom-32 flex flex-col items-center space-y-2">
-          {/* <button
-            className="flex flex-col items-center"
-            onClick={() => setLiked(!liked)}
-          >
-            <div className="bg-black bg-opacity-20 rounded-full p-3">
-              <Heart
-                size={28}
-                className={`transition-all duration-300 ${
-                  liked ? "fill-red-500 text-red-500 scale-110" : "text-white"
-                }`}
-              />
-            </div>
-            <span className="text-white text-xs ">
-              {formatCount((video.likes?.length || 0) + (liked ? 1 : 0))}
-            </span>
-          </button> */}
-          <LikeVideo
-            videoId={video._id!}
-            likes={video.likes!}
-            userId={_userId}
-          />
+        <div className="absolute right-3 sm:right-4 bottom-36 sm:bottom-32 flex flex-col items-center space-y-3 sm:space-y-4">
+          <LikeVideo videoId={video._id!} likes={video.likes!} userId={_userId} />
           <Comment />
           <SaveVideo videoId={video._id!} />
           <ShareVideo />
-          {/* <button
-            className="flex flex-col items-center"
-            onClick={() => setShowComments(!showComments)}
-          >
-            <div className="bg-black bg-opacity-20 rounded-full p-3">
-              <MessageCircle size={28} className="text-white" />
-            </div>
-            <span className="text-white text-xs "> */}
-          {/* {formatCount(video.comments?.length || 0)} */}
-          {/* Comments */}
-          {/* </span>
-          </button> */}
         </div>
 
         {/* Bottom Content */}
-        <div className="absolute bottom-8 left-4 right-16 z-20">
+        <div className="absolute bottom-20 sm:bottom-8 left-3 sm:left-4 right-16 sm:right-20 z-20 max-h-28 sm:max-h-40">
           {/* Author Info */}
-          <div className="flex items-center gap-2 justify-center mb-2">
+          <div className="flex items-center gap-2 sm:gap-3 mb-1.5 sm:mb-2">
             <Link href={`/${video.user?.userName}`}>
               <ProfilePic
                 url={video?.user?.profilePic?.url || "./vercel.svg"}
                 name={video.user.userName || "Anonymous"}
               />
             </Link>
-            <div className="flex flex-col justify-center">
+            <div className="flex flex-col justify-center min-w-0 flex-1">
               <Link
                 href={`/${video.user?.userName}`}
-                className="font-semibold hover:underline hover:text-cyan-200 text-white text-sm"
+                className="font-semibold hover:underline hover:text-cyan-200 text-white text-sm sm:text-base truncate"
               >
                 {video.user?.userName || "username"}
               </Link>
-              <p className="text-gray-300 text-xs">
-                {video.createdAt
-                  ? new Date(video.createdAt).toLocaleDateString()
-                  : "Just now"}
+              <p className="text-gray-300 text-xs sm:text-sm">
+                {video.createdAt ? new Date(video.createdAt).toLocaleDateString() : "Just now"}
               </p>
             </div>
-            <FollowBtn
-              size="sm"
-              radius="xl"
-              userToFollow={video.userId.toString()}
-            />
-            <div className="flex-1"></div>
+            <FollowBtn size="sm" radius="xl" userToFollow={video.userId.toString()} />
           </div>
 
           {/* Title and Description */}
-          <span onClick={() => setExpanded(!expanded)} >
-          <h3 className="font-bold text-white mb-1">{video.title}</h3>
-          <p
-            className={`text-gray-200 text-sm ${
-              expanded ? "" : "line-clamp-1"
-            }`}
-          >
-            {video.description}
-          </p>
-
-          {/* //TODO:  Remove it */}
-          {/* {video.description && video.description.length > 80 && (
-            <button
-              onClick={() => setExpanded(!expanded)}
-              className="text-gray-300 text-xs"
+          <div className="space-y-1 overflow-hidden">
+            <h3 className="font-bold text-white text-sm sm:text-base line-clamp-1">{video.title}</h3>
+            <p
+              className={`text-gray-200 text-xs sm:text-sm leading-relaxed ${expanded ? "line-clamp-3" : "line-clamp-2"}`}
             >
-              {expanded ? "Show less" : "Read more"}
-            </button>
-          )} */}
-          </span>
+              {video.description}
+            </p>
+            {video.description && video.description.length > 80 && (
+              <button
+                onClick={() => setExpanded(!expanded)}
+                className="text-gray-300 text-xs hover:text-white transition-colors"
+              >
+                {expanded ? "Show less" : "Read more"}
+              </button>
+            )}
+          </div>
         </div>
       </div>
 
       {/* Comments Slide-up Panel */}
       {showComments && (
-        <div className="absolute inset-0 z-30 bg-black bg-opacity-80 transition-all duration-300">
-          <div className="absolute bottom-0 left-0 right-0 bg-gray-900 rounded-t-3xl p-4 h-2/3 transition-transform">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-white font-bold">Comments</h3>
+        <div className="absolute inset-0 z-30 bg-black/80 backdrop-blur-sm">
+          <div className="absolute bottom-0 left-0 right-0 bg-gray-900 rounded-t-3xl h-3/4 sm:h-2/3 transition-transform">
+            <div className="flex justify-between items-center p-4 border-b border-gray-800">
+              <h3 className="text-white font-bold text-lg">Comments</h3>
               <button
                 onClick={() => setShowComments(false)}
-                className="text-white p-1"
+                className="text-white p-1 hover:bg-gray-800 rounded-full transition-colors"
               >
                 <X size={20} />
               </button>
             </div>
 
-            <div className="overflow-y-auto h-[calc(100%-6rem)] space-y-4 pb-4">
+            <div className="overflow-y-auto h-[calc(100%-8rem)] p-4 space-y-4">
               {[].length > 0 ? (
                 [].map(
                   (
                     comment: {
-                      user?: string;
-                      text?: string;
-                      time?: string;
-                      likes?: number;
-                      profilePic: string;
+                      user?: string
+                      text?: string
+                      time?: string
+                      likes?: number
+                      profilePic: string
                     },
-                    idx: number // TODO:  Fix comment type
+                    idx: number,
                   ) => (
                     <div key={idx} className="flex items-start space-x-3">
-                      <div className="h-8 w-8 rounded-full overflow-hidden">
+                      <div className="h-8 w-8 rounded-full overflow-hidden flex-shrink-0">
                         <Image
-                          src={
-                            comment.profilePic ||
-                            `/api/placeholder/${24 + idx}/${24 + idx}`
-                          }
+                          src={comment.profilePic || `/api/placeholder/${24 + idx}/${24 + idx}`}
                           alt="User"
+                          width={32}
+                          height={32}
                           className="h-full w-full object-cover"
                         />
                       </div>
-                      <div className="flex-1">
-                        <p className="text-sm font-medium text-white">
-                          {comment?.user || `user${idx + 1}`}
-                        </p>
-                        <p className="text-sm text-gray-300">
-                          {comment?.text || "Great video!"}
-                        </p>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-medium text-white">{comment?.user || `user${idx + 1}`}</p>
+                        <p className="text-sm text-gray-300 break-words">{comment?.text || "Great video!"}</p>
                         <div className="flex items-center space-x-4 mt-1">
-                          <span className="text-gray-400 text-xs">
-                            {comment?.time || "1d"}
-                          </span>
-                          <button className="text-gray-400 text-xs">
-                            Reply
-                          </button>
-                          <button className="text-gray-400 text-xs flex items-center">
-                            <Heart size={12} className="mr-1" />{" "}
+                          <span className="text-gray-400 text-xs">{comment?.time || "1d"}</span>
+                          <button className="text-gray-400 text-xs hover:text-white">Reply</button>
+                          <button className="text-gray-400 text-xs flex items-center hover:text-white">
+                            <Heart size={12} className="mr-1" />
                             {comment?.likes || Math.floor(Math.random() * 20)}
                           </button>
                         </div>
                       </div>
                     </div>
-                  )
+                  ),
                 )
               ) : (
-                <div className="bg-gray-800 rounded-lg p-4">
-                  <p className="text-gray-300 text-center">
-                    Be the first to comment
-                  </p>
+                <div className="bg-gray-800 rounded-lg p-6 text-center">
+                  <p className="text-gray-300">Be the first to comment</p>
                 </div>
               )}
             </div>
 
             {/* Comment Input */}
             <div className="absolute bottom-0 left-0 right-0 p-4 bg-gray-900 border-t border-gray-800">
-              <div className="flex items-center space-x-2">
-                <div className="h-8 w-8 rounded-full overflow-hidden">
+              <div className="flex items-center space-x-3">
+                <div className="h-8 w-8 rounded-full overflow-hidden flex-shrink-0">
                   <Image
                     src="/api/placeholder/32/32"
                     alt="Your profile"
+                    width={32}
+                    height={32}
                     className="h-full w-full object-cover"
                   />
                 </div>
                 <input
                   type="text"
                   placeholder="Add a comment..."
-                  className="bg-gray-800 text-white rounded-full px-4 py-2 text-sm flex-1 focus:outline-none"
+                  className="bg-gray-800 text-white rounded-full px-4 py-2 text-sm flex-1 focus:outline-none focus:ring-2 focus:ring-indigo-500"
                   value={commentText}
                   onChange={(e) => setCommentText(e.target.value)}
                   onKeyPress={(e) => e.key === "Enter" && handleCommentSubmit()}
                 />
                 <button
-                  className={`text-white ${
-                    !commentText.trim() ? "opacity-50" : "opacity-100"
+                  className={`text-white p-2 rounded-full transition-all ${
+                    !commentText.trim()
+                      ? "opacity-50 cursor-not-allowed"
+                      : "opacity-100 hover:bg-gray-800 active:scale-95"
                   }`}
                   onClick={handleCommentSubmit}
                   disabled={!commentText.trim()}
                 >
-                  <Send size={20} />
+                  <Send size={18} />
                 </button>
               </div>
             </div>
@@ -848,5 +1211,5 @@ export default function VideoComponent({
         </div>
       )}
     </div>
-  );
+  )
 }
