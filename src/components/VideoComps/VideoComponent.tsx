@@ -189,6 +189,7 @@ export default function VideoComponent({
       setHearts((prev) => prev.filter((heart) => heart.id !== newHeart.id));
     }, 1000);
   };
+  
 
   return (
     <div
