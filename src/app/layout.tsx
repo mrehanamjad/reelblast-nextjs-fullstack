@@ -44,7 +44,7 @@ export default function RootLayout({
         <Notifications color="cyan" position="top-right" />
         <div className="flex ">
         <SideNavbar />
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 bg-black/80">{children}</main>
         </div>
         </Providers>
         </MantineProvider>

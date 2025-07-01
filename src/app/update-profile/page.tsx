@@ -395,88 +395,93 @@ export default function UpdateProfile() {
   if (isFetching) return <ScreenLoader />;
 
   return (
-    <div className="flex justify-around items-center w-full pt-4">
-      <div className="p-6 rounded shadow-md">
-        <form onSubmit={handleSubmit(onSubmit)} className="w-96">
-          <div className="mx-auto mb-6 flex justify-center">
-            <Logo size="xl" />
-          </div>
+    <div className="flex justify-center items-start w-full min-h-screen p-4 pt-6">
+  <div className="w-full max-w-md mx-auto  rounded-lg shadow-md p-4 sm:p-6 max-sm:pb-14">
+    <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+      <div className="mx-auto mb-6 flex justify-center">
+        <Logo size="xl" />
+      </div>
 
-          <h1 className="text-2xl font-bold mb-6 text-center">
-            Update Your Profile
-          </h1>
+      <h1 className="text-xl sm:text-2xl font-bold mb-6 text-center">
+        Update Your Profile
+      </h1>
 
-          {error && <p className="text-red-500 text-center">{error}</p>}
+      {error && (
+        <p className="text-red-500 text-center text-sm mb-4">{error}</p>
+      )}
 
-          <TextInput
-            className="mb-4"
-            leftSection={<AtSign size={16} />}
-            label="Username"
-            placeholder="your@userName.com"
-            error={errors.userName?.message}
-            {...register("userName", { required: "Username is required" })}
-          />
+      <div className="space-y-4">
+        <TextInput
+          leftSection={<AtSign size={16} />}
+          label="Username"
+          placeholder="your@userName.com"
+          error={errors.userName?.message}
+          {...register("userName", { required: "Username is required" })}
+        />
 
-          <TextInput
-            className="mb-4"
-            leftSection={<User size={16} />}
-            label="Full Name"
-            placeholder="John Doe"
-            error={errors.name?.message}
-            {...register("name", { required: "Name is required" })}
-          />
+        <TextInput
+          leftSection={<User size={16} />}
+          label="Full Name"
+          placeholder="John Doe"
+          error={errors.name?.message}
+          {...register("name", { required: "Name is required" })}
+        />
 
-          <div className="mb-4 flex flex-col gap-2">
-            <label className="text-sm font-medium mb-2 block">
-              Upload Profile Picture
-            </label>
+        <div className="flex flex-col gap-3">
+          <label className="text-sm font-medium">
+            Upload Profile Picture
+          </label>
+          <div className="flex flex-col items-center gap-3 sm:flex-row sm:items-start">
             <ProfilePic
               name={session?.user.username || " "}
               url={profilePic || ""}
               size="xl"
               radius={10}
-              className="self-start"
             />
-            <FileUpload
-              fileType="image"
-              onSuccess={handleUploadSuccess}
-              onProgress={handleUploadProgress}
-            />
-            {uploadProgress > 0 && uploadProgress < 100 && (
-              <Progress value={uploadProgress} size="sm" className="mt-2" />
-            )}
+            <div className="w-full sm:flex-1">
+              <FileUpload
+                fileType="image"
+                onSuccess={handleUploadSuccess}
+                onProgress={handleUploadProgress}
+              />
+              {uploadProgress > 0 && uploadProgress < 100 && (
+                <Progress value={uploadProgress} size="sm" className="mt-2" />
+              )}
+            </div>
           </div>
-          <TextInput
-            className="mb-4"
-            leftSection={<Phone size={16} />}
-            label="Phone Number"
-            type="tel"
-            placeholder="+1 (555) 123-4567"
-            error={errors.phone?.message}
-            {...register("phone", {
-              pattern: {
-                value: /^\+?[0-9 ]{10,17}$/,
-                message: "Invalid phone number",
-              },
-            })}
-          />
+        </div>
 
-          <Textarea
-            className="mb-4"
-            leftSection={<FileText size={16} />}
-            label="Bio"
-            placeholder="Tell us a bit about yourself"
-            error={errors.bio?.message}
-            {...register("bio")}
-          />
+        <TextInput
+          leftSection={<Phone size={16} />}
+          label="Phone Number"
+          type="tel"
+          placeholder="+1 (555) 123-4567"
+          error={errors.phone?.message}
+          {...register("phone", {
+            pattern: {
+              value: /^\+?[0-9 ]{10,17}$/,
+              message: "Invalid phone number",
+            },
+          })}
+        />
 
-          <div className="mb-4">
-            <label className="text-sm font-medium">Social Links</label>
+        <Textarea
+          leftSection={<FileText size={16} />}
+          label="Bio"
+          placeholder="Tell us a bit about yourself"
+          error={errors.bio?.message}
+          {...register("bio")}
+          rows={3}
+        />
 
+        <div>
+          <label className="text-sm font-medium mb-3 block">Social Links</label>
+          
+          <div className="space-y-3">
             {socialLinks.map((link, index) => (
-              <div key={index} className="flex items-center gap-2 mt-2">
+              <div key={index} className="flex items-center gap-2">
                 <TextInput
-                  className="flex-grow"
+                  className="flex-1 min-w-0"
                   leftSection={<Link2 size={16} />}
                   placeholder="https://twitter.com/username"
                   value={link}
@@ -488,7 +493,9 @@ export default function UpdateProfile() {
                     type="button"
                     color="red"
                     variant="subtle"
+                    size="sm"
                     onClick={() => removeSocialLink(index)}
+                    className="flex-shrink-0"
                   >
                     <Trash2 size={16} />
                   </Button>
@@ -498,36 +505,40 @@ export default function UpdateProfile() {
 
             <Button
               type="button"
-              className="mt-2"
               variant="outline"
               onClick={addSocialLink}
-              size="xs"
+              size="sm"
               leftSection={<Plus size={16} />}
+              className="w-full sm:w-auto"
             >
               Add Social Link
             </Button>
           </div>
-
-          <Button
-            type="submit"
-            fullWidth
-            loading={isSubmitting}
-            className="mb-4"
-            color="cyan"
-          >
-            Update Profile
-          </Button>
-
-          <div className="text-center mt-4">
-            <Link
-              href={`/${username}`}
-              className="text-cyan-500 hover:underline"
-            >
-              Back to Profile
-            </Link>
-          </div>
-        </form>
+        </div>
       </div>
-    </div>
+
+      <div className="mt-6 space-y-4">
+        <Button
+          type="submit"
+          fullWidth
+          loading={isSubmitting}
+          color="cyan"
+          size="md"
+        >
+          Update Profile
+        </Button>
+
+        <div className="text-center">
+          <Link
+            href={`/${username}`}
+            className="text-cyan-500 hover:underline text-sm"
+          >
+            Back to Profile
+          </Link>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
   );
 }

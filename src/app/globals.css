@@ -2,6 +2,11 @@
 @plugin "daisyui";
 
 
+html,body {
+  scroll-behavior: smooth;
+  background-color: black;
+}
+
 /* 
 @theme {
   --font-sans: var(--font-geist-sans);

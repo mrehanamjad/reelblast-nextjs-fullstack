@@ -7,9 +7,13 @@ export async function GET(req: Request) {
   try {
     await connectionToDatabase();
 
+    
     // Extract username from the dynamic URL
     const url = new URL(req.url);
-    const username = url.pathname.split("/").pop();
+    const urlArray = url.pathname.split("/");
+    const username = urlArray[urlArray.length - 2]; // As the URL is  /api/user/username/videos
+    console.log("i am called feching user Reels :: username :: ", username);
+
 
     if (!username) {
       return NextResponse.json({ message: "Username is required" }, { status: 400 });

@@ -63,7 +63,7 @@ function Register() {
   }
 
   return (
-    <div className="flex justify-around items-center w-full pt-4">
+    <div className="flex justify-around items-center w-full pt-4 h-screen">
       <div className="p-6 rounded shadow-md ">
         <form onSubmit={handleSubmit} className="w-96">
           <div className="mx-auto mb-6 flex justify-center">
