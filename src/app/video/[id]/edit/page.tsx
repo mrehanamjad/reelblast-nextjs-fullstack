@@ -38,10 +38,9 @@ export default async function VideoEditPage(props: { params: Params }) {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="w-full max-w-6xl mx-auto">
+      <div className="w-full max-w-3xl mx-auto">
         <h1 className="text-3xl font-bold mb-8">Edit Reel</h1>
-        <div className="w-full flex h-full -space-x-24">
-          <VideoComponent video={videoData} />
+        <div className="w-full flex flex-col h-full ">
           <VideoUploadForm
             mode="edit"
             editData={{
@@ -52,6 +51,7 @@ export default async function VideoEditPage(props: { params: Params }) {
               videoId: videoData._id.toString(),
             }}
           />
+          <VideoComponent video={videoData} />
         </div>
       </div>
     </div>
