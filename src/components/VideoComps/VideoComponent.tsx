@@ -122,16 +122,6 @@ export default function VideoComponent({
     }
   };
 
-  // Format like count
-  // const formatCount = (count: number) => {
-  //   if (count >= 1000000) {
-  //     return (count / 1000000).toFixed(1) + "M";
-  //   } else if (count >= 1000) {
-  //     return (count / 1000).toFixed(1) + "K";
-  //   }
-  //   return count.toString();
-  // };
-
   // Calculate video progress as percentage (for progress bar)
   const [progress, setProgress] = useState(0);
   const handleTimeUpdate = () => {
@@ -190,6 +180,51 @@ export default function VideoComponent({
     }, 1000);
   };
   
+useEffect(() => {
+  if (!videoRef.current) return;
+
+  // Find actual video element inside IKVideo
+  const innerVideo = videoRef.current.querySelector("video");
+  if (innerVideo) {
+    ikVideoRef.current = innerVideo;
+  }
+
+  observerRef.current = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        const videoEl = ikVideoRef.current;
+        if (!videoEl) return;
+
+        if (entry.isIntersecting) {
+          // Video comes into view: play and unmute
+          setIsPlaying(true);
+          setIsMuted(false);
+          videoEl.muted = false;
+          videoEl
+            .play()
+            .catch((err) => console.error("Failed to play:", err));
+        } else {
+          // Video goes out of view: pause and mute
+          setIsPlaying(false);
+          setIsMuted(true);
+          videoEl.muted = true;
+          videoEl.pause();
+        }
+      });
+    },
+    { threshold: 0.6 }
+  );
+
+  observerRef.current.observe(videoRef.current);
+
+  return () => {
+    observerRef.current?.disconnect();
+  };
+}, []);
+
+
+
+
 
   return (
     <div
@@ -290,22 +325,6 @@ export default function VideoComponent({
 
         {/* Right Side Actions */}
         <div className="absolute right-2 bottom-32 flex flex-col items-center space-y-2">
-          {/* <button
-            className="flex flex-col items-center"
-            onClick={() => setLiked(!liked)}
-          >
-            <div className="bg-black bg-opacity-20 rounded-full p-3">
-              <Heart
-                size={28}
-                className={`transition-all duration-300 ${
-                  liked ? "fill-red-500 text-red-500 scale-110" : "text-white"
-                }`}
-              />
-            </div>
-            <span className="text-white text-xs ">
-              {formatCount((video.likes?.length || 0) + (liked ? 1 : 0))}
-            </span>
-          </button> */}
           <LikeVideo
             videoId={video._id!}
             likes={video.likes!}
@@ -369,16 +388,6 @@ export default function VideoComponent({
             >
               {video.description}
             </p>
-
-            {/* //TODO:  Remove it */}
-            {/* {video.description && video.description.length > 80 && (
-            <button
-              onClick={() => setExpanded(!expanded)}
-              className="text-gray-300 text-xs"
-            >
-              {expanded ? "Show less" : "Read more"}
-            </button>
-          )} */}
           </span>
         </div>
       </div>
