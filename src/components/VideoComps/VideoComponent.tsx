@@ -45,40 +45,6 @@ export default function VideoComponent({
 
   // const authUser = useUserProfile()
 
-  // Handle video visibility and playback
-  useEffect(() => {
-    if (!videoRef.current) return;
-
-    observerRef.current = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsPlaying(true);
-            if (ikVideoRef.current) {
-              ikVideoRef.current
-                .play()
-                .catch((err) => console.error("Failed to play:", err));
-            }
-          } else {
-            setIsPlaying(false);
-            if (ikVideoRef.current) {
-              ikVideoRef.current.pause();
-            }
-          }
-        });
-      },
-      { threshold: 0.6 }
-    );
-
-    observerRef.current.observe(videoRef.current);
-
-    return () => {
-      if (observerRef.current) {
-        observerRef.current.disconnect();
-      }
-    };
-  }, []);
-
   // Effect to handle active prop changes
   useEffect(() => {
     if (ikVideoRef.current) {
@@ -180,6 +146,7 @@ export default function VideoComponent({
     }, 1000);
   };
   
+  // Handle video visibility and playback and mute state
 useEffect(() => {
   if (!videoRef.current) return;
 
@@ -196,10 +163,10 @@ useEffect(() => {
         if (!videoEl) return;
 
         if (entry.isIntersecting) {
-          // Video comes into view: play and unmute
+          // Video couser hasn’t interacted:mes into view: play and unmute
           setIsPlaying(true);
-          setIsMuted(false);
-          videoEl.muted = false;
+          setIsMuted(true);
+          videoEl.muted = true;
           videoEl
             .play()
             .catch((err) => console.error("Failed to play:", err));
@@ -497,3 +464,5 @@ useEffect(() => {
     </div>
   );
 }
+
+
