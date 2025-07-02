@@ -313,7 +313,7 @@ export default function VideoComponent({
           />
           <Comment />
           <SaveVideo videoId={video._id!} />
-          <ShareVideo ReelsId={video._id?.toString()!} />
+          <ShareVideo ReelsId={video._id!.toString()} />
           {/* <button
             className="flex flex-col items-center"
             onClick={() => setShowComments(!showComments)}
