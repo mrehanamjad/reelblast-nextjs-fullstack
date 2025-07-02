@@ -30,7 +30,7 @@ function SearchPage() {
     try {
       const data: SearchResponse = await apiClient.search(searchText.trim());
       setSearchResult(data);
-        setSearched(searchText);
+      setSearched(searchText);
       setLoading(false);
     } catch (error) {
       console.error("Error searchText:", error);
@@ -70,7 +70,7 @@ function SearchPage() {
           </div>
         )}
         
-        {searchResult && searchResult.videos.length === 0 ? (
+        {searchResult && (searchResult.videos.length === 0 && searchResult.users.length === 0) ? (
           <div className="flex flex-col items-center justify-center h-64">
             <h2 className="text-xl font-medium text-gray-600 dark:text-white">
               No results found for &quot;{searched}&quot;
