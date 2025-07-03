@@ -130,7 +130,7 @@ export async function POST(request: NextRequest) {
             userId: new mongoose.Types.ObjectId(session.user.id),
             videoId: video._id,
             content: content.trim(),
-            parentCommentId: new mongoose.Types.ObjectId(parentCommentId as string) || undefined,
+            parentCommentId: new mongoose.Types.ObjectId(parentCommentId as string) || null,
         }
 
         const newComment = await Comment.create(commentData);

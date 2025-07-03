@@ -3,9 +3,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import { IKVideo } from "imagekitio-next";
 import Link from "next/link";
-import { Heart, Send, Volume2, VolumeX, X } from "lucide-react";
+import { Heart,  Volume2, VolumeX, X } from "lucide-react";
 import FollowBtn from "../UserComps/FollowBtn";
-import { VidI } from "@/lib/api-client";
+import {  CommentI, VidI } from "@/lib/api-client";
 import ProfilePic from "../UserComps/ProfilePic";
 import LikeVideo from "./LikeVideo";
 import Comment from "./Comment";
@@ -13,7 +13,7 @@ import ShareVideo from "./ShareVideo";
 import SaveVideo from "./SaveVideo";
 import { useSession } from "next-auth/react";
 import mongoose from "mongoose";
-import Image from "next/image";
+import CommentSection from "./CommentSection";
 
 interface VideoComponentProps {
   video: VidI;
@@ -31,12 +31,14 @@ export default function VideoComponent({
   const [isMuted, setIsMuted] = useState(true);
   const [expanded, setExpanded] = useState(false);
   const [isPlaying, setIsPlaying] = useState(active);
-  const [commentText, setCommentText] = useState("");
   const [muteOnTap, setMuteOnTap] = useState(false);
   const [showMuteOnTap, setShowMuteOnTap] = useState(false);
   const videoRef = useRef<HTMLDivElement>(null);
   const ikVideoRef = useRef<HTMLVideoElement>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
+  const [comments, setComments] = useState<CommentI[]>([]);
+  const [commentsLoading,setCommentsLoading] = useState(false)
+
 
   const { data: session } = useSession();
   const userId = session?.user.id;
@@ -44,6 +46,40 @@ export default function VideoComponent({
   // const username = session?.user.username
 
   // const authUser = useUserProfile()
+
+  // Handle video visibility and playback
+  useEffect(() => {
+    if (!videoRef.current) return;
+
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsPlaying(true);
+            if (ikVideoRef.current) {
+              ikVideoRef.current
+                .play()
+                .catch((err) => console.error("Failed to play:", err));
+            }
+          } else {
+            setIsPlaying(false);
+            if (ikVideoRef.current) {
+              ikVideoRef.current.pause();
+            }
+          }
+        });
+      },
+      { threshold: 0.6 }
+    );
+
+    observerRef.current.observe(videoRef.current);
+
+    return () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect();
+      }
+    };
+  }, []);
 
   // Effect to handle active prop changes
   useEffect(() => {
@@ -75,16 +111,6 @@ export default function VideoComponent({
           .catch((err) => console.error("Failed to play:", err));
         setIsPlaying(true);
       }
-    }
-  };
-
-  // Handle comment submission
-  const handleCommentSubmit = () => {
-    if (commentText.trim()) {
-      // In a real app, you would submit the comment to your backend
-      console.log("Submitting comment:", commentText);
-      setCommentText("");
-      // Optionally, you could update the local comments list here
     }
   };
 
@@ -146,7 +172,7 @@ export default function VideoComponent({
     }, 1000);
   };
   
-  // Handle video visibility and playback and mute state
+  // Handle video visibility and playback and unmute on visibility change
 useEffect(() => {
   if (!videoRef.current) return;
 
@@ -188,9 +214,6 @@ useEffect(() => {
     observerRef.current?.disconnect();
   };
 }, []);
-
-
-
 
 
   return (
@@ -291,27 +314,15 @@ useEffect(() => {
         </div>
 
         {/* Right Side Actions */}
-        <div className="absolute right-2 bottom-32 flex flex-col items-center space-y-2">
+        <div onClick={(e) => e.stopPropagation()} className="absolute right-2 bottom-32 flex flex-col items-center space-y-2">
           <LikeVideo
             videoId={video._id!}
             likes={video.likes!}
             userId={_userId}
           />
-          <Comment />
+          <Comment videoId={video._id!} showComments={showComments} setShowComments={setShowComments} setComments={setComments} setCommentsLoading={setCommentsLoading} />
           <SaveVideo videoId={video._id!} />
           <ShareVideo ReelsId={video._id!.toString()} />
-          {/* <button
-            className="flex flex-col items-center"
-            onClick={() => setShowComments(!showComments)}
-          >
-            <div className="bg-black bg-opacity-20 rounded-full p-3">
-              <MessageCircle size={28} className="text-white" />
-            </div>
-            <span className="text-white text-xs "> */}
-          {/* {formatCount(video.comments?.length || 0)} */}
-          {/* Comments */}
-          {/* </span>
-          </button> */}
         </div>
 
         {/* Bottom Content */}
@@ -360,107 +371,7 @@ useEffect(() => {
       </div>
 
       {/* Comments Slide-up Panel */}
-      {showComments && (
-        <div className="absolute inset-0 z-30 bg-black bg-opacity-80 transition-all duration-300">
-          <div className="absolute bottom-0 left-0 right-0 bg-gray-900 rounded-t-3xl p-4 h-2/3 transition-transform">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-white font-bold">Comments</h3>
-              <button
-                onClick={() => setShowComments(false)}
-                className="text-white p-1"
-              >
-                <X size={20} />
-              </button>
-            </div>
-
-            <div className="overflow-y-auto h-[calc(100%-6rem)] space-y-4 pb-4">
-              {[].length > 0 ? (
-                [].map(
-                  (
-                    comment: {
-                      user?: string;
-                      text?: string;
-                      time?: string;
-                      likes?: number;
-                      profilePic: string;
-                    },
-                    idx: number // TODO:  Fix comment type
-                  ) => (
-                    <div key={idx} className="flex items-start space-x-3">
-                      <div className="h-8 w-8 rounded-full overflow-hidden">
-                        <Image
-                          src={
-                            comment.profilePic ||
-                            `/api/placeholder/${24 + idx}/${24 + idx}`
-                          }
-                          alt="User"
-                          className="h-full w-full object-cover"
-                        />
-                      </div>
-                      <div className="flex-1">
-                        <p className="text-sm font-medium text-white">
-                          {comment?.user || `user${idx + 1}`}
-                        </p>
-                        <p className="text-sm text-gray-300">
-                          {comment?.text || "Great video!"}
-                        </p>
-                        <div className="flex items-center space-x-4 mt-1">
-                          <span className="text-gray-400 text-xs">
-                            {comment?.time || "1d"}
-                          </span>
-                          <button className="text-gray-400 text-xs">
-                            Reply
-                          </button>
-                          <button className="text-gray-400 text-xs flex items-center">
-                            <Heart size={12} className="mr-1" />{" "}
-                            {comment?.likes || Math.floor(Math.random() * 20)}
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  )
-                )
-              ) : (
-                <div className="bg-gray-800 rounded-lg p-4">
-                  <p className="text-gray-300 text-center">
-                    Be the first to comment
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* Comment Input */}
-            <div className="absolute bottom-0 left-0 right-0 p-4 bg-gray-900 border-t border-gray-800">
-              <div className="flex items-center space-x-2">
-                <div className="h-8 w-8 rounded-full overflow-hidden">
-                  <Image
-                    src="/api/placeholder/32/32"
-                    alt="Your profile"
-                    className="h-full w-full object-cover"
-                  />
-                </div>
-                <input
-                  type="text"
-                  placeholder="Add a comment..."
-                  className="bg-gray-800 text-white rounded-full px-4 py-2 text-sm flex-1 focus:outline-none"
-                  value={commentText}
-                  onChange={(e) => setCommentText(e.target.value)}
-                  onKeyPress={(e) => e.key === "Enter" && handleCommentSubmit()}
-                />
-                <button
-                  className={`text-white ${
-                    !commentText.trim() ? "opacity-50" : "opacity-100"
-                  }`}
-                  onClick={handleCommentSubmit}
-                  disabled={!commentText.trim()}
-                >
-                  <Send size={20} />
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+     <CommentSection loading={commentsLoading} comments={comments} userId={userId!} videoId={video._id!} showComments={showComments} setShowComments={setShowComments} />
     </div>
   );
 }

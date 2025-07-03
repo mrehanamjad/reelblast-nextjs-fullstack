@@ -81,10 +81,34 @@ export interface SearchVideoI {
   };
 }
 
+export interface CUserI {
+  userName: string;
+  profilePic: string;
+}
+
+export interface ReplyI {
+  _id: string;
+  content: string;
+  createdAt: Date;
+  updatedAt: Date;
+  user: CUserI;
+}
+
+export interface CommentI {
+  _id: string;
+  content: string;
+  createdAt: Date;
+  updatedAt: Date;
+  user: CUserI;
+  replies: ReplyI[];
+}
+
 export interface SearchResponse {
   users: SearchUserI[];
   videos: SearchVideoI[];
 }
+
+
 
 class ApiClient {
   private async myFetch<T>(
@@ -172,6 +196,21 @@ class ApiClient {
       method: "DELETE",
       body: { id, fileType },
     });
+  }
+
+  async createComment(
+    videoId: string | mongoose.Types.ObjectId,
+    content: string,
+    parentCommentId?: string | mongoose.Types.ObjectId | null
+  ) {
+    return await this.myFetch(`/videos/${videoId}/comments`, {
+      method: "POST",
+      body: { content, parentCommentId },
+    });
+  }
+
+  async getComments(videoId: string | mongoose.Types.ObjectId) {
+    return await this.myFetch<CommentI[]>(`/videos/${videoId}/comments`);
   }
 
   async search(query: string) {
