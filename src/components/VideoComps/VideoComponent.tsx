@@ -3,9 +3,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import { IKVideo } from "imagekitio-next";
 import Link from "next/link";
-import { Heart,  Volume2, VolumeX, X } from "lucide-react";
+import { Heart,  Volume2, VolumeX} from "lucide-react";
 import FollowBtn from "../UserComps/FollowBtn";
-import {  CommentI, VidI } from "@/lib/api-client";
+import {  apiClient, CommentI, VidI } from "@/lib/api-client";
 import ProfilePic from "../UserComps/ProfilePic";
 import LikeVideo from "./LikeVideo";
 import Comment from "./Comment";
@@ -14,6 +14,7 @@ import SaveVideo from "./SaveVideo";
 import { useSession } from "next-auth/react";
 import mongoose from "mongoose";
 import CommentSection from "./CommentSection";
+import { notifications } from "@mantine/notifications";
 
 interface VideoComponentProps {
   video: VidI;
@@ -216,6 +217,32 @@ useEffect(() => {
 }, []);
 
 
+  const getComments = async (videoId:string) => {
+    try {
+      setCommentsLoading(true);
+      const res = await apiClient.getComments(videoId);
+      setComments(res);
+    } catch (error: unknown) {
+      let errorMessage = "Failed to fetch comment";
+
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      }
+
+      console.error("Failed to fetch comment:", error);
+      notifications.show({
+        title: "Error",
+        message: errorMessage,
+        color: "red",
+      });
+    } finally {
+      setCommentsLoading(false);
+    }
+  };
+
+
+
+
   return (
     <div
       onClick={() => handleToggleMuteOnTap()}
@@ -320,7 +347,7 @@ useEffect(() => {
             likes={video.likes!}
             userId={_userId}
           />
-          <Comment videoId={video._id!} showComments={showComments} setShowComments={setShowComments} setComments={setComments} setCommentsLoading={setCommentsLoading} />
+          <Comment getComments={getComments} videoId={video._id!} setShowComments={setShowComments}  />
           <SaveVideo videoId={video._id!} />
           <ShareVideo ReelsId={video._id!.toString()} />
         </div>
@@ -371,7 +398,7 @@ useEffect(() => {
       </div>
 
       {/* Comments Slide-up Panel */}
-     <CommentSection loading={commentsLoading} comments={comments} userId={userId!} videoId={video._id!} showComments={showComments} setShowComments={setShowComments} />
+     <CommentSection getComments={getComments} loading={commentsLoading} comments={comments} userId={userId!} videoId={video._id!} showComments={showComments} setShowComments={setShowComments} />
     </div>
   );
 }

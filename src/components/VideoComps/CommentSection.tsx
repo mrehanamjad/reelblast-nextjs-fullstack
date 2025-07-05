@@ -20,6 +20,7 @@ const ShowComment = ({
   comments,
   activeReply,
   setActiveReply,
+  getComments,
 }: {
   userId: string | mongoose.Types.ObjectId;
   videoId: string | mongoose.Types.ObjectId;
@@ -27,6 +28,7 @@ const ShowComment = ({
   comments: CommentI[];
   activeReply: string | null;
   setActiveReply: (org: string | null) => void;
+  getComments: (videoId:string)  => Promise<void>;
 }) => {
   const nestedComments = comments.filter(
     (child) => child.parentCommentId === comment._id
@@ -138,6 +140,8 @@ const ShowComment = ({
               parentCommentId={comment._id}
               userId={userId}
               videoId={videoId}
+              setActiveReply={setActiveReply}
+              getComments={getComments}
             />
           </div>
         )}
@@ -155,6 +159,7 @@ const ShowComment = ({
               videoId={videoId}
               activeReply={activeReply}
               setActiveReply={setActiveReply}
+              getComments={getComments}
             />
           ))}
         </div>
@@ -170,6 +175,7 @@ const CommentSection = ({
   setShowComments,
   comments,
   loading,
+  getComments
 }: {
   userId: string | mongoose.Types.ObjectId;
   videoId: string | mongoose.Types.ObjectId;
@@ -177,6 +183,7 @@ const CommentSection = ({
   setShowComments: (arg: boolean) => void;
   comments: CommentI[];
   loading: boolean;
+  getComments: (videoId:string)  => Promise<void>
 }) => {
   const [activeReply, setActiveReply] = useState<string | null>(null);
 
@@ -221,6 +228,7 @@ const CommentSection = ({
                     comments={comments}
                     activeReply={activeReply}
                     setActiveReply={setActiveReply}
+                    getComments={getComments}
                   />
                 );
             })
@@ -245,6 +253,7 @@ const CommentSection = ({
             userId={userId}
             videoId={videoId}
             parentCommentId={null}
+            getComments={getComments}
           />
         </div>
       </div>

@@ -11,10 +11,14 @@ function CommentForm({
   userId,
   videoId,
   parentCommentId = null,
+  setActiveReply,
+  getComments
 }: {
   userId: string | mongoose.Types.ObjectId;
   videoId: string | mongoose.Types.ObjectId;
   parentCommentId?: string | mongoose.Types.ObjectId | null;
+  setActiveReply?: (org: string | null) => void;
+  getComments: (videoId:string)  => Promise<void>
 }) {
   const [loading, setLoading] = useState(false);
   const [commentText, setCommentText] = useState("");
@@ -66,7 +70,11 @@ function CommentForm({
     })
 
       setCommentText("");
-      // Optionally, trigger re-fetch or add comment to UI directly
+      if (setActiveReply) setActiveReply(null);
+      
+      // refetch Comments
+      await getComments(videoId as string)
+
     } catch (error: unknown) {
       let errorMessage = "Failed to post comment";
 
