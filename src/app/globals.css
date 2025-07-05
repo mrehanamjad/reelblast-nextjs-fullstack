@@ -7,6 +7,12 @@ html,body {
   background-color: black;
 }
 
+@media (max-width: 640px) {
+  #search-btn {
+    padding: 12px;
+  }
+}
+
 /* 
 @theme {
   --font-sans: var(--font-geist-sans);

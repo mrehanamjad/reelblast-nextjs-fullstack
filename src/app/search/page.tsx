@@ -49,7 +49,7 @@ function SearchPage() {
       <form className="flex  gap-2 w-full px-1 sm:px-8 my-4 " onSubmit={submit}>
         <TextInput
           size="lg"
-          className="mb-4 w-full"
+          className="mb-4 flex-1 w-full"
           leftSectionPointerEvents="none"
           leftSection={<Search size={24} />}
           type="text"
@@ -58,8 +58,8 @@ function SearchPage() {
           value={searchText}
           onChange={(e) => setSearchText(e.target.value)}
         />
-        <Button size="lg" style={{}} type="submit">
-          Search..
+        <Button size="lg" id="search-btn" type="submit">
+          Search
         </Button>
       </form>
 
