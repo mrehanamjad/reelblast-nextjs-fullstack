@@ -63,7 +63,7 @@ const FollowBtn = ({
       size={size}
       radius={radius}
     >
-      {isFollowing ? ( followIcon ? <><UserCheck size={35} className="sm:hidden" /> <span className={`${followIcon && "maz-sm:hidden"}`}> Following</span> </>: "Following"): (followIcon ? <><UserCheck size={35} className="sm:hidden" /> <span className={`${followIcon && "maz-sm:hidden"}`}> Follow</span></>: "Follow")}
+      {isFollowing ? ( followIcon ? <><UserCheck size={35} className="sm:hidden" /> <span className={`${followIcon && "maz-sm:hidden"}`}> Following</span> </>: "Following"): (followIcon ? <><UserPlus size={35} className="sm:hidden" /> <span className={`${followIcon && "maz-sm:hidden"}`}> Follow</span></>: "Follow")}
     </Button>
   );
 };
