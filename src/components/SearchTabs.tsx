@@ -20,6 +20,8 @@ function SearchTabs({ data,loading }: { data: SearchResponse ; loading: boolean 
     description: video.description
   }))
 
+  console.log("ReelSMData",ReelSMData)
+
   const videoNotFound = {
     icon: <SquarePlay size={50} />,
     message: "No videos found",

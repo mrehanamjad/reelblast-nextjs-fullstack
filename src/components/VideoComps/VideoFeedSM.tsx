@@ -89,7 +89,7 @@ function VideoFeedSM({
                     setPlayOnFeed(true);
                     setCurrentVideoIndex(idx);
                   } else {
-                    router.push(`/video/${video.videoUrl}`);
+                    router.push(`/video/${video._id}`);
                   }
                 }}
               />
