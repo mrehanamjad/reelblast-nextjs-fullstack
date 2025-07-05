@@ -5,6 +5,7 @@ import { ChevronUp, ChevronDown } from "lucide-react";
 import VideoComponent from "./VideoComponent";
 import { VidI } from "@/lib/api-client";
 import ReelNavMobile from "./ReelNavMobile";
+import Link from "next/link";
 
 interface VideoFeedProps {
   videos: VidI[];
@@ -181,13 +182,12 @@ const goToNextVideo = useCallback(() => {
           <p className="text-gray-400 text-center">
             Discover trending videos or create your own
           </p>
-          <button className="mt-6 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-full font-medium text-lg">
+          <Link href={"/"} className="mt-6 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-full font-medium text-lg">
             Explore Reels
-          </button>
+          </Link>
         </div>
       )}
 
-      {/* Navigation buttons - fixed to the side */}
       {!isLoading && videos.length > 1 && (
         <>
           <button
