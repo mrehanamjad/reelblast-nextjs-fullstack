@@ -22,12 +22,12 @@ function ShareVideo({ReelsId}: {ReelsId: string}) {
     <div className="flex flex-col items-center">
       <ActionIcon
         size={42}
-        variant="default"
+        variant="subtle"
         radius={"xl"}
         aria-label="ActionIcon with size as a number"
         onClick={handleShareIconClick}
       >
-        <Share2Icon size={24} />
+        <Share2Icon size={24} color="white" />
       </ActionIcon>
       <ShareCard
         shareUrl={shareUrl}

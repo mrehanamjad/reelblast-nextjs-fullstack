@@ -1,5 +1,5 @@
 import { ActionIcon } from "@mantine/core";
-import { MessageCircleMore } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 import { Types } from "mongoose";
 
 function Comment({
@@ -24,12 +24,12 @@ function Comment({
     <div className="flex flex-col items-center">
       <ActionIcon
         size={42}
-        variant="default"
+        variant="subtle"
         radius={"xl"}
         aria-label="ActionIcon with size as a number"
         onClick={handleClickCommentIcon}
       >
-        <MessageCircleMore size={24} />
+        <MessageCircle size={24} color="white" />
       </ActionIcon>
       <span className="text-white text-xs">Comments</span>
     </div>
