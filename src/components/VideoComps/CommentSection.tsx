@@ -4,7 +4,6 @@ import {
   MessageCircle,
   ChevronDown,
   ChevronUp,
-  MoreVertical,
 } from "lucide-react";
 import mongoose from "mongoose";
 import { CommentI } from "@/lib/api-client";
@@ -12,6 +11,7 @@ import CommentForm from "./CommentForm";
 import ScreenLoader from "../ScreenLoader";
 import ProfilePic from "../UserComps/ProfilePic";
 import Link from "next/link";
+import CommentMenu from "./CommentMenu";
 
 const ShowComment = ({
   userId,
@@ -28,7 +28,7 @@ const ShowComment = ({
   comments: CommentI[];
   activeReply: string | null;
   setActiveReply: (org: string | null) => void;
-  getComments: (videoId:string)  => Promise<void>;
+  getComments: (videoId: string) => Promise<void>;
 }) => {
   const nestedComments = comments.filter(
     (child) => child.parentCommentId === comment._id
@@ -53,6 +53,7 @@ const ShowComment = ({
   };
 
   const toggleExpanded = (commentId: string) => {
+    console.log(comment)
     const newExpanded = new Set(expandedComments);
     if (newExpanded.has(commentId)) {
       newExpanded.delete(commentId);
@@ -70,7 +71,7 @@ const ShowComment = ({
           {/* Profile Picture */}
           <Link href={`/${comment.user.userName}`} className="flex-shrink-0">
             <ProfilePic
-              url={comment.user.profilePic}
+              url={comment.user.profilePic?.url}
               name={comment.user.userName || "Undefined"}
             />
           </Link>
@@ -127,10 +128,13 @@ const ShowComment = ({
             </div>
           </div>
 
-          {/* More Options Button */}
-          <button className="flex-shrink-0 opacity-0 group-hover:opacity-100 text-gray-400 hover:text-white p-1 rounded-full hover:bg-gray-800 transition-all duration-200">
-            <MoreVertical size={16} />
-          </button>
+          {userId === comment.user._id && (
+            <CommentMenu
+              commentId={comment._id}
+              videoId={videoId as string}
+              fetchAgain={getComments}
+            />
+          )}
         </div>
 
         {/* Reply Input */}
@@ -175,7 +179,7 @@ const CommentSection = ({
   setShowComments,
   comments,
   loading,
-  getComments
+  getComments,
 }: {
   userId: string | mongoose.Types.ObjectId;
   videoId: string | mongoose.Types.ObjectId;
@@ -183,7 +187,7 @@ const CommentSection = ({
   setShowComments: (arg: boolean) => void;
   comments: CommentI[];
   loading: boolean;
-  getComments: (videoId:string)  => Promise<void>
+  getComments: (videoId: string) => Promise<void>;
 }) => {
   const [activeReply, setActiveReply] = useState<string | null>(null);
 
@@ -194,7 +198,7 @@ const CommentSection = ({
   return (
     <div
       onClick={(e) => e.stopPropagation()}
-      className="absolute inset-0 z-30 bg-black/40 transition-all duration-300"
+      className="absolute inset-0 z-30 bg-black/40 transition-all duration-300 max-sm:mb-14"
     >
       <div className="absolute bottom-0 left-0 right-0 bg-[#111111] rounded-t-3xl h-2/3 transition-transform shadow-2xl">
         {/* Header */}

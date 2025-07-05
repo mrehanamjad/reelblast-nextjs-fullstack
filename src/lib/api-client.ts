@@ -84,8 +84,12 @@ export interface SearchVideoI {
 export interface CommentI {
    _id: string;
   user: {
+    _id: string;
     userName: string;
-    profilePic: string;
+    profilePic: {
+      id: string;
+      url: string;
+    }
   };
   content: string ;
   parentCommentId: string | null;
@@ -201,6 +205,10 @@ class ApiClient {
 
   async getComments(videoId: string | mongoose.Types.ObjectId) {
     return await this.myFetch<CommentI[]>(`/videos/${videoId}/comments`);
+  }
+
+  async deleteComment(videoId: string | mongoose.Types.ObjectId,commentId:string | mongoose.Types.ObjectId) {
+    return await this.myFetch(`/videos/${videoId}/comments/${commentId}`, { method: "DELETE" });
   }
 
   async search(query: string) {

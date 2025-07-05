@@ -5,15 +5,18 @@ import React, { useEffect, useState } from "react";
 import { useUserProfile } from "../UserProfileContext";
 import { apiClient } from "@/lib/api-client";
 import { useSession } from "next-auth/react";
+import { UserCheck, UserPlus } from "lucide-react";
 
 const FollowBtn = ({
   userToFollow,
   size = "md",
   radius = "sm",
+  followIcon = false,
 }: {
   userToFollow: string;
   size?: string;
   radius?: string;
+  followIcon?: boolean;
 }) => {
   const [isFollowing, setIsFollowing] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -59,7 +62,7 @@ const FollowBtn = ({
       size={size}
       radius={radius}
     >
-      {isFollowing ? "Following" : "Follow"}
+      {isFollowing ? ( followIcon ? <UserCheck size={35}  /> : "Following" ): (followIcon ? <UserPlus size={35}  /> : "Follow")}
     </Button>
   );
 };

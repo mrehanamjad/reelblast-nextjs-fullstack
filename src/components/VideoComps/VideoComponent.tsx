@@ -12,7 +12,6 @@ import Comment from "./Comment";
 import ShareVideo from "./ShareVideo";
 import SaveVideo from "./SaveVideo";
 import { useSession } from "next-auth/react";
-import mongoose from "mongoose";
 import CommentSection from "./CommentSection";
 import { notifications } from "@mantine/notifications";
 
@@ -43,7 +42,6 @@ export default function VideoComponent({
 
   const { data: session } = useSession();
   const userId = session?.user.id;
-  const _userId = new mongoose.Types.ObjectId(userId);
   // const username = session?.user.username
 
   // const authUser = useUserProfile()
@@ -345,7 +343,7 @@ useEffect(() => {
           <LikeVideo
             videoId={video._id!}
             likes={video.likes!}
-            userId={_userId}
+            userId={userId as string}
           />
           <Comment getComments={getComments} videoId={video._id!} setShowComments={setShowComments}  />
           <SaveVideo videoId={video._id!} />

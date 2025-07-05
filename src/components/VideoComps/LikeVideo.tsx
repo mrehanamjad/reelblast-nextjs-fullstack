@@ -1,5 +1,6 @@
 "use client";
 import { ActionIcon } from "@mantine/core";
+import { notifications } from "@mantine/notifications";
 import { Heart } from "lucide-react";
 import mongoose from "mongoose";
 import React, { useEffect, useState } from "react";
@@ -10,7 +11,7 @@ function LikeVideo({
   videoId,
 }: {
   likes: mongoose.Types.ObjectId[];
-  userId: mongoose.Types.ObjectId;
+  userId: string;
   videoId: mongoose.Types.ObjectId;
 }) {
   const [isLiked, setIsLiked] = useState(false);
@@ -18,11 +19,21 @@ function LikeVideo({
 
   useEffect(() => {
     if (userId) {
-      setIsLiked(likes?.some((id) => id.toString() === userId.toString()));
+      setIsLiked(likes?.some((id) => id.toString() === userId));
     }
   }, [likes, userId]);
 
   const handleVideoLike = async () => {
+    console.log("userid in like",userId)
+    if (!userId) {
+      console.error("User ID is required to Like");
+      notifications.show({
+        title: "Error",
+        message: "Please log in to Like the reel.",
+        color: "red",
+      });
+      return;
+    }
     try {
       const res = await fetch(`/api/videos/${videoId}/like`, {
         method: "PATCH",

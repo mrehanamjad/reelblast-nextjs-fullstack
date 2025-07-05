@@ -54,9 +54,6 @@ function CommentForm({
     }
 
     try {
-      console.log("add coment form :: try :: ", {
-      videoId, commentText, parentCommentId
-    })
       await apiClient.createComment(videoId, commentText, parentCommentId);
 
       notifications.show({
@@ -64,10 +61,6 @@ function CommentForm({
         message: "Comment posted successfully",
         color: "green",
       });
-
-      console.log("add coment form :: after success :: ", {
-      videoId, commentText, parentCommentId
-    })
 
       setCommentText("");
       if (setActiveReply) setActiveReply(null);

@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 import React, { useEffect, useState } from "react";
 import { useUserProfile } from "../UserProfileContext";
 import { apiClient } from "@/lib/api-client";
+import { notifications } from "@mantine/notifications";
 
 
 function SaveVideo({ videoId }: { videoId: mongoose.Types.ObjectId}) {
@@ -20,6 +21,17 @@ function SaveVideo({ videoId }: { videoId: mongoose.Types.ObjectId}) {
 
 
       const handleVideoSave = async () => {
+         if (!user) {
+                  console.error("User ID is required to Save this reel.");
+                  notifications.show({
+                    title: "Error",
+                    message: "Please log in to Save this reel.",
+                    color: "red",
+                  });
+                  return;
+                }
+
+
           try {
               const responseJson = await apiClient.saveVideo(videoId)
               console.log(responseJson);

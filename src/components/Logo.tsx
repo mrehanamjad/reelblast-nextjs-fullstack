@@ -8,7 +8,7 @@ export default function Logo({ size = 'sm' }: { size?: 'sm' | 'lg' | 'xl' }) {
   switch (size) {
     case 'lg':
       iconSize = 32;
-      textSizeClass = 'text-bold';
+      textSizeClass = 'text-2xl font-bold';
       break;
     case 'xl':
       iconSize = 40;
@@ -17,14 +17,14 @@ export default function Logo({ size = 'sm' }: { size?: 'sm' | 'lg' | 'xl' }) {
     case 'sm':
     default:
       iconSize = 26;
-      textSizeClass = 'text-xl font-semibold';
+      textSizeClass = 'text-xl font-semibold ';
       break;
   }
   
   return (
     <div className="flex items-center">
-      <Film size={iconSize} color="cyan" />
-      <span className={`ml-2 ${textSizeClass} text-cyan-200`}>Reelblast</span>
+      <Film size={iconSize} className="text-blue-400" />
+      <span className={`ml-2 ${textSizeClass} text-blue-200 tracking-wider`}>ReelBlast</span>
     </div>
   );
 }
