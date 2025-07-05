@@ -29,63 +29,64 @@ export async function GET(request: NextRequest) {
       { $unwind: "$user" },
 
       // Lookup replies for each comment
-      {
-        $lookup: {
-          from: "comments", // assuming Reply is also in "comments" collection
-          localField: "_id",
-          foreignField: "parentCommentId", // replies reference this
-          as: "replies",
-        },
-      },
+      // {
+      //   $lookup: {
+      //     from: "comments", // assuming Reply is also in "comments" collection
+      //     localField: "_id",
+      //     foreignField: "parentCommentId", // replies reference this
+      //     as: "replies",
+      //   },
+      // },
 
-      // Lookup user info for each reply author
-      {
-        $lookup: {
-          from: "users",
-          localField: "replies.userId",
-          foreignField: "_id",
-          as: "replyUsers",
-        },
-      },
+      // // Lookup user info for each reply author
+      // {
+      //   $lookup: {
+      //     from: "users",
+      //     localField: "replies.userId",
+      //     foreignField: "_id",
+      //     as: "replyUsers",
+      //   },
+      // },
 
-      // Merge user info into replies array
-      {
-        $addFields: {
-          replies: {
-            $map: {
-              input: "$replies",
-              as: "reply",
-              in: {
-                _id: "$$reply._id",
-                content: "$$reply.content",
-                createdAt: "$$reply.createdAt",
-                updatedAt: "$$reply.updatedAt",
-                user: {
-                  $arrayElemAt: [
-                    {
-                      $filter: {
-                        input: "$replyUsers",
-                        cond: { $eq: ["$$this._id", "$$reply.userId"] },
-                      },
-                    },
-                    0,
-                  ],
-                },
-              },
-            },
-          },
-        },
-      },
+      // // Merge user info into replies array
+      // {
+      //   $addFields: {
+      //     replies: {
+      //       $map: {
+      //         input: "$replies",
+      //         as: "reply",
+      //         in: {
+      //           _id: "$$reply._id",
+      //           content: "$$reply.content",
+      //           createdAt: "$$reply.createdAt",
+      //           updatedAt: "$$reply.updatedAt",
+      //           user: {
+      //             $arrayElemAt: [
+      //               {
+      //                 $filter: {
+      //                   input: "$replyUsers",
+      //                   cond: { $eq: ["$$this._id", "$$reply.userId"] },
+      //                 },
+      //               },
+      //               0,
+      //             ],
+      //           },
+      //         },
+      //       },
+      //     },
+      //   },
+      // },
 
       // Project final shape
       {
         $project: {
           _id: 1,
           content: 1,
+          parentCommentId: 1,
+          "user.userName": 1, 
+          "user.profilePic": 1, 
           createdAt: 1,
           updatedAt: 1,
-          user: { userName: 1, profilePic: 1 },
-          replies: 1,
         },
       },
 
@@ -130,7 +131,7 @@ export async function POST(request: NextRequest) {
             userId: new mongoose.Types.ObjectId(session.user.id),
             videoId: video._id,
             content: content.trim(),
-            parentCommentId: new mongoose.Types.ObjectId(parentCommentId as string) || null,
+            parentCommentId: parentCommentId ? new mongoose.Types.ObjectId(parentCommentId as string) : null,
         }
 
         const newComment = await Comment.create(commentData);

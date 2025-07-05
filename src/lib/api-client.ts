@@ -81,26 +81,16 @@ export interface SearchVideoI {
   };
 }
 
-export interface CUserI {
-  userName: string;
-  profilePic: string;
-}
-
-export interface ReplyI {
-  _id: string;
-  content: string;
-  createdAt: Date;
-  updatedAt: Date;
-  user: CUserI;
-}
-
 export interface CommentI {
-  _id: string;
-  content: string;
+   _id: string;
+  user: {
+    userName: string;
+    profilePic: string;
+  };
+  content: string ;
+  parentCommentId: string | null;
   createdAt: Date;
   updatedAt: Date;
-  user: CUserI;
-  replies: ReplyI[];
 }
 
 export interface SearchResponse {

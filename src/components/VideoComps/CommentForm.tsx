@@ -23,6 +23,10 @@ function CommentForm({
     e.preventDefault()
     if (!commentText.trim()) return;
 
+    console.log("add coment form :: start :: ", {
+      videoId, commentText, parentCommentId
+    })
+
     setLoading(true);
 
     if (!userId) {
@@ -46,6 +50,9 @@ function CommentForm({
     }
 
     try {
+      console.log("add coment form :: try :: ", {
+      videoId, commentText, parentCommentId
+    })
       await apiClient.createComment(videoId, commentText, parentCommentId);
 
       notifications.show({
@@ -53,6 +60,10 @@ function CommentForm({
         message: "Comment posted successfully",
         color: "green",
       });
+
+      console.log("add coment form :: after success :: ", {
+      videoId, commentText, parentCommentId
+    })
 
       setCommentText("");
       // Optionally, trigger re-fetch or add comment to UI directly
@@ -108,3 +119,4 @@ function CommentForm({
 }
 
 export default CommentForm;
+

@@ -3,7 +3,7 @@ import mongoose, { Schema } from "mongoose";
 export interface CommentI {
   userId: mongoose.Types.ObjectId;
   videoId?: mongoose.Types.ObjectId; // only for top-level comments
-  parentCommentId?: mongoose.Types.ObjectId; // only for replies
+  parentCommentId?: mongoose.Types.ObjectId | null; // only for replies
   content: string;
   createdAt?: Date;
   updatedAt?: Date;
@@ -23,8 +23,9 @@ const CommentSchema: Schema = new Schema<CommentI>(
     parentCommentId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Comment",
+      default: null
     },
-    content: {
+    content: { 
       type: String,
       required: true,
     },
