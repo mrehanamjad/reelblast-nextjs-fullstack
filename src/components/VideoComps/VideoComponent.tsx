@@ -351,7 +351,7 @@ useEffect(() => {
         </div>
 
         {/* Bottom Content */}
-        <div className="absolute bottom-16 sm:bottom-8 left-4 right-16 z-20">
+        <div onClick={(e) => e.stopPropagation()} className="absolute bottom-16 sm:bottom-8 left-4 right-16 z-20">
           {/* Author Info */}
           <div className="flex items-center gap-2 justify-center mb-2">
             <Link href={`/${video.user?.userName}`}>
