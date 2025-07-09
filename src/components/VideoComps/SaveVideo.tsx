@@ -34,12 +34,9 @@ function SaveVideo({ videoId }: { videoId: mongoose.Types.ObjectId }) {
     try {
       setLoading(true);
       const responseJson = await apiClient.saveVideo(videoId);
-      console.log(responseJson);
       if (responseJson.message.toLowerCase().includes("remove")) {
         addOrRemoveToSavedReels(videoId.toString());
         setIsSaved(false);
-        console.log(responseJson.message);
-
         notifications.show({
           title: "Success",
           message: "Video removed from your save list",

@@ -7,12 +7,9 @@ export async function GET(req: Request) {
   try {
     await connectionToDatabase();
 
-    
-    // Extract username from the dynamic URL
     const url = new URL(req.url);
     const urlArray = url.pathname.split("/");
-    const username = urlArray[urlArray.length - 2]; // As the URL is  /api/user/username/videos
-    console.log("i am called feching user Reels :: username :: ", username);
+    const username = urlArray[urlArray.length - 2]; 
 
 
     if (!username) {

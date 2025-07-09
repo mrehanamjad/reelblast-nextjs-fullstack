@@ -41,14 +41,12 @@ function LikeVideo({
       });
       if (!res.ok) throw new Error("Failed to  video like");
       const data = await res.json();
-      console.log(data);
       if (data.message.toLowerCase().includes("unlike")) {
         setLikesCount((prev) => (prev -= 1));
         setIsLiked(false);
       } else {
         setLikesCount((prev) => (prev += 1));
         setIsLiked(true);
-        console.log("Video liked !!!!!!!");
       }
     } catch (error) {
       console.error("Error liking video:", error);

@@ -54,7 +54,6 @@ function UserProfileProvider({ children }: { children: React.ReactNode }) {
 
       const data = await apiClient.getUser(session.user.username);
       setUser(data);
-      console.log("I am saved  to context api");
     } catch (err) {
       console.error("User not found",err);
       setUser(null);

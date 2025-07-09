@@ -47,10 +47,8 @@ export default function VideoFeed({
   // Set up intersection observer to detect which video is currently visible
   useEffect(() => {
     if (!isLoading && videos.length > 0) {
-      console.log("observerRef.current", observerRef.current);
       observerRef.current = new IntersectionObserver(
         (entries) => {
-          console.log("entries", entries);
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
               const index = parseInt(entry.target.id.split("-")[1]);
@@ -65,7 +63,6 @@ export default function VideoFeed({
         }
       );
 
-      console.log("videoRefs.current", videoRefs.current);
       // Observe all video elements
       videoRefs.current.forEach((ref) => {
         if (observerRef.current && ref) {

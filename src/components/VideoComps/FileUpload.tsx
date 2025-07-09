@@ -26,7 +26,6 @@ export default function FileUpload({
   };
 
   const handleSuccess = (res: IKUploadResponse) => {
-    console.log("Success", res);
     setUploading(false);
     setError(null);
     onSuccess(res);

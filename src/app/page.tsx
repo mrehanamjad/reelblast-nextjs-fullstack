@@ -21,10 +21,8 @@ export default function Home() {
 
   const fetchUser = async (username: string) => {
     try {
-      console.log("main page :: fetching user...");
       const res = await fetch(`/api/user/${username}`);
       const result = await res.json();
-      console.log("Main Page :: fetched user data :: ", result);
       setUserSavedList(result);
     } catch (error) {
       console.error("Error fetching user data:", error);
@@ -41,10 +39,6 @@ export default function Home() {
     }
   }, [session?.user?.username]);
 
-  useEffect(() => {
-    console.log("All videos data :: ", videos);
-    console.log("User data :: ", userSavedList);
-  }, [videos, userSavedList]);
 
   if (videos.length > 0) {
     return (

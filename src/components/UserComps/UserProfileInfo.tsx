@@ -30,7 +30,6 @@ function UserProfileInfo({ username }: { username: string }) {
       try {
         const result = await apiClient.getUser(username);
         setUserData(result);
-        console.log(result);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
