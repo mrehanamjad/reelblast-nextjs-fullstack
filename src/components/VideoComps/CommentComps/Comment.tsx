@@ -5,17 +5,16 @@ import { Types } from "mongoose";
 function Comment({
   videoId,
   setShowComments,
-  getComments,
+  // getComments,
 }: {
   videoId: string | Types.ObjectId;
   setShowComments: (arg: boolean) => void;
-  getComments: (videoId:string)  => Promise<void>
+  // getComments: (videoId:string)  => Promise<void>
 }) {
 
 
   const handleClickCommentIcon = async() => {
     setShowComments(true)
-    await getComments(videoId as string)
   }
 
 

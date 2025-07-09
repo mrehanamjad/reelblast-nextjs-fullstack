@@ -35,8 +35,7 @@ export default function VideoComponent({
   const videoRef = useRef<HTMLDivElement>(null);
   const ikVideoRef = useRef<HTMLVideoElement>(null);
   const observerRef = useRef<IntersectionObserver | null>(null);
-  const [comments, setComments] = useState<CommentI[]>([]);
-  const [commentsLoading,setCommentsLoading] = useState(false)
+
 
 
   const { data: session } = useSession();
@@ -175,31 +174,6 @@ useEffect(() => {
 }, []);
 
 
-  const getComments = async (videoId:string) => {
-    try {
-      setCommentsLoading(true);
-      const res = await apiClient.getComments(videoId);
-      setComments(res);
-    } catch (error: unknown) {
-      let errorMessage = "Failed to fetch comment";
-
-      if (error instanceof Error) {
-        errorMessage = error.message;
-      }
-
-      console.error("Failed to fetch comment:", error);
-      notifications.show({
-        title: "Error",
-        message: errorMessage,
-        color: "red",
-      });
-    } finally {
-      setCommentsLoading(false);
-    }
-  };
-
-
-
 
   return (
     <div
@@ -291,7 +265,7 @@ useEffect(() => {
             likes={video.likes!}
             userId={userId as string}
           />
-          <Comment getComments={getComments} videoId={video._id!} setShowComments={setShowComments}  />
+          <Comment  videoId={video._id!} setShowComments={setShowComments}  />
           <SaveVideo videoId={video._id!} />
           <ShareVideo ReelsId={video._id!.toString()} />
         </div>
@@ -342,7 +316,7 @@ useEffect(() => {
       </div>
 
       {/* Comments Slide-up Panel */}
-     <CommentSection getComments={getComments} loading={commentsLoading} comments={comments} userId={userId!} videoId={video._id!} showComments={showComments} setShowComments={setShowComments} />
+     <CommentSection   userId={userId!} videoId={video._id!} showComments={showComments} setShowComments={setShowComments} />
     </div>
   );
 }
