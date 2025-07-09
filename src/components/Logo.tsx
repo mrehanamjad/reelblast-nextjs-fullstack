@@ -1,7 +1,6 @@
 import { Film } from "lucide-react";
 
 export default function Logo({ size = 'sm' }: { size?: 'sm' | 'lg' | 'xl' }) {
-  // Set icon sizes based on the size prop using switch
   let iconSize;
   let textSizeClass;
   

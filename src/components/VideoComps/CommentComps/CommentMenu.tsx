@@ -62,12 +62,6 @@ export default function CommentMenu({
         </Menu.Target>
 
         <Menu.Dropdown>
-          
-            {/* <Menu.Item component={Link} href={`/video/${videoId}/edit`} leftSection={<Pen size={14} />}>
-              Edit
-            </Menu.Item> */}
-
-
           <Menu.Item
             color="red"
             leftSection={<Trash size={14} />}

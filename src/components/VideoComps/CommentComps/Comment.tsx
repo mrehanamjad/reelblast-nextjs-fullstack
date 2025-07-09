@@ -5,11 +5,9 @@ import { Types } from "mongoose";
 function Comment({
   videoId,
   setShowComments,
-  // getComments,
 }: {
   videoId: string | Types.ObjectId;
   setShowComments: (arg: boolean) => void;
-  // getComments: (videoId:string)  => Promise<void>
 }) {
 
 

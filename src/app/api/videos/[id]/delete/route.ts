@@ -14,10 +14,9 @@ export async function DELETE(request: NextRequest) {
 
     await connectionToDatabase();
 
-    // Extract `id` from URL
     const url = new URL(request.url);
     const segments = url.pathname.split("/");
-    const id = segments[segments.indexOf("videos") + 1]; // get [id] from /api/videos/[id]/delete
+    const id = segments[segments.indexOf("videos") + 1]; 
 
     if (!id) {
       return NextResponse.json({ error: "Video ID is missing" }, { status: 400 });

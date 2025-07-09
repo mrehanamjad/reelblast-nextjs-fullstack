@@ -67,7 +67,6 @@ const ShowComment = ({
       {/* Main Comment */}
       <div className="group">
         <div className="flex items-start gap-3">
-          {/* Profile Picture */}
           <Link href={`/${comment.user.userName}`} className="flex-shrink-0">
             <ProfilePic
               url={comment.user.profilePic?.url}
@@ -75,9 +74,7 @@ const ShowComment = ({
             />
           </Link>
 
-          {/* Comment Content */}
           <div className="flex-1 min-w-0">
-            {/* User Info & Timestamp */}
             <div className="flex items-center gap-2 mb-1">
               <Link
                 href={`/${comment.user.userName}`}
@@ -90,12 +87,10 @@ const ShowComment = ({
               </span>
             </div>
 
-            {/* Comment Text */}
             <p className="text-gray-200 text-sm leading-relaxed mb-3">
               {comment.content}
             </p>
 
-            {/* Action Buttons */}
             <div className="flex items-center gap-4">
               <button
                 onClick={() =>

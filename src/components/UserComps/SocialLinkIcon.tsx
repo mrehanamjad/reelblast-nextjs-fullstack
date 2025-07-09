@@ -58,12 +58,10 @@ export const getSocialIcon = (url: string): LucideIcon => {
     } else if (domain.includes("twitch")) {
       return TwitchIcon
     } else {
-      // Default icon for unknown domains
       return Globe
     }
   } catch (error) {
     console.log(error)
-    // If URL parsing fails, return default icon
     return Globe
   }
 }

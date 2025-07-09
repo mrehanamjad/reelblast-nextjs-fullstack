@@ -3,9 +3,9 @@
 import React, { useState, useRef, useEffect } from "react";
 import { IKVideo } from "imagekitio-next";
 import Link from "next/link";
-import { Heart,  Volume2, VolumeX} from "lucide-react";
+import {   Volume2, VolumeX} from "lucide-react";
 import FollowBtn from "../UserComps/FollowBtn";
-import {  apiClient, CommentI, VidI } from "@/lib/api-client";
+import {   CommentI, VidI } from "@/lib/api-client";
 import ProfilePic from "../UserComps/ProfilePic";
 import LikeVideo from "./LikeVideo";
 import Comment from "./CommentComps/Comment";
@@ -13,7 +13,6 @@ import ShareVideo from "./ShareVideo";
 import SaveVideo from "./SaveVideo";
 import { useSession } from "next-auth/react";
 import CommentSection from "./CommentComps/CommentSection";
-import { notifications } from "@mantine/notifications";
 
 interface VideoComponentProps {
   video: VidI;

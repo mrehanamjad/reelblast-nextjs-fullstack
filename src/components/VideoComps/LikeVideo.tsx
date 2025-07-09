@@ -76,7 +76,6 @@ function LikeVideo({
         radius={"xl"}
         aria-label="ActionIcon with size as a number"
         onClick={handleVideoLike}
-        // disabled={loading}
       >
         {loading ? (
           <LoaderCircle size={20} className="animate-spin" />

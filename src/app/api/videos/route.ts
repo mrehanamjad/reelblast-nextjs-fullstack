@@ -12,14 +12,14 @@ export async function GET() {
     const videos:VidI[] = await Video.aggregate([
       {
         $lookup: {
-          from: "users", // The collection to join with (users collection)
-          localField: "userId", // The field from the Video collection
-          foreignField: "_id", // The field from the User collection
-          as: "user", // The alias for the matched user data
+          from: "users", 
+          localField: "userId", 
+          foreignField: "_id", 
+          as: "user", 
         },
       },
       {
-        $unwind: "$user", // Unwind the user array to include user data in each video object
+        $unwind: "$user", 
       },
       {
         $project: {
@@ -40,7 +40,7 @@ export async function GET() {
         },
       },
       {
-        $sort: { createdAt: -1 }, // Sorting by createdAt in descending order
+        $sort: { createdAt: -1 }, 
       },
     ])
 

@@ -3,7 +3,7 @@ import React from "react";
 
 function ScreenLoader() {
   return (
-    <div className="flex justify-center items-center ">
+    <div className="flex justify-center items-center py-4">
       <LoaderCircle className="animate-spin" size={50} color="blue" />
     </div>
   );

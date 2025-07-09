@@ -93,7 +93,6 @@ function CommentForm({
           type="text"
           placeholder="Add a comment..."
           radius={"lg"}
-          // size="md"
           className="flex-1 w-full"
           value={commentText}
           onChange={(e) => setCommentText(e.target.value)}

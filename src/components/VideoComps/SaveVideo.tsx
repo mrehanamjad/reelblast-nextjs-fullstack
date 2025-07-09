@@ -70,7 +70,6 @@ function SaveVideo({ videoId }: { videoId: mongoose.Types.ObjectId }) {
         radius={"xl"}
         aria-label="ActionIcon with size as a number"
         onClick={handleVideoSave}
-        // disabled={loading}
         className="bg-transparent"
       >
         {loading ? (
