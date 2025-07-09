@@ -26,7 +26,6 @@ export default function VideoComponent({
   // onNext,
   active = true,
 }: VideoComponentProps) {
-  // const [liked, setLiked] = useState(false);
   const [showComments, setShowComments] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [expanded, setExpanded] = useState(false);
@@ -42,9 +41,6 @@ export default function VideoComponent({
 
   const { data: session } = useSession();
   const userId = session?.user.id;
-  // const username = session?.user.username
-
-  // const authUser = useUserProfile()
 
   // Handle video visibility and playback
   useEffect(() => {
@@ -123,25 +119,6 @@ export default function VideoComponent({
     }
   };
 
-  // Double tap to like
-  const lastTap = useRef<number>(0);
-  const handleDoubleTap = (e: React.MouseEvent) => {
-    // Don't trigger if click was on a button or control
-    if ((e.target as HTMLElement).closest("button")) {
-      return;
-    }
-
-    const currentTime = new Date().getTime();
-    const tapDiff = currentTime - lastTap.current;
-
-    if (tapDiff < 300 && tapDiff > 0) {
-      // Double tap detected
-      // setLiked(true);
-      showHeartAnimation(e.clientX, e.clientY);
-    }
-
-    lastTap.current = currentTime;
-  };
 
   const handleToggleMuteOnTap = () => {
     setMuteOnTap(!muteOnTap);
@@ -151,25 +128,8 @@ export default function VideoComponent({
       setShowMuteOnTap(false);
     }, 1200);
   };
-  // Heart animation on double tap
-  const [hearts, setHearts] = useState<{ id: number; x: number; y: number }[]>(
-    []
-  );
-  const heartIdCounter = useRef(0);
 
-  const showHeartAnimation = (x: number, y: number) => {
-    const newHeart = {
-      id: heartIdCounter.current++,
-      x: x,
-      y: y,
-    };
-    setHearts((prev) => [...prev, newHeart]);
 
-    // Remove heart after animation completes
-    setTimeout(() => {
-      setHearts((prev) => prev.filter((heart) => heart.id !== newHeart.id));
-    }, 1000);
-  };
   
   // Handle video visibility and playback and unmute on visibility change
 useEffect(() => {
@@ -250,7 +210,6 @@ useEffect(() => {
       <div
         className="absolute inset-0 z-0 "
         onClick={togglePlayPause}
-        onDoubleClick={handleDoubleTap}
       >
         <div ref={videoRef} className="w-full h-full">
           <IKVideo
@@ -288,19 +247,6 @@ useEffect(() => {
           </div>
         )}
 
-        {/* Double-tap heart animation */}
-        {hearts.map((heart) => (
-          <div
-            key={heart.id}
-            className="absolute pointer-events-none animate-heart-pop"
-            style={{
-              left: heart.x - 40,
-              top: heart.y - 40,
-            }}
-          >
-            <Heart size={80} className="text-red-500 fill-red-500" />
-          </div>
-        ))}
       </div>
 
       {showMuteOnTap && (

@@ -4,7 +4,6 @@ import React, { useEffect, useState } from "react";
 import VideoFeed from "@/components/VideoComps/VideoFeed";
 import { apiClient, VidI } from "@/lib/api-client";
 import { useSession } from "next-auth/react";
-import { Film } from "lucide-react";
 
 export default function Home() {
   const [videos, setVideos] = useState<VidI[]>([]);

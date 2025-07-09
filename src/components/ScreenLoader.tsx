@@ -1,10 +1,10 @@
-import { Loader } from "lucide-react";
+import {  LoaderCircle } from "lucide-react";
 import React from "react";
 
 function ScreenLoader() {
   return (
     <div className="flex justify-center items-center ">
-      <Loader size={70} scale={100} color="cyan" />
+      <LoaderCircle className="animate-spin" size={50} color="blue" />
     </div>
   );
 }

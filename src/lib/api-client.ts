@@ -137,10 +137,6 @@ class ApiClient {
     return await this.myFetch("/user/update", { method: "PATCH", body: data });
   }
 
-  async getVideos() {
-    return await this.myFetch<VidI[]>("/videos");
-  }
-
   async follow(bothUser: { followerId: string; followingId: string }) {
     return await this.myFetch("/user/follow", {
       method: "POST",
@@ -148,9 +144,24 @@ class ApiClient {
     });
   }
 
+  async getFollowings(username:string){
+    return await this.myFetch<SearchUserI[]>(`/user/${username}/followings`)
+  }
+
+  async getFollowers(username:string){
+    return await this.myFetch<SearchUserI[]>(`/user/${username}/followers`)
+  }
+
+  // Video Methods:
+
   async getFollowingVideos() {
     return await this.myFetch<VidI[]>("/videos/followings");
   }
+
+  async getVideos() {
+    return await this.myFetch<VidI[]>("/videos");
+  }
+
 
   async getAVideo(id: string) {
     return await this.myFetch<VidI>(`/videos/${id}`);
@@ -192,6 +203,8 @@ class ApiClient {
     });
   }
 
+  // Comment Methods:
+
   async createComment(
     videoId: string | mongoose.Types.ObjectId,
     content: string,
@@ -210,6 +223,8 @@ class ApiClient {
   async deleteComment(videoId: string | mongoose.Types.ObjectId,commentId:string | mongoose.Types.ObjectId) {
     return await this.myFetch(`/videos/${videoId}/comments/${commentId}`, { method: "DELETE" });
   }
+
+  // Search 
 
   async search(query: string) {
     return await this.myFetch<SearchResponse>(`/search?q=${query}`);

@@ -9,6 +9,7 @@ import FollowBtn from "./FollowBtn";
 import ProfilePic from "./ProfilePic";
 import { apiClient, UserProfileInfoI } from "@/lib/api-client";
 import UserSettingsNav from "./UserSettingsNav";
+import UserSeactionModel from "./UserSeactionModel";
 
 
 function UserProfileInfo({ username }: { username: string }) {
@@ -86,6 +87,7 @@ function UserProfileInfo({ username }: { username: string }) {
 
           {/* Stats */}
           <div className="flex justify-center md:justify-start space-x-6 mb-4">
+            <UserSeactionModel  username={username} name="followers" >
             <div className="text-center">
               <div className="font-bold text-gray-900 dark:text-white">
                 {formatNumber(userData?.followers?.length ?? 0)}
@@ -94,6 +96,8 @@ function UserProfileInfo({ username }: { username: string }) {
                 Followers
               </div>
             </div>
+            </UserSeactionModel>
+            <UserSeactionModel username={username} name="followings">
             <div className="text-center">
               <div className="font-bold text-gray-900 dark:text-white">
                 {formatNumber(userData?.followings?.length ?? 0)}
@@ -102,6 +106,7 @@ function UserProfileInfo({ username }: { username: string }) {
                 Following
               </div>
             </div>
+            </UserSeactionModel>
           </div>
 
           {/* Bio */}
