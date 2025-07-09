@@ -5,10 +5,9 @@ import { IKVideo } from "imagekitio-next";
 import Link from "next/link";
 import {   Volume2, VolumeX} from "lucide-react";
 import FollowBtn from "../UserComps/FollowBtn";
-import {   CommentI, VidI } from "@/lib/api-client";
+import {  VidI } from "@/lib/api-client";
 import ProfilePic from "../UserComps/ProfilePic";
 import LikeVideo from "./LikeVideo";
-import Comment from "./CommentComps/Comment";
 import ShareVideo from "./ShareVideo";
 import SaveVideo from "./SaveVideo";
 import { useSession } from "next-auth/react";
@@ -264,7 +263,6 @@ useEffect(() => {
             likes={video.likes!}
             userId={userId as string}
           />
-          <Comment  videoId={video._id!} setShowComments={setShowComments}  />
           <SaveVideo videoId={video._id!} />
           <ShareVideo ReelsId={video._id!.toString()} />
         </div>

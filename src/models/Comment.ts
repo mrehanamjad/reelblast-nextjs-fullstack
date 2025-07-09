@@ -2,8 +2,8 @@ import mongoose, { Schema } from "mongoose";
 
 export interface CommentI {
   userId: mongoose.Types.ObjectId;
-  videoId?: mongoose.Types.ObjectId; // only for top-level comments
-  parentCommentId?: mongoose.Types.ObjectId | null; // only for replies
+  videoId?: mongoose.Types.ObjectId; 
+  parentCommentId?: mongoose.Types.ObjectId | null; 
   content: string;
   createdAt?: Date;
   updatedAt?: Date;
@@ -33,7 +33,6 @@ const CommentSchema: Schema = new Schema<CommentI>(
   { timestamps: true }
 );
 
-// Only one of videoId or parentCommentId should exist
 CommentSchema.index({ videoId: 1 });
 CommentSchema.index({ parentCommentId: 1 });
 

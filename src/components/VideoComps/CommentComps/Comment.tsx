@@ -1,12 +1,9 @@
 import { ActionIcon } from "@mantine/core";
 import { MessageCircle } from "lucide-react";
-import { Types } from "mongoose";
 
 function Comment({
-  videoId,
   setShowComments,
 }: {
-  videoId: string | Types.ObjectId;
   setShowComments: (arg: boolean) => void;
 }) {
 

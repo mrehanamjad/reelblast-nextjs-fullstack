@@ -1,4 +1,3 @@
-
 "use client";
 import React, { useState } from "react";
 import {
@@ -18,7 +17,7 @@ import { useSession } from "next-auth/react";
 import ProfilePic from "./UserComps/ProfilePic";
 import { useUserProfile } from "./UserProfileContext";
 import Logo from "./Logo";
-import { signOut } from 'next-auth/react';
+import { signOut } from "next-auth/react";
 
 interface NavItemProps {
   icon: React.ReactNode;
@@ -41,8 +40,8 @@ export const NavItem: React.FC<NavItemProps> = ({
         onClick={onClick}
         className={`flex items-center cursor-pointer w-full p-3 rounded-lg transition-colors ${
           active
-            ? "bg-blue-100 text-blue-600 dark:text-blue-300 dark:bg-gray-900"
-            : "text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-900 dark:text-gray-100"
+            ? "bg-blue-100 text-blue-600 dark:text-blue-300 dark:bg-gray-900 shadow shadow-black"
+            : "text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-900 dark:text-gray-100 hover:shadow-black"
         }`}
       >
         <div className="flex items-center">
@@ -83,7 +82,6 @@ export default function SideNavbar() {
   const [collapsed, setCollapsed] = useState(false);
   const { user } = useUserProfile();
 
-
   const handleItemClick = (label: string) => {
     setActiveItem(label);
   };
@@ -97,7 +95,6 @@ export default function SideNavbar() {
   }
 
   const { data: session } = useSession();
-
 
   const navItemsData = [
     {
@@ -175,7 +172,7 @@ export default function SideNavbar() {
       href: "/register",
       showOnMobile: true,
       isLogedIn: false,
-    }
+    },
   ];
 
   // Filter items based on login status
@@ -189,28 +186,28 @@ export default function SideNavbar() {
     return item.isLogedIn === false;
   });
 
-  const logoutData =  {
-    icon: <LogOut size={20}/>,
+  const logoutData = {
+    icon: <LogOut size={20} />,
     mobileIcon: <LogOut />,
     label: "Logout",
     href: "",
     showOnMobile: true,
     onClick: handleSignout,
-  }
+  };
 
   // Filter items for mobile navigation to only show the most important ones
-  const mobileNavItems = filteredNavItems.filter(item => item.showOnMobile);
+  const mobileNavItems = filteredNavItems.filter((item) => item.showOnMobile);
 
   return (
     <>
       {/* Desktop Sidebar */}
       <div className={`${collapsed ? "w-12" : "w-64"} hidden sm:block`}></div>
       <div
-        className={`fixed top-0 z-50 bottom-0 left-0 h-screen bg-white dark:bg-black/95 border-r border-gray-200 transition-all duration-300 ${
+        className={`fixed top-0 z-30 bottom-0 left-0 h-screen bg-white dark:bg-[#0b0b0b] border border-r border-gray-200/10 transition-all duration-300 ${
           collapsed ? "w-16" : "w-64"
         } hidden sm:block`}
       >
-        <div className="p-4 flex items-center justify-between border-b border-gray-200">
+        <div className="p-4 flex items-center justify-between border-b border-gray-200/10">
           {!collapsed && <Logo />}
           <button
             onClick={() => setCollapsed(!collapsed)}
@@ -232,16 +229,18 @@ export default function SideNavbar() {
                 href={nav.href}
               />
             ))}
-            {session?.user.id && <div className="border-t border-gray-200 py-3 my-2 w-11/12 absolute bottom-0">
-            <NavItem
-              key={logoutData.label}
-              icon={logoutData.icon}
-              label={collapsed ? "" : logoutData.label}
-              active={activeItem === logoutData.label}
-              onClick={logoutData.onClick}
-              href={logoutData.href}
-            />
-            </div>}
+            {session?.user.id && (
+              <div className="border-t border-gray-200/10  py-3 my-2 w-11/12 absolute bottom-0">
+                <NavItem
+                  key={logoutData.label}
+                  icon={logoutData.icon}
+                  label={collapsed ? "" : logoutData.label}
+                  active={activeItem === logoutData.label}
+                  onClick={logoutData.onClick}
+                  href={logoutData.href}
+                />
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -259,7 +258,7 @@ export default function SideNavbar() {
           />
         ))}
       </div>
-      
+
       {/* Mobile Bottom Space */}
       {/* <div className="h-16 sm:hidden"></div> */}
 

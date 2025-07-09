@@ -210,9 +210,10 @@ function CommentList({
     };
 
   useEffect(() => {
-    if(!ShowComment) return;
+    if(!showComments) return;
+
     getComments(videoId as string);
-  }, [ShowComment, setShowComments,fetchAgain,refetchComments]);
+  }, [showComments, setShowComments,fetchAgain,refetchComments,videoId]);
 
   if (loading) return <ScreenLoader />;
 
