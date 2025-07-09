@@ -7,12 +7,9 @@ function Comment({
   setShowComments: (arg: boolean) => void;
 }) {
 
-
   const handleClickCommentIcon = async() => {
     setShowComments(true)
   }
-
-
 
   return (
     <div className="flex flex-col items-center">

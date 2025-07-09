@@ -12,6 +12,7 @@ import ShareVideo from "./ShareVideo";
 import SaveVideo from "./SaveVideo";
 import { useSession } from "next-auth/react";
 import CommentSection from "./CommentComps/CommentSection";
+import Comment from "./CommentComps/Comment";
 
 interface VideoComponentProps {
   video: VidI;
@@ -263,6 +264,7 @@ useEffect(() => {
             likes={video.likes!}
             userId={userId as string}
           />
+          <Comment setShowComments={setShowComments}  />
           <SaveVideo videoId={video._id!} />
           <ShareVideo ReelsId={video._id!.toString()} />
         </div>
