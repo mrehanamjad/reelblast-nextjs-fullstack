@@ -11,9 +11,6 @@ export async function GET(req: Request) {
     // Extract username from the dynamic route
     const url = new URL(req.url);
     const username = url.pathname.split("/").pop(); // Or use regex if needed
-    console.log("===================================\n API URL:", url);
-    console.log("API URL pathname:", url.pathname);
-    console.log("API Extracted username:", username , "\n===================================");
     if (!username) {
       return NextResponse.json({ message: "Username is required" }, { status: 400 });
     }

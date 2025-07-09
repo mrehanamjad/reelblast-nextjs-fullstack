@@ -3,7 +3,7 @@ import React from "react";
 
 function ScreenLoader() {
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex justify-center items-center ">
       <Loader size={70} scale={100} color="cyan" />
     </div>
   );

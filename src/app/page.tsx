@@ -55,11 +55,4 @@ export default function Home() {
     );
   }
 
-  return (
-    <div className="flex items-center justify-center fixed left-0 top-0 bg-black z-50 min-h-screen min-w-screen">
-      <div className="flex relative items-center justify-center text-center border-4 border-cyan-500 rounded-full h-60 w-60 bg-gray-800/20 border-b-0  backdrop-blur-md  animate-spin">
-      </div>
-      <Film size={80} color="cyan" className="absolute " />
-    </div>
-  );
 }

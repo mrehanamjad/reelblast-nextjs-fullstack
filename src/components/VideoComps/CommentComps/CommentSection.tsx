@@ -8,8 +8,8 @@ import {
 import mongoose from "mongoose";
 import { CommentI } from "@/lib/api-client";
 import CommentForm from "./CommentForm";
-import ScreenLoader from "../ScreenLoader";
-import ProfilePic from "../UserComps/ProfilePic";
+import ScreenLoader from "../../ScreenLoader";
+import ProfilePic from "../../UserComps/ProfilePic";
 import Link from "next/link";
 import CommentMenu from "./CommentMenu";
 

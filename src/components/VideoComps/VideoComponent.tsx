@@ -8,11 +8,11 @@ import FollowBtn from "../UserComps/FollowBtn";
 import {  apiClient, CommentI, VidI } from "@/lib/api-client";
 import ProfilePic from "../UserComps/ProfilePic";
 import LikeVideo from "./LikeVideo";
-import Comment from "./Comment";
+import Comment from "./CommentComps/Comment";
 import ShareVideo from "./ShareVideo";
 import SaveVideo from "./SaveVideo";
 import { useSession } from "next-auth/react";
-import CommentSection from "./CommentSection";
+import CommentSection from "./CommentComps/CommentSection";
 import { notifications } from "@mantine/notifications";
 
 interface VideoComponentProps {
