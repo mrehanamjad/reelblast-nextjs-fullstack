@@ -44,9 +44,13 @@ function VideoUploadForm({mode = "create", editData}: {mode?: "edit" | "create";
 
 
   useEffect(() => {
-    if(!session?.user.id){
-      redirect("/login")
-    }
+    const timeoutId = setTimeout(() => {
+      if (!session?.user?.id) {
+        router.push("/login");
+      }
+    }, 1000);
+
+    return () => clearTimeout(timeoutId);
   }, [])
   
 
@@ -196,7 +200,7 @@ function VideoUploadForm({mode = "create", editData}: {mode?: "edit" | "create";
         {uploadProgress > 0 && (
           <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
             <div
-              className="bg-cyan-200 h-2.5 rounded-full transition-all duration-300"
+              className="bg-blue-500 h-2.5 rounded-full transition-all duration-300"
               style={{ width: `${uploadProgress}%` }}
             />
           </div>
@@ -206,7 +210,7 @@ function VideoUploadForm({mode = "create", editData}: {mode?: "edit" | "create";
         type="submit"
         className="mb-4 mt-6"
         fullWidth
-        color="cyan"
+        color="blue"
         disabled={mode==="create" ? loading || !uploadProgress : false}
       >
         {loading ? (
