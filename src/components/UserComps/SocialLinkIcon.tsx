@@ -31,31 +31,30 @@ export const getSocialIcon = (url: string): LucideIcon => {
   }
 
   try {
-    // Extract domain from URL
-    const domain = new URL(url).hostname.toLowerCase()
+    
 
-    // Match domain with appropriate icon
-    if (domain.includes("twitter") || domain.includes("x.com")) {
+    // Match url with appropriate icon
+    if (url.includes("twitter") || url.includes("x.com")) {
       return Twitter
-    } else if (domain.includes("instagram")) {
+    } else if (url.includes("instagram")) {
       return Instagram
-    } else if (domain.includes("facebook")) {
+    } else if (url.includes("facebook")) {
       return Facebook
-    } else if (domain.includes("youtube")) {
+    } else if (url.includes("youtube")) {
       return Youtube
-    } else if (domain.includes("linkedin")) {
+    } else if (url.includes("linkedin")) {
       return Linkedin
-    } else if (domain.includes("github")) {
+    } else if (url.includes("github")) {
       return Github
-    } else if (domain.includes("tiktok")) {
+    } else if (url.includes("tiktok")) {
       return TiktokIcon
-    } else if (domain.includes("pinterest")) {
+    } else if (url.includes("pinterest")) {
       return PinterestIcon
-    } else if (domain.includes("reddit")) {
+    } else if (url.includes("reddit")) {
       return RedditIcon
-    } else if (domain.includes("discord")) {
+    } else if (url.includes("discord")) {
       return DiscordIcon
-    } else if (domain.includes("twitch")) {
+    } else if (url.includes("twitch")) {
       return TwitchIcon
     } else {
       return Globe
