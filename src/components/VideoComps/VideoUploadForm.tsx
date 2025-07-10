@@ -8,7 +8,7 @@ import FileUpload from "./FileUpload";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import mongoose from "mongoose";
-import { redirect, useRouter } from "next/navigation";
+import {  useRouter } from "next/navigation";
 import { notifications } from "@mantine/notifications";
 
 
