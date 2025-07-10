@@ -53,7 +53,7 @@ function UserProfileInfo({ username }: { username: string }) {
         {/* Profile Info */}
         <div className="flex-grow text-center md:text-left">
           <div className="flex flex-col md:flex-row items-center mb-4">
-            <h1 className="text-xl font-bold text-gray-900 dark:text-white flex items-center">
+            <h1 className="text-xl font-bold text-white flex items-center">
               @{userData?.userName}
             </h1>
             <div className="md:ml-4 mt-2 md:mt-0">
@@ -64,11 +64,11 @@ function UserProfileInfo({ username }: { username: string }) {
                     onClick={() => setExpendUserSettings((prev) => !prev)}
                     variant="subtle"
                     size="icon"
-                    className="rounded-md p-2 transition-colors hover:bg-gray-100 dark:hover:bg-gray-800"
+                    className="rounded-md p-2 transition-colors hover:bg-gray-800"
                   >
                     <Settings
                       size={22}
-                      className="text-gray-700 dark:text-gray-300"
+                      className="text-gray-300"
                     />
                   </Button>
 
@@ -88,20 +88,20 @@ function UserProfileInfo({ username }: { username: string }) {
           <div className="flex justify-center md:justify-start space-x-6 mb-4">
             <UserSeactionModel  username={username} name="followers" >
             <div className="text-center">
-              <div className="font-bold text-gray-900 dark:text-white">
+              <div className="font-bold text-white">
                 {formatNumber(userData?.followers?.length ?? 0)}
               </div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">
+              <div className="text-sm text-gray-400">
                 Followers
               </div>
             </div>
             </UserSeactionModel>
             <UserSeactionModel username={username} name="followings">
             <div className="text-center">
-              <div className="font-bold text-gray-900 dark:text-white">
+              <div className="font-bold text-white">
                 {formatNumber(userData?.followings?.length ?? 0)}
               </div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">
+              <div className="text-sm text-gray-400">
                 Following
               </div>
             </div>
@@ -109,10 +109,10 @@ function UserProfileInfo({ username }: { username: string }) {
           </div>
 
           {/* Bio */}
-          <h2 className="text-gray-700 dark:text-gray-300 text-md mb-2 md:text-lg font-bold">
+          <h2 className="text-gray-300 text-md mb-2 md:text-lg font-bold">
             {userData?.name}
           </h2>
-          <p className="text-gray-700 dark:text-gray-300 text-sm mb-2 md:text-md">
+          <p className="text-gray-300 text-sm mb-2 md:text-md">
             {userData?.bio}
           </p>
           {/* Social Media */}

@@ -13,10 +13,10 @@ function UserSettingsNav() {
      }
    }
    return (
-     <div className="w-48 bg-white dark:bg-gray-800 rounded-xl shadow-xl p-3 border border-gray-200 dark:border-gray-700">
+     <div className="w-48 bg-gray-800 rounded-xl shadow-xl p-3 border border-gray-700">
        <Link
          href="/update-profile"
-         className="flex items-center px-3 py-2 rounded-md text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+         className="flex items-center px-3 py-2 rounded-md text-sm text-gray-200 hover:bg-gray-700 transition-colors"
        >
          <Pen size={18} className="mr-2" />
          Edit Profile

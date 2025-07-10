@@ -40,8 +40,8 @@ export const NavItem: React.FC<NavItemProps> = ({
         onClick={onClick}
         className={`flex items-center cursor-pointer w-full p-3 rounded-lg transition-colors ${
           active
-            ? "bg-blue-100 text-blue-600 dark:text-blue-300 dark:bg-gray-900 shadow shadow-black"
-            : "text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-900 dark:text-gray-100 hover:shadow-black"
+            ? "text-blue-300 bg-gray-900 shadow shadow-black"
+            : "hover:bg-gray-900 text-gray-100 hover:shadow-black"
         }`}
       >
         <div className="flex items-center">
@@ -66,8 +66,8 @@ export const MobileNavItem: React.FC<NavItemProps> = ({
         onClick={onClick}
         className={`flex flex-col items-center justify-center w-full py-2 transition-colors ${
           active
-            ? "text-blue-600 dark:text-blue-300"
-            : "text-gray-700 dark:text-gray-100"
+            ? "text-blue-300"
+            : "text-gray-100"
         }`}
       >
         <div>{icon}</div>
@@ -103,7 +103,7 @@ export default function SideNavbar() {
       label: "Home",
       href: "/",
       showOnMobile: true,
-      isLogedIn: true,
+      // isLogedIn: true,
     },
     {
       icon: <Search size={20} />,
@@ -111,7 +111,7 @@ export default function SideNavbar() {
       label: "Search",
       href: "/search",
       showOnMobile: true,
-      isLogedIn: true,
+      // isLogedIn: false,
     },
     {
       icon: <Clapperboard size={20} />,
@@ -119,7 +119,7 @@ export default function SideNavbar() {
       label: "Followings",
       href: "/followings",
       showOnMobile: false,
-      isLogedIn: true,
+      // isLogedIn: true,
     },
     {
       icon: <Film size={20} />,
@@ -127,7 +127,7 @@ export default function SideNavbar() {
       label: "Reels",
       href: "/",
       showOnMobile: false,
-      isLogedIn: true,
+      // isLogedIn: true,
     },
     {
       icon: <PlusSquare size={24} />,
@@ -135,7 +135,7 @@ export default function SideNavbar() {
       label: "Create",
       href: "/video/upload",
       showOnMobile: true,
-      isLogedIn: true,
+      // isLogedIn: true,
     },
     {
       icon: (
@@ -155,7 +155,7 @@ export default function SideNavbar() {
       label: "Profile",
       href: `/${session?.user.username ?? ""}`,
       showOnMobile: true,
-      isLogedIn: true,
+      // isLogedIn: true,
     },
     {
       icon: <LogIn size={20} />,
@@ -163,27 +163,35 @@ export default function SideNavbar() {
       label: "Login",
       href: "/login",
       showOnMobile: true,
-      isLogedIn: false,
+      // isLogedIn: false,
     },
     {
       icon: <UserPlus size={20} />,
       mobileIcon: <UserPlus size={20} />,
       label: "Sign Up",
       href: "/register",
-      showOnMobile: true,
-      isLogedIn: false,
+      showOnMobile: false,
+      // isLogedIn: false,
     },
   ];
 
   // Filter items based on login status
   const filteredNavItems = navItemsData.filter((item) => {
-    if (item.label === "Home") {
-      return true;
+    if (item.label === "Login" || item.label === "Sign Up") {
+      if(session?.user.id) {
+        return false
+      } else {
+        return true
+      }
     }
-    if (session?.user.id) {
-      return item.isLogedIn === true;
+     if (item.label === "Profile") {
+      if(session?.user.id) {
+        return true
+      } else {
+        return false
+      }
     }
-    return item.isLogedIn === false;
+    return true;
   });
 
   const logoutData = {
@@ -203,7 +211,7 @@ export default function SideNavbar() {
       {/* Desktop Sidebar */}
       <div className={`${collapsed ? "w-12" : "w-64"} hidden sm:block`}></div>
       <div
-        className={`fixed top-0 z-30 bottom-0 left-0 h-screen bg-white dark:bg-[#0b0b0b] border border-r border-gray-200/10 transition-all duration-300 ${
+        className={`fixed top-0 z-30 bottom-0 left-0 h-screen bg-[#0b0b0b] border border-r border-gray-200/10 transition-all duration-300 ${
           collapsed ? "w-16" : "w-64"
         } hidden sm:block`}
       >
@@ -211,7 +219,7 @@ export default function SideNavbar() {
           {!collapsed && <Logo />}
           <button
             onClick={() => setCollapsed(!collapsed)}
-            className="p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800"
+            className="p-1 rounded-lg hover:bg-gray-800"
           >
             {collapsed ? <Menu size={20} /> : <X size={20} />}
           </button>
@@ -246,7 +254,7 @@ export default function SideNavbar() {
       </div>
 
       {/* Mobile Bottom Navigation */}
-      <div className="sm:hidden fixed bottom-0 rounded-lg left-0 right-0 z-50 bg-white dark:bg-black/40 border-t border-white/25 flex items-center justify-between px-1 py-0 shadow-md">
+      <div className="sm:hidden fixed bottom-0 rounded-lg left-0 right-0 z-50 bg-black/40 border-t border-white/25 flex items-center justify-between px-1 py-0 shadow-md">
         {mobileNavItems.map((nav) => (
           <MobileNavItem
             key={nav.label}

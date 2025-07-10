@@ -30,7 +30,7 @@ function Login() {
 
         notifications.show({
           title: result?.error,
-          message:  "Please check the email and try again.",
+          message:  "",
           color: "red"
         })
       }
@@ -49,8 +49,13 @@ function Login() {
         <Logo size="xl" />
       </div>
       
-      <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-center text-white">Login To Your Account</h1>
-      
+      <h1 className="text-2xl sm:text-3xl font-bold  text-center text-white">Login To Your Account</h1>
+            <div className="text-center mt-2 text-md mb-6">
+        New to ReelBlast?{" "}
+        <Link href="/register" >
+          <Button variant="light" size="compact-md" > Register Now</Button>
+        </Link>
+      </div>
       <TextInput
         className="mb-4"
         leftSectionPointerEvents="none"
@@ -82,13 +87,6 @@ function Login() {
       >
         Login
       </Button>
-      
-      <div className="text-center mt-4">
-        New to ReelBlast?{" "}
-        <Link href="/register" className="text-cyan-500 hover:underline">
-          Register Now
-        </Link>
-      </div>
     </form>
   </div>
 </div>

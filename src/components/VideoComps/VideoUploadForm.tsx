@@ -2,13 +2,13 @@
 import { apiClient } from "@/lib/api-client";
 import { Button, Textarea, TextInput } from "@mantine/core";
 import { IKUploadResponse } from "imagekitio-next/dist/types/components/IKUpload/props";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import FileUpload from "./FileUpload";
 import { Loader2 } from "lucide-react";
 import { useSession } from "next-auth/react";
 import mongoose from "mongoose";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { notifications } from "@mantine/notifications";
 
 
@@ -41,6 +41,14 @@ function VideoUploadForm({mode = "create", editData}: {mode?: "edit" | "create";
       thumbnailUrl: "",
     },
   });
+
+
+  useEffect(() => {
+    if(!session?.user.id){
+      redirect("/login")
+    }
+  }, [])
+  
 
   const handleUploadSuccess = (res: IKUploadResponse) => {
     setValue("videoUrl", res.filePath);

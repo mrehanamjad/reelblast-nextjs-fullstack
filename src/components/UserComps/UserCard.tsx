@@ -10,7 +10,7 @@ const { data: session } = useSession();
   const userId = session?.user.id;
 
   return (
-    <Link href={`/${userName}`} className="flex gap-4 items-center justify-between p-4 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors duration-200 border cursor-pointer bg-white/5  border-gray-800 border-2 shadow-sm mb-3 max-w-5xl mx-auto w-full ">
+    <Link href={`/${userName}`} className="flex gap-4 items-center justify-between p-4 rounded-lg hover:bg-gray-900 transition-colors duration-200 border cursor-pointer bg-white/5  border-gray-800 border-2 shadow-sm mb-3 max-w-5xl mx-auto w-full ">
    
              <div className="flex items-center space-x-4">
                <ProfilePic name={userName} size="lg" url={ProfilePicUrl} />

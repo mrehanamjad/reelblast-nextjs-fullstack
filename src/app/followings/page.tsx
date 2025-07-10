@@ -4,12 +4,21 @@ import React, { useEffect, useState } from "react";
 import VideoFeed from "@/components/VideoComps/VideoFeed";
 import { apiClient, VidI } from "@/lib/api-client";
 import ScreenLoader from "@/components/ScreenLoader";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 function FollowingsPage() {
   const [videos, setVideos] = useState<VidI[]>([]);
   const [loading, setLoading] = useState(false);
 
+  const { data: session } = useSession();
+
   useEffect(() => {
+
+    if(!session?.user.id){
+      redirect("/login")
+    }
+
     const getFollowingsVideos = async () => {
       setLoading(true);
       try {

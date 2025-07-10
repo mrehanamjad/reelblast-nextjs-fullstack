@@ -54,12 +54,18 @@ function Register() {
       
       if (!response.ok) {
         const errorData = await response.json();
+         notifications.show({
+        title:errorData.error,
+        message: "Failed to register user.",
+        color:"red",
+      })
         throw new Error(errorData.message || "Registration failed");
       }
       
       // Successful registration, redirect to login
       router.push("/login");
     } catch (error) {
+      console.log("Catch", error)
       console.error("Error registering user:", error);
       console.log(error instanceof Error ? error.message : "Failed to register user. Please try again.");
     } finally {
@@ -78,8 +84,13 @@ function Register() {
         <Logo size="xl" />
       </div>
 
-      <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-center text-white">Create a new Account</h1>
-
+      <h1 className="text-2xl sm:text-3xl font-bold  text-center text-white">Create a new Account</h1>
+ <div className="text-center text- mt-2 mb-6">
+        Already have an account?{" "}
+        <Link href="/login">
+          <Button variant="light" size="compact-md" color=""> Login</Button>
+        </Link>
+      </div>
       <TextInput
         className="mb-4"
         leftSectionPointerEvents="none"
@@ -121,13 +132,6 @@ function Register() {
       >
         Register
       </Button>
-      
-      <div className="text-center mt-4">
-        Already have an account?{" "}
-        <Link href="/login" className="text-cyan-500 hover:underline">
-          Login
-        </Link>
-      </div>
     </form>
   </div>
 </div>

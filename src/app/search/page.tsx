@@ -9,7 +9,7 @@ import { Search } from "lucide-react";
 import React, { useState } from "react";
 
 function SearchPage() {
-    const [searched, setSearched] = useState<string>("");
+  const [searched, setSearched] = useState<string>("");
   const [searchText, setSearchText] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const [searchResult, setSearchResult] = useState<SearchResponse | null>(null);
@@ -44,7 +44,9 @@ function SearchPage() {
   };
 
   return (
-    <div className="min-h-screen max-w-7xl w-full py-2 px-5 mx-auto bg-gray-50 dark:bg-black/90">
+    <div className="min-h-screen max-w-7xl w-full py-2 px-5 mx-auto bg-black/90 bg-cover bg-center" 
+    style={{ backgroundImage: "url('/searchbg.webp')" }}
+    >
       <h1 className="text-4xl font-bold mt-8 px-1 sm:px-8 ">Search</h1>
       <form className="flex  gap-2 w-full px-1 sm:px-8 my-4 " onSubmit={submit}>
         <TextInput
@@ -72,10 +74,10 @@ function SearchPage() {
         
         {searchResult && (searchResult.videos.length === 0 && searchResult.users.length === 0) ? (
           <div className="flex flex-col items-center justify-center h-64">
-            <h2 className="text-xl font-medium text-gray-600 dark:text-white">
+            <h2 className="text-xl font-medium text-white">
               No results found for &quot;{searched}&quot;
             </h2>
-            <p className="text-gray-500 dark:text-gray-400 mt-2">
+            <p className="text-gray-400 mt-2">
               Try searching for something else.
             </p>
           </div>
