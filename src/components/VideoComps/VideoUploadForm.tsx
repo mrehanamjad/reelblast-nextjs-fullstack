@@ -54,6 +54,7 @@ function VideoUploadForm({mode = "create", editData}: {mode?: "edit" | "create";
     setValue("videoUrl", res.filePath);
     setValue("thumbnailUrl", res.thumbnailUrl || res.filePath);
     setValue("videoIdImagekit", res.fileId);
+
     setUploadProgress(100);
     setLoading(false);
 
@@ -86,12 +87,16 @@ function VideoUploadForm({mode = "create", editData}: {mode?: "edit" | "create";
       setValue("thumbnailUrl", "");
       router.push('/')
     } catch (error) {
+      router.push('/video/upload/fail-to-publish-video')
+      await apiClient.delFile(data.videoIdImagekit, "video");
+      
       console.log("Error :: Failed to publish video  " + error);
       notifications.show({
         title: "Error",
         message: "Failed to publish video",
         color: "red",
       });
+
     } finally {
       setLoading(false);
     }
