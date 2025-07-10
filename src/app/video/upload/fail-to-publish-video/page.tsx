@@ -1,6 +1,5 @@
 "use client"
 import { X } from "lucide-react";
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import { useEffect } from "react";
 
@@ -23,14 +22,12 @@ const FailToPublishVideo = () => {
         </div>
 
         {/* Close Button */}
-        {/* <Link href={"/video/upload"}> */}
         <button
           className="text-gray-400 cursor-pointer h-full flex justify-center items-center hover:text-white transition-colors "
           onClick={()=> redirect("/video/upload")}
         >
           <X size={24} />
         </button>
-        {/* </Link> */}
       </div>
     </div>
   );
