@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Button, PasswordInput, TextInput } from "@mantine/core";
 import React, { useState } from "react";
 import { AtSign, Lock } from "lucide-react";
+import { notifications } from "@mantine/notifications";
 
 function Register() {
   const [email, setEmail] = useState("");
@@ -32,7 +33,11 @@ function Register() {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      alert("Passwords do not match");
+      notifications.show({
+        title:"Passwords do not match",
+        message: "",
+        color:"red"
+      })
       return;
     }
 
@@ -63,67 +68,70 @@ function Register() {
   }
 
   return (
-    <div className="flex justify-around items-center w-full pt-4 h-screen">
-      <div className="p-6 rounded shadow-md ">
-        <form onSubmit={handleSubmit} className="w-96">
-          <div className="mx-auto mb-6 flex justify-center">
-            <Logo size="xl" />
-          </div>
-          
-          <h1 className="text-2xl font-bold mb-6 text-center">Create a new Account</h1>
-
-          <TextInput
-            className="mb-4"
-            leftSectionPointerEvents="none"
-            leftSection={<AtSign size={16} />}
-            label="Email"
-            type="email"
-            placeholder="your@email.com"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          
-          <PasswordInput
-            className="mb-4"
-            leftSection={<Lock size={16} />}
-            label="Password"
-            placeholder="Your password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          
-          <PasswordInput
-            className="mb-6"
-            leftSection={<Lock size={16} />}
-            label="Confirm Password"
-            placeholder="Confirm your password"
-            required
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-          
-          <Button 
-            type="submit" 
-            fullWidth 
-            loading={loading}
-            className="mb-4"
-            color="cyan"
-           
-          >
-            Register
-          </Button>
-          
-          <div className="text-center mt-4">
-            Already have an account?{" "}
-            <Link href="/login" className="text-cyan-500 hover:underline">
-              Login
-            </Link>
-          </div>
-        </form>
+<div
+  className="flex justify-center items-center w-full pt-4 min-h-screen bg-cover bg-center"
+  style={{ backgroundImage: "url('/loginbg.webp')" }}
+>
+  <div className="p-6 rounded-xl shadow-lg w-full sm:w-96 max-w-full bg-black/20 sm:bg-black/70">
+    <form onSubmit={handleSubmit} className="w-full">
+      <div className="mx-auto mb-6 flex justify-center">
+        <Logo size="xl" />
       </div>
-    </div>
+
+      <h1 className="text-2xl sm:text-3xl font-bold mb-6 text-center text-white">Create a new Account</h1>
+
+      <TextInput
+        className="mb-4"
+        leftSectionPointerEvents="none"
+        leftSection={<AtSign size={16} />}
+        label="Email"
+        type="email"
+        placeholder="your@email.com"
+        required
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      
+      <PasswordInput
+        className="mb-4"
+        leftSection={<Lock size={16} />}
+        label="Password"
+        placeholder="Your password"
+        required
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      
+      <PasswordInput
+        className="mb-6"
+        leftSection={<Lock size={16} />}
+        label="Confirm Password"
+        placeholder="Confirm your password"
+        required
+        value={confirmPassword}
+        onChange={(e) => setConfirmPassword(e.target.value)}
+      />
+      
+      <Button
+        type="submit"
+        fullWidth
+        loading={loading}
+        className="mb-4 mt-6"
+        color="cyan"
+      >
+        Register
+      </Button>
+      
+      <div className="text-center mt-4">
+        Already have an account?{" "}
+        <Link href="/login" className="text-cyan-500 hover:underline">
+          Login
+        </Link>
+      </div>
+    </form>
+  </div>
+</div>
+
   );
 }
 
