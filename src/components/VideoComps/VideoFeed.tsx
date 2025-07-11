@@ -106,9 +106,9 @@ const goToNextVideo = useCallback(() => {
   // Handle keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowDown" || e.key === "j") {
+      if (e.key === "ArrowDown" ) {
         goToNextVideo();
-      } else if (e.key === "ArrowUp" || e.key === "k") {
+      } else if (e.key === "ArrowUp" ) {
         goToPrevVideo();
       }
     };
