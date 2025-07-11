@@ -11,7 +11,6 @@ import {
   LogOut,
   LogIn,
   UserPlus,
-  Linkedin,
 } from "lucide-react";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
