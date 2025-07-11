@@ -34,3 +34,19 @@ ReelBlast is a **feature-rich, responsive** social media application designed to
 | **Tailwind CSS**| Utility-first CSS for styling        |
 | **Mantine UI**  | Component library for fast UI building |
 | **ImageKit**    | Cloud storage for videos and images  |
+
+
+## Screenshots:
+![project scheenshort 1](./public/screenshorts/mrehanamjad%20reelblast%201.png)
+![project scheenshort 1](./public/screenshorts/mrehanamjad%20reelblast%203.png)
+![project scheenshort 1](./public/screenshorts/mrehanamjad%20reelblast%204.png)
+![project scheenshort 1](./public/screenshorts/mrehanamjad%20reelblast%205.png)
+![project scheenshort 1](./public/screenshorts/mrehanamjad%20reelblast%206.png)
+![project scheenshort 1](./public/screenshorts/mrehanamjad%20reelblast%207.png)
+![project scheenshort 1](./public/screenshorts/mrehanamjad%20reelblast%209.png)
+![project scheenshort 1](./public/screenshorts/mrehanamjad%20reelblast%2010.png)
+![project scheenshort 1](./public/screenshorts/mrehanamjad%20reelblast%2011.png)
+![project scheenshort 1](./public/screenshorts/mrehanamjad%20reelblast%202.png)
+![project scheenshort 1](./public/screenshorts/mrehanamjad%20reelblast%208.png)
+![project scheenshort 1](./public/screenshorts/mrehanamjad%20reelblast%2012.png)
+![project scheenshort 1](./public/screenshorts/Check%20it%20Out%20Live.png)
