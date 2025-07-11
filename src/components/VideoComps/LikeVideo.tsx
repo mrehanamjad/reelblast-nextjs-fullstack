@@ -28,7 +28,7 @@ function LikeVideo({
     if (!userId) {
       console.error("User ID is required to Like");
       notifications.show({
-        title: "Error",
+        title: "Login Required",
         message: "Please log in to Like the reel.",
         color: "red",
       });

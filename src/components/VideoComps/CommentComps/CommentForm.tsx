@@ -36,7 +36,7 @@ function CommentForm({
     if (!userId) {
       console.error("User ID is required to add a comment");
       notifications.show({
-        title: "Error",
+        title: "Login Required",
         message: "Please log in to add a comment.",
         color: "red",
       });

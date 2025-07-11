@@ -24,7 +24,7 @@ function SaveVideo({ videoId }: { videoId: mongoose.Types.ObjectId }) {
     if (!user) {
       console.error("User ID is required to Save this reel.");
       notifications.show({
-        title: "Error",
+        title: "Login Required",
         message: "Please log in to Save this reel.",
         color: "red",
       });
