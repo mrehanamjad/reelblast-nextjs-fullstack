@@ -56,7 +56,6 @@ const FollowBtn = ({
   return (
     <Button
       onClick={handleFollow}
-      variant="gradient"
       color={isFollowing ? "gray" : "blue"}
       loading={loading}
       disabled={loading}
