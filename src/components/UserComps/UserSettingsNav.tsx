@@ -1,6 +1,6 @@
 import {  LogOut, Pen } from 'lucide-react';
 import React from 'react'
-import { NavItem } from '../SideNavbar';
+import { NavItem } from '../Navbar';
 import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 

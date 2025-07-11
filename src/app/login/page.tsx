@@ -83,7 +83,8 @@ function Login() {
         fullWidth 
         loading={loading}
         className="mb-4 mt-6"
-        color="cyan"
+        variant="gradient"
+        color="blue"
       >
         Login
       </Button>

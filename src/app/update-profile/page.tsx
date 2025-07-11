@@ -291,9 +291,10 @@ export default function UpdateProfile() {
       <div className="mt-6 space-y-4">
         <Button
           type="submit"
+          variant="gradient"
           fullWidth
           loading={isSubmitting}
-          color="cyan"
+          color="blue"
           size="md"
         >
           Update Profile

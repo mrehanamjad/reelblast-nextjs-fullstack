@@ -5,7 +5,7 @@ import Providers from "@/components/Providers";
 import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
 import { ColorSchemeScript, MantineProvider, mantineHtmlProps } from '@mantine/core';
-import SideNavbar from "@/components/SideNavbar";
+import Navbar from "@/components/Navbar";
 import { Notifications } from '@mantine/notifications';
 
 
@@ -43,7 +43,7 @@ export default function RootLayout({
         <Providers >
         <Notifications color="cyan" position="top-right" />
         <div className="flex ">
-        <SideNavbar />
+        <Navbar />
         <main className="flex-1 bg-black/80">{children}</main>
         </div>
         </Providers>

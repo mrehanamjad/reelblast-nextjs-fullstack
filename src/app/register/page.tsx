@@ -129,6 +129,7 @@ function Register() {
         loading={loading}
         className="mb-4 mt-6"
         color="cyan"
+        variant="gradient"
       >
         Register
       </Button>

@@ -209,6 +209,7 @@ function VideoUploadForm({mode = "create", editData}: {mode?: "edit" | "create";
       <Button
         type="submit"
         className="mb-4 mt-6"
+        variant="gradient"
         fullWidth
         color="blue"
         disabled={mode==="create" ? loading || !uploadProgress : false}
