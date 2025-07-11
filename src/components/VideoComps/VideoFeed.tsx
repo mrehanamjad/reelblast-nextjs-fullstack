@@ -190,7 +190,7 @@ const goToNextVideo = useCallback(() => {
           <button
             onClick={goToPrevVideo}
             disabled={currentVideoIndex === 0}
-            className={`fixed z-40 right-4 top-1/4 transform -translate-y-1/2 bg-black bg-opacity-40 rounded-full p-3 ${
+            className={`fixed z-40 right-2 md:right-6 top-[42%] transform -translate-y-1/2 bg-gray-200/20 bg-opacity-40 rounded-full p-3 ${
               currentVideoIndex === 0
                 ? "opacity-30 cursor-not-allowed"
                 : "opacity-70 hover:opacity-100"
@@ -203,7 +203,7 @@ const goToNextVideo = useCallback(() => {
           <button
             onClick={goToNextVideo}
             disabled={currentVideoIndex === videos.length - 1}
-            className={`fixed z-40 right-4 top-3/4 transform -translate-y-1/2 bg-black bg-opacity-40 rounded-full p-3 ${
+            className={`fixed z-40 right-2 md:right-6 top-[58%] transform -translate-y-1/2 bg-gray-200/20  bg-opacity-40 rounded-full p-3 ${
               currentVideoIndex === videos.length - 1
                 ? "opacity-30 cursor-not-allowed"
                 : "opacity-70 hover:opacity-100"
