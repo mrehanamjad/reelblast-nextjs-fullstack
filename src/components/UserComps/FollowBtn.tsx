@@ -53,6 +53,8 @@ const FollowBtn = ({
     );
   }, [session?.user?.username, user,userToFollow]);
 
+  if(session?.user?.id === userToFollow) return <></> ;
+
   return (
     <Button
       onClick={handleFollow}
